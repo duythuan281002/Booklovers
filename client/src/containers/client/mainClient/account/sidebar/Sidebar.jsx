@@ -1,0 +1,67 @@
+// src/pages/user/account/sidebar/Sidebar.jsx
+
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { Col, Card, Image } from "react-bootstrap";
+import avatarDefault from "../../../../../assets/image/default.jpg";
+
+const Sidebar = () => {
+  return (
+    <Col md={3}>
+      <Card className="border-0" style={{ borderRadius: "5px" }}>
+        <Card.Body>
+          <div className="text-center mb-3">
+            <Image
+              src={avatarDefault}
+              roundedCircle
+              style={{ width: "50px", height: "50px" }}
+            />
+            <div className="mt-2">
+              <div className="text-muted small">Tài khoản của</div>
+              <strong>Thiện Nguyễn</strong>
+            </div>
+          </div>
+
+          <hr />
+
+          <div className="d-flex flex-column gap-2">
+            <NavLink
+              to="ho-so"
+              className={({ isActive }) =>
+                "btn btn-light text-start fw-normal" +
+                (isActive ? " active" : "")
+              }
+            >
+              <i className="bi bi-person-fill me-2"></i>
+              Thông tin tài khoản
+            </NavLink>
+
+            <NavLink
+              to="dia-chi"
+              className={({ isActive }) =>
+                "btn btn-light text-start fw-normal" +
+                (isActive ? " active" : "")
+              }
+            >
+              <i className="bi bi-geo-alt-fill me-2"></i>
+              Địa chỉ
+            </NavLink>
+
+            <NavLink
+              to="don-hang"
+              className={({ isActive }) =>
+                "btn btn-light text-start fw-normal" +
+                (isActive ? " active" : "")
+              }
+            >
+              <i className="bi bi-card-checklist me-2"></i>
+              Quản lý đơn hàng
+            </NavLink>
+          </div>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+};
+
+export default Sidebar;
