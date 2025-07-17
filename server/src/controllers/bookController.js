@@ -7,6 +7,8 @@ const getAllBooks = async (req, res) => {
     sort = "",
     search = "",
     prices = [],
+    categoryId = null,
+    subcategoryId = null,
   } = req.query;
   const offset = (page - 1) * limit;
 
@@ -17,7 +19,9 @@ const getAllBooks = async (req, res) => {
     offset,
     sort,
     search,
-    priceRanges
+    priceRanges,
+    categoryId,
+    subcategoryId
   );
 
   return res.status(200).json({

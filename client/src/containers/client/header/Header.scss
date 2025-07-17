@@ -171,14 +171,11 @@
         justify-content: space-between;
         align-items: center;
         font-weight: 500;
-
-        .icon {
-          margin-right: 8px;
-        }
-
-        .arrow {
-          font-size: 14px;
-          color: #999;
+        color: #333;
+        text-decoration: none;
+      
+        &:hover {
+          color: #e35765;
         }
       }
 
@@ -204,7 +201,18 @@
 
             &:hover {
               color: #e35765;
+              background-color: #f0f0f0;
             }
+
+
+          }
+
+          .dropdown-item.active,
+          .dropdown-item:active,
+          .dropdown-item:focus,
+          .dropdown-item:hover {
+            background-color: #f0f0f0 !important;
+            color: #e35765 !important; 
           }
         }
       }
@@ -212,5 +220,9 @@
   }
 }
 
-
-
+.header-container {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}

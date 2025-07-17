@@ -1,5 +1,6 @@
-import React from "react";
-import { Container, Row, Col, Image, Button } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Container, Row, Col, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./BookBanner.scss";
 import bookbanner1 from "../../../../../assets/image/bookbanner1.png";
@@ -10,63 +11,98 @@ import bookbanner5 from "../../../../../assets/image/bookbanner5.png";
 import bookbanner6 from "../../../../../assets/image/bookbanner6.png";
 import bookbgrbanner from "../../../../../assets/image/bookbgrbanner.jpg";
 import ButtonCustom from "../../../../../components/button/ButtonCustom";
-
-const categories = [
-  {
-    title: "Tất Cả Sách",
-    image: bookbanner4,
-  },
-  {
-    title: "Sách Văn Học",
-    image: bookbanner1,
-  },
-  {
-    title: "Sách Kĩ Năng",
-    image: bookbanner2,
-  },
-  {
-    title: "Sách Thiếu Nhi",
-    image: bookbanner5,
-  },
-  {
-    title: "Sách Kinh Doanh",
-    image: bookbanner6,
-  },
-  {
-    title: "Sách Nước Ngoài",
-    image: bookbanner3,
-  },
-];
+import { fetchCategoriesWithSub } from "../../../../../redux/Slices/categorySlice";
+import { useDispatch, useSelector } from "react-redux";
+import slugify from "slugify";
 
 const BookBanner = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { categories: cat } = useSelector((state) => state.category);
+
+  useEffect(() => {
+    dispatch(fetchCategoriesWithSub());
+  }, []);
+
+  const categories = [
+    {
+      title: "Tất cả sách",
+      image: bookbanner1,
+      to: "/san-pham",
+    },
+    {
+      title: "Sách kinh doanh",
+      image: bookbanner6,
+      to: "/san-pham/danh-muc/kinh-doanh",
+      id: 4,
+      name: "Kinh doanh",
+    },
+    {
+      title: "Sách kinh tế",
+      image: bookbanner3,
+      to: "/san-pham/danh-muc/kinh-te",
+      id: 5,
+      name: "Kinh tế",
+    },
+    {
+      title: "Sách văn học",
+      image: bookbanner5,
+      to: "/san-pham/danh-muc/van-hoc",
+      id: 6,
+      name: "Văn học",
+    },
+    {
+      title: "Sách khoa học",
+      image: bookbanner4,
+      to: "/san-pham/danh-muc/khoa-hoc",
+      id: 8,
+      name: "Khoa học",
+    },
+    {
+      title: "Sách nghệ thuật",
+      image: bookbanner2,
+      to: "/san-pham/danh-muc/nghe-thuat",
+      id: 7,
+      name: "Nghệ thuật",
+    },
+  ];
 
   return (
     <div className="book-banner p-4">
       <Container className="mb-4">
         <Row className="g-4 justify-content-center">
-          {categories.map((cat, index) => (
-            <Col key={index} xs={6} md={2}>
-              <div
-                className="category-card text-center p-3 shadow-sm rounded"
-                // onClick={() => navigate("/products")}
-                style={{ cursor: "pointer", background: "#fff", width: "100%" }}
+          {categories.map((cat, idx) => (
+            <Col md={2} className="mb-4" key={idx}>
+              <Link
+                to={cat.to}
+                state={{ id: cat.id, name: cat.name }}
+                style={{ textDecoration: "none" }}
               >
-                <Image
-                  src={cat.image}
-                  rounded
-                  className="mb-3"
+                <div
+                  className="category-card text-center p-3 shadow-sm rounded"
                   style={{
+                    cursor: "pointer",
+                    background: "#fff",
                     width: "100%",
-                    height: "200px",
-                    objectFit: "cover",
                   }}
-                />
-                <h5>{cat.title}</h5>
-                <span className="text-primary fw-semibold">
-                  XEM NGAY &raquo;
-                </span>
-              </div>
+                >
+                  <Image
+                    src={cat.image}
+                    rounded
+                    className="mb-3"
+                    style={{
+                      width: "100%",
+                      height: "200px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <h5 className="text-dark">{cat.title}</h5>
+                  <span className="text-primary fw-semibold">
+                    XEM NGAY &raquo;
+                  </span>
+                </div>
+              </Link>
             </Col>
           ))}
         </Row>

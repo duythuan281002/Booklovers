@@ -1,39 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import ButtonCustom from "../../../../../components/button/ButtonCustom";
 import AddLocation from "../../../../../components/addlocation/AddLocation";
 import "./LocationPage.scss";
+import {
+  getUserWithAddress,
+  setDefaultAddress,
+  deleteUserAddress,
+  resetDefaultAddressStatus,
+  resetDeleteressStatus,
+} from "../../../../../redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LocationPage = () => {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      name: "Thiện Nguyễn",
-      phone: "0764513099",
-      address: "123 th, Xã Chư Don, Huyện Chư Pưh, Gia Lai",
-      isDefault: true,
-    },
-    {
-      id: 2,
-      name: "Ngọc Anh",
-      phone: "0987654321",
-      address: "45 Nguyễn Trãi, Phường 1, Quận 5, TP.HCM",
-      isDefault: false,
-    },
-  ]);
+  const dispatch = useDispatch();
+
+  const { user, addresses } = useSelector((state) => state.user.profile);
+  const { success } = useSelector((state) => state.user.deleteAddress);
+  const { success: successUpDefault } = useSelector(
+    (state) => state.user.updateDefaultAddress
+  );
+
+  const [itemUpAddress, setItemUpAddress] = useState();
+
+  useEffect(() => {
+    dispatch(getUserWithAddress());
+  }, []);
+
+  useEffect(() => {
+    if (success) {
+      toast.success("Xoá địa chỉ thành công!", {
+        autoClose: 1000,
+        onClose: () => dispatch(resetDeleteressStatus()),
+      });
+      dispatch(getUserWithAddress());
+    }
+  }, [success]);
+
+  useEffect(() => {
+    if (successUpDefault) {
+      toast.success("Thiết lập mặc định thành công!", {
+        autoClose: 1000,
+        onClose: () => dispatch(resetDefaultAddressStatus()),
+      });
+      dispatch(getUserWithAddress());
+    }
+  }, [successUpDefault]);
 
   const [showAddModal, setShowAddModal] = useState(false);
 
   const handleDelete = (id) => {
-    const newList = addresses.filter((addr) => addr.id !== id);
-    setAddresses(newList);
+    dispatch(deleteUserAddress(id));
+  };
+
+  const handleSetDefault = (id) => {
+    dispatch(setDefaultAddress(id));
+  };
+
+  const handleEdit = (item) => {
+    setShowAddModal(true);
+    setItemUpAddress(item);
+  };
+
+  const hanldeShowFormAdd = () => {
+    setShowAddModal(true);
+    setItemUpAddress({});
+  };
+
+  const hanldeCloseFormAdd = () => {
+    setShowAddModal(false);
   };
 
   return (
     <>
       <AddLocation
         show={showAddModal}
-        handleClose={() => setShowAddModal(false)}
+        handleClose={hanldeCloseFormAdd}
+        itemUpAddress={itemUpAddress}
+        user={user}
       />
       <Card style={{ borderRadius: "5px" }} className="border-0 p-3">
         <Row className="align-items-center mb-3">
@@ -45,7 +91,7 @@ const LocationPage = () => {
               text="Thêm địa chỉ mới"
               icon="bi bi-plus-lg me-2"
               bgrColor="#E35765"
-              onClick={() => setShowAddModal(true)}
+              onClick={hanldeShowFormAdd}
             />
           </Col>
         </Row>
@@ -59,11 +105,13 @@ const LocationPage = () => {
               <Row>
                 <Col md={10}>
                   <h6 className="mb-2">
-                    {item.name}{" "}
-                    {item.isDefault && (
+                    {item.fullname}{" "}
+                    {item.is_default ? (
                       <span className="text-success ms-2">
                         <i className="bi bi-check-circle"></i> Địa chỉ mặc định
                       </span>
+                    ) : (
+                      ""
                     )}
                   </h6>
                   <div className="mb-1">
@@ -77,7 +125,7 @@ const LocationPage = () => {
                 </Col>
                 <Col md={2} className="text-end">
                   <div className="d-flex flex-column align-items-end gap-1">
-                    {!item.isDefault && (
+                    {!item.is_default && (
                       <Button
                         variant="link"
                         className="p-0 text-decoration-none btn-no-underline text-success"
@@ -89,11 +137,11 @@ const LocationPage = () => {
                     <Button
                       variant="link"
                       className="p-0 text-decoration-none btn-no-underline"
-                      onClick={() => handleEdit(item.id)}
+                      onClick={() => handleEdit(item)}
                     >
                       Chỉnh sửa
                     </Button>
-                    {!item.isDefault && (
+                    {!item.is_default && (
                       <Button
                         variant="link"
                         className="p-0 text-decoration-none btn-no-underline text-danger"

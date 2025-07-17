@@ -23,31 +23,23 @@ import { useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBookById } from "../../../../redux/Slices/bookSlice";
 import { getUserWithAddress } from "../../../../redux/slices/userSlice";
-import { addToCart } from "../../../../redux/Slices/cartSlice";
-
-const breadcrumbItems = [
-  { label: "Trang chủ", link: "/" },
-  { label: "Sách kỹ năng", link: "/san-pham" },
-  { label: "Đắc Nhân Tâm" },
-];
+import {
+  addItemToCartAsync,
+  fetchCartFromServer,
+} from "../../../../redux/Slices/cartSlice";
 
 const DetailProduct = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { name } = useParams();
   const bookId = location.state?.bookId;
 
   const { book, bookDetail, bookImages } = useSelector(
     (state) => state.book.bookDetail
   );
 
-  const { user, addresses } = useSelector((state) => state.user.profile);
-
   const [quantity, setQuantity] = useState(1);
-
-  const [showToast, setShowToast] = useState(false);
 
   const [mainImage, setMainImage] = useState(null);
 
@@ -76,24 +68,68 @@ const DetailProduct = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
-  const handleAddCart = () => {
-    console.log("123");
-    dispatch(
-      addToCart({
-        bookId: book.id,
-        name: book.name,
-        image: mainImage,
-        price: book.price,
-        discount: book.discount,
-        quantity,
-      })
-    );
-    toast.success("Đã thêm vào giỏ hàng!", {
-      position: "top-right",
-      autoClose: 1500,
-      theme: "light",
-    });
+  const handleAddCart = async () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        await dispatch(
+          addItemToCartAsync({ bookId: book.id, quantity })
+        ).unwrap();
+
+        dispatch(fetchCartFromServer());
+        toast.success("Đã thêm sản phẩm vào giỏ hàng!", {
+          position: "top-right",
+          autoClose: 1000,
+          theme: "light",
+        });
+      } catch (error) {
+        toast.error("Có lỗi khi thêm sản phẩm vào giỏ hàng", {
+          position: "top-right",
+          autoClose: 1000,
+          theme: "light",
+        });
+      }
+    } else {
+      toast.error("Vui lòng đăng nhập trước!", {
+        position: "top-right",
+        autoClose: 1000,
+        theme: "light",
+      });
+    }
   };
+
+  const handleBuyNow = async () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        await dispatch(
+          addItemToCartAsync({ bookId: book.id, quantity })
+        ).unwrap();
+        navigate("/gio-hang", { state: { from: "buyNow", bookId: book.id } });
+      } catch (error) {
+        toast.error("Có lỗi khi thêm sản phẩm vào giỏ hàng", {
+          position: "top-right",
+          autoClose: 1000,
+          theme: "light",
+        });
+      }
+    } else {
+      toast.error("Vui lòng đăng nhập trước!", {
+        position: "top-right",
+        autoClose: 1000,
+        theme: "light",
+      });
+    }
+  };
+
+  const breadcrumbItems = [
+    { label: "Trang chủ", link: "/" },
+    { label: "Sản phẩm", link: "/san-pham" },
+    { label: "Chi tiết sản phẩm" },
+    { label: book?.name },
+  ];
 
   return (
     <>
@@ -103,7 +139,7 @@ const DetailProduct = () => {
             <Breadcrumb items={breadcrumbItems} />
 
             <Row>
-              <Col md={4}>
+              <Col md={5}>
                 <Image
                   src={`http://localhost:8080/uploads/${mainImage}`}
                   alt={book.name}
@@ -111,9 +147,8 @@ const DetailProduct = () => {
                   thumbnail
                   style={{
                     width: "100%",
-                    height: "560px",
+                    height: "600px",
                     padding: "10px",
-                    // objectFit: "cover",
                   }}
                 />
                 <div className="d-flex mt-2 gap-2 flex-wrap">
@@ -139,8 +174,8 @@ const DetailProduct = () => {
                 </div>
               </Col>
 
-              <Col md={8}>
-                <div className="bg-white p-3 border rounded shadow-sm">
+              <Col md={7}>
+                <div className="bg-white p-3 border rounded ">
                   <div className="d-flex align-items-center gap-2 mb-1">
                     <span
                       className="badge px-2 py-1"
@@ -219,7 +254,7 @@ const DetailProduct = () => {
                         className="text-decoration-line-through me-2"
                         style={{ fontSize: "14px", color: "#888" }}
                       >
-                        129.000₫
+                        {book.price.toLocaleString("vi-VN")}
                       </span>
                     ) : null}
                     {book.discount ? (
@@ -239,7 +274,7 @@ const DetailProduct = () => {
                   </div>
                 </div>
 
-                <div className="p-3 bg-white mt-3 border rounded shadow-sm">
+                <div className="p-3 bg-white mt-3 border rounded ">
                   <div className="mb-3 d-flex align-items-center">
                     <strong>Số lượng:</strong>{" "}
                     <InputGroup className="ipQuantity ms-3 mt-2">
@@ -278,6 +313,7 @@ const DetailProduct = () => {
                       color="white"
                       fontWeight="bold"
                       icon="bi bi-cart3"
+                      onClick={handleBuyNow}
                     />
                   </div>
                 </div>
@@ -393,7 +429,6 @@ const DetailProduct = () => {
               </Col>
             </Row>
           </Container>
-          <ToastContainer />{" "}
         </>
       )}
     </>

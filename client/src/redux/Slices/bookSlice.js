@@ -4,7 +4,15 @@ import axios from "axios";
 export const fetchAllBook = createAsyncThunk(
   "book/fetchAllBook",
   async (
-    { page = 1, limit = 5, sort = "", search = "", prices = [] },
+    {
+      page = 1,
+      limit = 5,
+      sort = "",
+      search = "",
+      prices = [],
+      categoryId = null,
+      subcategoryId = null,
+    },
     thunkAPI
   ) => {
     try {
@@ -18,6 +26,14 @@ export const fetchAllBook = createAsyncThunk(
       prices.forEach((price) => {
         params.append("prices", price);
       });
+
+      if (categoryId) {
+        params.append("categoryId", categoryId);
+      }
+
+      if (subcategoryId) {
+        params.append("subcategoryId", subcategoryId);
+      }
 
       const response = await axios.get(
         `http://localhost:8080/api/books?${params.toString()}`

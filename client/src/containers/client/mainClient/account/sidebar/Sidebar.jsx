@@ -1,24 +1,37 @@
 // src/pages/user/account/sidebar/Sidebar.jsx
 
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Col, Card, Image } from "react-bootstrap";
 import avatarDefault from "../../../../../assets/image/default.jpg";
+import { getUserWithAddress } from "../../../../../redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user.profile);
+
+  useEffect(() => {
+    dispatch(getUserWithAddress());
+  }, []);
+
   return (
     <Col md={3}>
       <Card className="border-0" style={{ borderRadius: "5px" }}>
         <Card.Body>
           <div className="text-center mb-3">
             <Image
-              src={avatarDefault}
+              src={
+                user?.avatar?.startsWith("https://")
+                  ? user.avatar
+                  : `http://localhost:8080/avatar/${user?.avatar}`
+              }
               roundedCircle
               style={{ width: "50px", height: "50px" }}
             />
             <div className="mt-2">
               <div className="text-muted small">Tài khoản của</div>
-              <strong>Thiện Nguyễn</strong>
+              <strong>{user?.fullname}</strong>
             </div>
           </div>
 

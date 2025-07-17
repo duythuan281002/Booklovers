@@ -15,7 +15,7 @@ const Breadcrumb = ({ items }) => {
               <span className="separator"> </span>
             </>
           ) : (
-            <span className="ms-2 current">{item.label}</span>
+            <span className="ms-2 me-2 current">{item.label}</span>
           )}
         </span>
       ))}

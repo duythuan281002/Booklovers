@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -7,15 +7,18 @@ import {
   Button,
   FormControl,
   InputGroup,
-  Spinner,
 } from "react-bootstrap";
-import bookImage from "../../../../assets/image/sp/anh1.webp";
 import imgbookempty from "../../../../assets/image/imgbookempty.jpg";
 import cartempty from "../../../../assets/image/cartempty.png";
 import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
 import "./CartPage.scss";
-import ButtonCustom from "../../../../components/button/ButtonCustom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCartFromServer,
+  updateItemQuantity,
+  removeItemFromCart,
+} from "../../../../redux/Slices/cartSlice";
 
 const breadcrumbItems = [
   { label: "Trang chủ", link: "/" },
@@ -24,89 +27,169 @@ const breadcrumbItems = [
 
 const CartPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const state = location.state;
 
-  const [products, setProducts] = useState([
-    {
-      id: "book1",
-      title: "Nuôi Con Không Phải Là Cuộc Chiến (Tái Bản 2023)",
-      image: bookImage,
-      price: 109500,
-      quantity: 1,
-      checked: false,
-    },
-    {
-      id: "book2",
-      title: "Đắc Nhân Tâm (Tái Bản 2022)",
-      image: bookImage,
-      price: 89000,
-      quantity: 1,
-      checked: false,
-    },
-  ]);
-  const [quantity, setQuantity] = useState(1);
+  const { cartItems } = useSelector((state) => state.cart.cart);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [isCheckedAll, setIsCheckedAll] = useState(false);
-  const [selectedItems, setSelectedItems] = useState({
-    book1: false,
-  });
 
-  const totalPrice = products.reduce((sum, item) => {
-    return item.checked ? sum + item.quantity * item.price : sum;
-  }, 0);
+  useEffect(() => {
+    dispatch(fetchCartFromServer());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (state?.from === "buyNow" && state.bookId && cartItems.length > 0) {
+      const matchedItem = cartItems.find(
+        (item) => item.book_id === state.bookId
+      );
+      if (matchedItem) {
+        setItemSelect([matchedItem]);
+      }
+
+      window.history.replaceState({}, document.title);
+    }
+  }, [state, cartItems]);
+
+  const [itemSelect, setItemSelect] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const [localQuantities, setLocalQuantities] = useState({});
+
+  useEffect(() => {
+    const total = itemSelect.reduce((sum, item) => {
+      const priceAfterDiscount =
+        item.discount && item.discount > 0
+          ? item.price - (item.price * item.discount) / 100
+          : item.price;
+
+      return sum + priceAfterDiscount * item.quantity;
+    }, 0);
+
+    setTotalPrice(total);
+  }, [itemSelect]);
 
   const handleCheckAll = () => {
     setIsLoading(true);
-    const newChecked = !isCheckedAll;
     setTimeout(() => {
-      const updated = products.map((item) => ({
-        ...item,
-        checked: newChecked,
-      }));
-      setProducts(updated);
-      setIsCheckedAll(newChecked);
+      const isAllChecked = itemSelect.length === cartItems.length;
+
+      if (isAllChecked) {
+        setItemSelect([]);
+      } else {
+        setItemSelect(cartItems);
+      }
+
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   };
 
-  const handleCheckItem = (id) => {
+  const handleCheckItem = (item) => {
     setIsLoading(true);
     setTimeout(() => {
-      const updated = products.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      );
-      setProducts(updated);
-      setIsCheckedAll(updated.every((item) => item.checked));
+      setItemSelect((prev) => {
+        const exists = prev.some((i) => i.cart_item_id === item.cart_item_id);
+        if (exists) {
+          return prev.filter((i) => i.cart_item_id !== item.cart_item_id);
+        } else {
+          return [...prev, item];
+        }
+      });
       setIsLoading(false);
-    }, 1000);
-  };
-  const handleRemoveItem = (id) => {
-    setProducts((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const handleIncrease = (id) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setProducts((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-        )
-      );
-      setIsLoading(false);
-    }, 1000);
+    }, 500);
   };
 
-  const handleDecrease = (id) => {
+  const handleRemoveItem = (cartItemId) => {
     setIsLoading(true);
     setTimeout(() => {
-      setProducts((prev) =>
-        prev.map((item) =>
-          item.id === id
-            ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 }
-            : item
-        )
+      setItemSelect((prev) =>
+        prev.filter((item) => item.cart_item_id !== cartItemId)
       );
+
+      dispatch(removeItemFromCart(cartItemId));
       setIsLoading(false);
-    }, 1000);
+    }, 500);
+  };
+
+  const updateItemSelectQuantity = (cartItemId, newQuantity) => {
+    setItemSelect((prev) =>
+      prev.map((item) =>
+        item.cart_item_id === cartItemId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
+  const handleIncrease = (cartItemId) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const item = cartItems.find((i) => i.cart_item_id === cartItemId);
+      if (!item) return;
+
+      const newQty = item.quantity + 1;
+
+      dispatch(updateItemQuantity({ itemId: cartItemId, quantity: newQty }));
+
+      updateItemSelectQuantity(cartItemId, newQty);
+
+      setIsLoading(false);
+    }, 500);
+  };
+
+  const handleDecrease = (cartItemId) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const item = cartItems.find((i) => i.cart_item_id === cartItemId);
+      if (!item) return;
+
+      const newQty = item.quantity - 1;
+
+      dispatch(updateItemQuantity({ itemId: cartItemId, quantity: newQty }));
+
+      updateItemSelectQuantity(cartItemId, newQty);
+
+      setIsLoading(false);
+    }, 500);
+  };
+
+  const handleQuantityInput = (e, cartItemId) => {
+    const value = e.target.value;
+
+    if (!/^\d*$/.test(value)) return;
+
+    setLocalQuantities((prev) => ({
+      ...prev,
+      [cartItemId]: value,
+    }));
+  };
+
+  const handleQuantityBlur = (cartItemId, currentQuantity) => {
+    let quantityRaw = localQuantities[cartItemId];
+
+    let quantity = quantityRaw === "" ? 1 : Math.max(1, parseInt(quantityRaw));
+
+    if (quantity !== currentQuantity) {
+      setIsLoading(true);
+      setTimeout(() => {
+        dispatch(updateItemQuantity({ itemId: cartItemId, quantity })).finally(
+          () => {
+            updateItemSelectQuantity(cartItemId, quantity);
+
+            setIsLoading(false);
+            setLocalQuantities((prev) => {
+              const { [cartItemId]: _, ...rest } = prev;
+              return rest;
+            });
+          }
+        );
+      }, 500);
+    }
+  };
+
+  const handlepay = () => {
+    navigate("/gio-hang/thanh-toan", { state: itemSelect });
   };
 
   return (
@@ -119,10 +202,15 @@ const CartPage = () => {
       <Container>
         <Breadcrumb items={breadcrumbItems} />
 
-        {products.length === 0 ? (
-          <div className="bg-white text-center p-5 rounded mb-4">
-            <Image src={cartempty} height={200} />
-            <h5 className="mt-3 text-muted">Giỏ hàng của bạn đang trống</h5>
+        {cartItems.length === 0 ? (
+          <div
+            className="bg-white text-center d-flex justify-content-center align-items-center rounded mb-4"
+            style={{ minHeight: "500px" }}
+          >
+            <div>
+              <Image src={cartempty} height={200} />
+              <h5 className="mt-3 text-muted">Giỏ hàng của bạn đang trống</h5>
+            </div>
           </div>
         ) : (
           <>
@@ -141,7 +229,10 @@ const CartPage = () => {
                   >
                     <input
                       type="checkbox"
-                      checked={isCheckedAll}
+                      checked={
+                        itemSelect.length === cartItems.length &&
+                        cartItems.length > 0
+                      }
                       onChange={handleCheckAll}
                       style={{
                         accentColor: "#dc3545",
@@ -151,29 +242,28 @@ const CartPage = () => {
                       }}
                     />
                     <span className="ms-2">
-                      Chọn tất cả ({products.filter((p) => p.checked).length}/
-                      {products.length} sản phẩm)
+                      Chọn tất cả ({itemSelect.length}/{cartItems.length} sản
+                      phẩm)
                     </span>
                   </div>
-
-                  <div style={{ flexBasis: "12%" }} className="text-center">
-                    Đơn giá
+                  <div style={{ flexBasis: "15%" }} className="text-center">
+                    Giá bán
                   </div>
-                  <div style={{ flexBasis: "14%" }} className="text-center">
+                  <div style={{ flexBasis: "15%" }} className="text-center">
                     Số lượng
                   </div>
-                  <div style={{ flexBasis: "13%" }} className="text-center">
+                  <div style={{ flexBasis: "14%" }} className="text-center">
                     Thành tiền
                   </div>
-                  <div style={{ width: "50px" }}></div>
+                  <div style={{ width: "30px" }}></div>
                 </div>
 
-                <div className=" bg-white p-2 rounded">
-                  {products.map((item, index) => (
+                <div className="bg-white p-2 rounded">
+                  {cartItems.map((item, index) => (
                     <div
-                      key={item.id}
-                      className={`d-flex align-items-center pt-3 pb-3 ${
-                        index !== products.length - 1 ? "border-bottom" : ""
+                      key={index}
+                      className={`d-flex align-items-center pt-2 pb-2 ${
+                        index !== cartItems.length - 1 ? "border-bottom" : ""
                       }`}
                     >
                       <div
@@ -182,8 +272,10 @@ const CartPage = () => {
                       >
                         <input
                           type="checkbox"
-                          checked={item.checked}
-                          onChange={() => handleCheckItem(item.id)}
+                          checked={itemSelect.some(
+                            (i) => i.cart_item_id === item.cart_item_id
+                          )}
+                          onChange={() => handleCheckItem(item)}
                           style={{
                             accentColor: "#dc3545",
                             width: "18px",
@@ -191,43 +283,91 @@ const CartPage = () => {
                             cursor: "pointer",
                           }}
                         />
-                        <Image src={item.image} width={70} height={90} />
-                        <div>{item.title}</div>
+                        <div style={{ minWidth: "70px" }}>
+                          <Image
+                            src={`http://localhost:8080/uploads/${item.image}`}
+                            width={70}
+                            height={90}
+                          />
+                        </div>
+                        <div className="d-flex flex-column justify-content-between">
+                          <div
+                            className="fw-semibold"
+                            style={{ color: "#333", wordBreak: "break-word" }}
+                          >
+                            {item.name}
+                          </div>
+                          <div className="mt-1">
+                            {item.discount > 0 && (
+                              <>
+                                <span
+                                  className="text-muted me-2"
+                                  style={{
+                                    textDecoration: "line-through",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  {parseInt(item.price).toLocaleString("vi-VN")}
+                                  đ
+                                </span>
+                                <span
+                                  className="fw-semibold"
+                                  style={{
+                                    fontSize: "15px",
+                                    padding: " 2px 6px",
+                                    backgroundColor: "#E35765",
+                                    color: "white",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  -{item.discount}%
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </div>
                       </div>
 
                       <div
-                        style={{ flexBasis: "12%" }}
+                        style={{ flexBasis: "16%" }}
                         className="text-center text-danger fw-bold"
                       >
-                        {item.price.toLocaleString()} đ
+                        {(
+                          item.price -
+                          (item.price * item.discount) / 100
+                        ).toLocaleString("vi-VN")}
+                        đ
                       </div>
 
                       <div style={{ flexBasis: "14%" }} className="text-center">
-                        <InputGroup className="ipQuantity1 ms-3 mt-2 justify-content-center">
+                        <InputGroup className="ipQuantity1 justify-content-center">
                           <Button
                             className="btnDecrease"
-                            onClick={() => handleDecrease(item.id)}
+                            onClick={() => handleDecrease(item.cart_item_id)}
                           >
                             <i className="bi bi-dash btnDecrease-icon"></i>
                           </Button>
                           <FormControl
-                            value={item.quantity}
-                            onChange={(e) => {
-                              const val = parseInt(e.target.value);
-                              const quantity = isNaN(val) || val < 1 ? 1 : val;
-                              setProducts((prev) =>
-                                prev.map((p) =>
-                                  p.id === item.id ? { ...p, quantity } : p
-                                )
-                              );
-                            }}
                             type="text"
                             min={1}
+                            value={
+                              localQuantities[item.cart_item_id] ??
+                              item.quantity
+                            }
+                            onChange={(e) =>
+                              handleQuantityInput(e, item.cart_item_id)
+                            }
+                            onBlur={() =>
+                              handleQuantityBlur(
+                                item.cart_item_id,
+                                item.quantity
+                              )
+                            }
                             className="ipQuantity-input text-center"
                           />
                           <Button
                             className="btnIncrease"
-                            onClick={() => handleIncrease(item.id)}
+                            onClick={() => handleIncrease(item.cart_item_id)}
                           >
                             <i className="bi bi-plus btnIncrease-icon"></i>
                           </Button>
@@ -235,17 +375,22 @@ const CartPage = () => {
                       </div>
 
                       <div
-                        style={{ flexBasis: "13%" }}
+                        style={{ flexBasis: "14%" }}
                         className="text-center text-danger fw-bold"
                       >
-                        {(item.quantity * item.price).toLocaleString()} đ
+                        {(
+                          (item.price -
+                            (item.price * (item.discount || 0)) / 100) *
+                          item.quantity
+                        ).toLocaleString("vi-VN")}
+                        đ
                       </div>
 
-                      <div style={{ width: "50px" }} className="text-center">
+                      <div style={{ width: "30px" }} className="text-center">
                         <Button
                           variant="link"
-                          className="text-muted p-0"
-                          onClick={() => handleRemoveItem(item.id)}
+                          className="text-muted p-0 btn-delItem"
+                          onClick={() => handleRemoveItem(item.cart_item_id)}
                         >
                           <i className="bi bi-trash"></i>
                         </Button>
@@ -267,7 +412,7 @@ const CartPage = () => {
                           backgroundColor: "#f8f9fa",
                         }}
                       >
-                        <img
+                        <Image
                           src={imgbookempty}
                           style={{
                             width: "100%",
@@ -297,38 +442,104 @@ const CartPage = () => {
                       </div>
                     </div>
                   ) : (
-                    products
-                      .filter((p) => p.checked)
-                      .map((item) => (
-                        <div
-                          key={item.id}
-                          className="d-flex mb-3 align-items-start gap-2 border-bottom pb-2"
-                        >
+                    itemSelect.length > 0 &&
+                    itemSelect.map((item, index) => (
+                      <div
+                        key={index}
+                        className="d-flex justify-content-between mb-3 align-items-start  border-bottom pb-2"
+                      >
+                        <div className="d-flex gap-3" style={{ flex: 1 }}>
                           <Image
-                            src={item.image}
+                            src={`http://localhost:8080/uploads/${item.image}`}
                             width={70}
                             height={90}
                             className="rounded border"
                           />
-                          <div style={{ flex: 1 }}>
-                            <h6 className="mb-1 fw-bold text-dark">
-                              {item.title}
-                            </h6>
+                          <div className="d-flex flex-column justify-content-between">
                             <div
-                              className="fw-bold "
-                              style={{ color: "#D14552" }}
+                              className="fw-semibold"
+                              style={{ color: "#333" }}
                             >
-                              {(item.price * item.quantity).toLocaleString()} đ
+                              {item.name}
+                            </div>
+
+                            <div className="mt-1">
+                              {item.discount > 0 ? (
+                                <>
+                                  <span
+                                    className="fw-bold text-danger me-2"
+                                    style={{ fontSize: "15px" }}
+                                  >
+                                    {(
+                                      item.price -
+                                      (item.price * (item.discount || 0)) / 100
+                                    ).toLocaleString("vi-VN")}
+                                    đ
+                                  </span>
+                                  <span
+                                    className="text-muted me-2"
+                                    style={{
+                                      textDecoration: "line-through",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {parseInt(item.price).toLocaleString(
+                                      "vi-VN"
+                                    )}
+                                    đ
+                                  </span>
+                                  <span
+                                    className="fw-semibold"
+                                    style={{
+                                      fontSize: "14px",
+                                      padding: "2px 6px",
+                                      backgroundColor: "#E35765",
+                                      color: "white",
+                                      borderRadius: "5px",
+                                    }}
+                                  >
+                                    -{item.discount}%
+                                  </span>
+                                </>
+                              ) : (
+                                <span
+                                  className="fw-bold text-danger"
+                                  style={{ fontSize: "15px" }}
+                                >
+                                  {parseInt(item.price).toLocaleString("vi-VN")}
+                                  đ
+                                </span>
+                              )}
+                            </div>
+
+                            <div
+                              className="text-muted mt-1"
+                              style={{ fontSize: "14px" }}
+                            >
+                              Số lượng: {item.quantity}
                             </div>
                           </div>
                         </div>
-                      ))
+
+                        <div
+                          className="fw-bold text-end"
+                          style={{ color: "#D14552" }}
+                        >
+                          {(
+                            item.quantity *
+                            (item.price -
+                              (item.price * (item.discount || 0)) / 100)
+                          ).toLocaleString("vi-VN")}
+                          đ
+                        </div>
+                      </div>
+                    ))
                   )}
 
                   <div className="d-flex justify-content-between fw-bold mb-3">
                     <span className="text-dark">Tổng cộng:</span>
                     <span style={{ color: "#D14552" }}>
-                      {totalPrice.toLocaleString()} đ
+                      {totalPrice.toLocaleString("vi-VN")} đ
                     </span>
                   </div>
 
@@ -341,7 +552,7 @@ const CartPage = () => {
                       pointerEvents: totalPrice === 0 ? "none" : "auto",
                     }}
                     disabled={totalPrice === 0}
-                    onClick={() => navigate("/thanh-toan")}
+                    onClick={handlepay}
                   >
                     Thanh toán
                   </Button>

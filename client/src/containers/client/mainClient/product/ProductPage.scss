@@ -22,15 +22,26 @@
       
     .category-list {
 
+
+
         .category-item {
             position: relative;
             cursor: pointer;
             padding-left: 10px;
+            color: black;
         
             .category-item-icon {
                 padding: 8px 10px;
                 font-weight: bold;
                 font-size: 14px;
+            }
+
+            &:hover  {
+              color: #E35765;
+            }
+
+            &:hover  .submenu{
+              color: #333;
             }
         
             &:hover .category-item-icon{

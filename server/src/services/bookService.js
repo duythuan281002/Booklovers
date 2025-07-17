@@ -1,12 +1,30 @@
 import pool from "../config/connectDB.js";
 
-const getAllBooks = async (limit, offset, sort, search, priceRanges) => {
+const getAllBooks = async (
+  limit,
+  offset,
+  sort,
+  search,
+  priceRanges,
+  categoryId,
+  subcategoryId
+) => {
   let whereClause = "WHERE 1=1";
   const values = [];
 
   if (search) {
     whereClause += " AND b.name LIKE ?";
     values.push(`%${search}%`);
+  }
+
+  if (categoryId) {
+    whereClause += " AND b.category_id = ?";
+    values.push(categoryId);
+  }
+
+  if (subcategoryId) {
+    whereClause += " AND b.subcategory_id = ?";
+    values.push(subcategoryId);
   }
 
   const priceConditions = priceRanges

@@ -204,7 +204,7 @@ const AddUser = () => {
 
   return (
     <div>
-      <ToastContainer autoClose={1500} />
+      {/* <ToastContainer autoClose={1500} /> */}
       <ul
         className="d-flex"
         style={{ listStyle: "none", padding: 0, margin: 0 }}

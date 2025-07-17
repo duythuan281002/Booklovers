@@ -109,10 +109,18 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const updateData = req.body;
+    const userId = req.user.id;
+    const { fullname, gender, birthday } = req.body;
+
+    const updateData = { fullname, gender, birthday };
+
+    if (req.file) {
+      updateData.avatar = req.file.filename;
+    }
 
     const updatedUser = await userService.updateUser(userId, updateData);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     res.status(200).json(updatedUser);
   } catch (err) {
     console.error("Error updating user:", err);
@@ -154,11 +162,9 @@ const loginUser = async (req, res) => {
         .json({ message: "Email hoặc Mật khẩu không đúng." });
     }
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     const userInfo = {
       fullname: user.fullname,
@@ -223,6 +229,96 @@ const loginAdmin = async (req, res) => {
   }
 };
 
+const createAddress = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+    const { fullname, phone, address, isDefault } = req.body;
+
+    const newAddress = await userService.createAddress({
+      user_id,
+      fullname,
+      phone,
+      address,
+      is_default: isDefault === true || isDefault === "true",
+    });
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    res.status(201).json({ message: "Đã tạo địa chỉ mới" });
+  } catch (err) {
+    console.error("Error creating address:", err);
+    res.status(500).json({ message: "Lỗi server khi tạo địa chỉ" });
+  }
+};
+
+const updateAddress = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+    const { id, fullname, phone, address, isDefault } = req.body;
+
+    const updatedAddress = await userService.updateAddress({
+      id,
+      user_id,
+      fullname,
+      phone,
+      address,
+      is_default: isDefault === true || isDefault === "true",
+    });
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    res.status(200).json({ message: "Cập nhật địa chỉ thành công" });
+  } catch (err) {
+    console.error("Error updating address:", err);
+    res.status(500).json({ message: "Lỗi server khi cập nhật địa chỉ" });
+  }
+};
+
+const setDefaultAddress = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+    const { id } = req.body;
+
+    await userService.setDefaultAddress(user_id, id);
+
+    res.status(200).json({ message: "Đã cập nhật địa chỉ mặc định" });
+  } catch (err) {
+    console.error("Error setting default address:", err);
+    res
+      .status(500)
+      .json({ message: "Lỗi server khi cập nhật địa chỉ mặc định" });
+  }
+};
+const deleteAddress = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+    const { id } = req.params;
+
+    await userService.deleteAddress(id, user_id);
+
+    res.status(200).json({ message: "Xoá địa chỉ thành công" });
+  } catch (err) {
+    console.error("Error deleting address:", err);
+    res.status(500).json({ message: "Lỗi server khi xoá địa chỉ" });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  const userId = req.user.id;
+  const { newPassword } = req.body;
+
+  if (!newPassword || newPassword.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Mật khẩu phải có ít nhất 6 ký tự." });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await userService.updatePassword(userId, hashedPassword);
+    res.status(200).json({ message: "Cập nhật mật khẩu thành công." });
+  } catch (err) {
+    console.error("Lỗi khi cập nhật mật khẩu:", err);
+    res.status(500).json({ message: "Đã xảy ra lỗi máy chủ." });
+  }
+};
+
 export default {
   getAllUsers,
   getUserById,
@@ -232,4 +328,9 @@ export default {
   loginUser,
   loginAdmin,
   getProfile,
+  createAddress,
+  updateAddress,
+  setDefaultAddress,
+  deleteAddress,
+  updatePassword,
 };

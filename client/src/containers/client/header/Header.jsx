@@ -11,36 +11,23 @@ import logoUS from "../../../assets/image/flags.png";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import ButtonCustom from "../../../components/button/ButtonCustom";
 import { Row, Col } from "react-bootstrap";
-import imgMenu from "../../../assets/image/menu.png";
 import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfoLoginStorage } from "../../../redux/slices/userSlice";
-import { logoutUser } from "../../../redux/slices/userSlice";
+import {
+  logoutUser,
+  getUserWithAddress,
+} from "../../../redux/slices/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-
-const categories = [
-  {
-    name: "Sách - Truyện Tranh",
-    children: [
-      "Bảng vẽ XP-Pen",
-      "Bảng vẽ Đồ họa",
-      "Bảng vẽ Màn hình",
-      "Phụ kiện XP-Pen",
-    ],
-  },
-  {
-    name: "Dụng Cụ Vẽ - VPP",
-    children: ["Bút vẽ", "Tẩy", "Thước kẻ"],
-  },
-  {
-    name: "Bảng Vẽ - Phụ Kiện Số",
-    children: ["Bảng vẽ điện tử", "Dây cáp", "Đế vẽ"],
-  },
-];
+import {
+  fetchCartFromServer,
+  resetCartLogout,
+} from "../../../redux/Slices/cartSlice";
+import { fetchCategoriesWithSub } from "../../../redux/Slices/categorySlice";
+import slugify from "slugify";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -50,36 +37,46 @@ const Header = () => {
 
   const [logoViUs, setLogoViUs] = useState(logoVN);
 
+  const { categories } = useSelector((state) => state.category);
+
+  const { cartItems } = useSelector((state) => state.cart.cart);
+
+  const { user } = useSelector((state) => state.user.profile);
+  const { isLoggedIn } = useSelector((state) => state.user.auth);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
         const now = Date.now() / 1000;
 
         if (decodedToken.exp > now) {
-          const parsedUser = JSON.parse(user);
-          dispatch(setUserInfoLoginStorage(parsedUser));
+          dispatch(getUserWithAddress());
         } else {
           handleLogout("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
         }
       } catch (error) {
         handleLogout("Đã có lỗi khi xác thực. Vui lòng đăng nhập lại.");
       }
-    } else {
-      console.warn("⚠️ Không tìm thấy token trong localStorage");
     }
+    dispatch(fetchCartFromServer());
+    dispatch(fetchCategoriesWithSub());
   }, []);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchCartFromServer());
+      dispatch(fetchCategoriesWithSub());
+    }
+  }, [isLoggedIn]);
+
   const handleLogout = (message) => {
-    localStorage.removeItem("user");
     dispatch(logoutUser());
+    dispatch(resetCartLogout());
     if (message) toast.error(message);
     navigate("/dang-nhap");
   };
-
-  const userInfo = useSelector((state) => state.user.auth.userInfo);
 
   const handleLanguageChange = (lang) => {
     if (logoViUs === lang) {
@@ -90,8 +87,8 @@ const Header = () => {
   };
 
   return (
-    <div>
-      <ToastContainer position="top-right" autoClose={3000} />
+    <div className="header-container">
+      {/* <ToastContainer position="top-right" autoClose={3000} /> */}
       <Navbar expand="lg" className="bg-white">
         <Container>
           <Navbar.Brand as={Link} to="/">
@@ -113,38 +110,49 @@ const Header = () => {
                 Trang chủ
               </NavLink>
 
-              <div
-                className="megamenu"
-                onClick={() => {
-                  navigate("/san-pham");
-                }}
-              >
+              <div className="megamenu">
                 <div
                   className={`nav-link1 ${isProductActive ? "nav-active" : ""}`}
+                  onClick={() => {
+                    navigate("/san-pham");
+                  }}
                 >
                   Sản phẩm
                 </div>
                 <div className="dropdown-menu megamenu-content">
                   <ul className="menu-level-1">
-                    {categories.map((cat, idx) => (
-                      <li className="menu-item" key={idx}>
-                        <span className="parent-title">
+                    {categories.map((cat) => (
+                      <li className="menu-item" key={cat.id}>
+                        <NavLink
+                          to={`/san-pham/danh-muc/${slugify(cat.name, {
+                            lower: true,
+                            locale: "vi",
+                          })}`}
+                          state={{ id: cat.id, name: cat.name }}
+                          className="parent-title"
+                        >
                           {cat.name}
                           <i className="bi bi-chevron-right"></i>
-                        </span>
+                        </NavLink>
+
                         <ul
                           className="menu-level-2"
                           style={{ listStyle: "none" }}
                         >
-                          {cat.children.map((child, i) => (
-                            <li key={i}>
+                          {cat.subcategories.map((sub) => (
+                            <li key={sub.id}>
                               <NavLink
-                                to={`/san-pham/${child
-                                  .toLowerCase()
-                                  .replace(/\s+/g, "-")}`}
+                                to={`/san-pham/danh-muc-con/${slugify(
+                                  sub.name,
+                                  {
+                                    lower: true,
+                                    locale: "vi",
+                                  }
+                                )}`}
+                                state={{ idSub: sub.id, nameSub: sub.name }}
                                 className="dropdown-item"
                               >
-                                {child}
+                                {sub.name}
                               </NavLink>
                             </li>
                           ))}
@@ -204,7 +212,7 @@ const Header = () => {
                 onClick={() => navigate("/gio-hang")}
               >
                 <i className="bi bi-cart3 fs-4"></i>
-                <span className="cart-num-header">2</span>
+                <span className="cart-num-header">{cartItems.length}</span>
               </div>
               <Dropdown className="me-2 dropdown-lang">
                 <Dropdown.Toggle
@@ -251,7 +259,7 @@ const Header = () => {
                 </Dropdown.Menu>
               </Dropdown>
 
-              {userInfo === null ? (
+              {user === null ? (
                 <ButtonCustom
                   bgrColor="#EEEEEE"
                   onClick={() => {
@@ -272,10 +280,11 @@ const Header = () => {
                     <div className="d-flex align-items-center">
                       <div style={{ width: "40px", height: "40px" }}>
                         <Image
-                          // src="http://localhost:8080/avatar/chandung.jpg"
-                          src={`http://localhost:8080/avatar/${
-                            userInfo && userInfo.avatar
-                          }`}
+                          src={
+                            user?.avatar?.startsWith("https://")
+                              ? user.avatar
+                              : `http://localhost:8080/avatar/${user?.avatar}`
+                          }
                           roundedCircle
                           style={{
                             width: "100%",
@@ -294,7 +303,7 @@ const Header = () => {
                           display: "inline-block",
                         }}
                       >
-                        {userInfo && userInfo.fullname}
+                        {user && user.fullname}
                       </span>
                     </div>
                   </Dropdown.Toggle>

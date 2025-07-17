@@ -10,40 +10,16 @@ import {
   Image,
 } from "react-bootstrap";
 import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
-import ButtonCustom from "../../../../components/button/ButtonCustom";
 import imgbook from "../../../../assets/image/imgbook.jpg";
-import imgbook1 from "../../../../assets/image/imgbook1.webp";
 import imgnav from "../../../../assets/image/imgnav.png";
 import "./ProductPage.scss";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchAllBook } from "../../../../redux/Slices/bookSlice";
 import { useDispatch, useSelector } from "react-redux";
 import slugify from "slugify";
-
-const breadcrumbItems = [
-  { label: "Trang chủ", link: "/" },
-  { label: "Sản phẩm" },
-];
-
-const categories = [
-  {
-    name: "Sách - Truyện Tranh",
-    children: [
-      "Bảng vẽ XP-Pen",
-      "Bảng vẽ Đồ họa",
-      "Bảng vẽ Màn hình",
-      "Phụ kiện XP-Pen",
-    ],
-  },
-  {
-    name: "Dụng Cụ Vẽ - VPP",
-    children: ["Bút vẽ", "Tẩy", "Thước kẻ"],
-  },
-  {
-    name: "Bảng Vẽ - Phụ Kiện Số",
-    children: ["Bảng vẽ điện tử", "Dây cáp", "Đế vẽ"],
-  },
-];
+import { fetchCategoriesWithSub } from "../../../../redux/Slices/categorySlice";
+import { NavLink } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 const priceOptions = [
   { label: "Dưới 100,000₫", value: "under-100" },
@@ -55,6 +31,43 @@ const priceOptions = [
 const ProductPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { categorySlug, subcategorySlug } = useParams();
+  const { categories } = useSelector((state) => state.category);
+
+  const { id, name } = location.state || {};
+  const { idSub, nameSub } = location.state || {};
+
+  let parentCategory = null;
+
+  if (idSub && categories.length > 0) {
+    categories.forEach((cat) => {
+      if (cat.subcategories.some((sub) => sub.id === idSub)) {
+        parentCategory = cat;
+      }
+    });
+  }
+
+  const breadcrumbItems = [
+    { label: "Trang chủ", link: "/" },
+
+    ...(id || idSub
+      ? [{ label: "Sản phẩm", link: "/san-pham" }]
+      : [{ label: "Sản phẩm" }]),
+
+    ...(id ? [{ label: `${name}` }] : []),
+
+    ...(idSub && parentCategory
+      ? [
+          {
+            label: `${parentCategory.name}`,
+          },
+          {
+            label: `${nameSub}`,
+          },
+        ]
+      : []),
+  ];
 
   const [sort, setSort] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -72,13 +85,17 @@ const ProductPage = () => {
   const { listBook } = useSelector((state) => state.book.fetchBook);
   const totalPages = useSelector((state) => {
     const value = state.book.fetchBook.pagination?.totalPages;
-    return value !== undefined ? value : 5;
+    return value !== undefined ? value : 0;
   });
 
   const total = useSelector((state) => {
     const value = state.book.fetchBook.pagination?.total;
-    return value !== undefined ? value : 5;
+    return value !== undefined ? value : 0;
   });
+
+  useEffect(() => {
+    dispatch(fetchCategoriesWithSub());
+  }, []);
 
   useEffect(() => {
     dispatch(
@@ -88,6 +105,8 @@ const ProductPage = () => {
         sort,
         search: searchKeyword,
         prices: selectedPrices,
+        categoryId: id,
+        subcategoryId: idSub,
       })
     );
   }, [
@@ -97,6 +116,8 @@ const ProductPage = () => {
     sort,
     searchKeyword,
     selectedPrices,
+    id,
+    idSub,
   ]);
 
   const handlePriceChange = (priceValue) => {
@@ -147,35 +168,86 @@ const ProductPage = () => {
             padding: "10px 0",
           }}
         >
-          <div className="filter-section">
-            <h5 className="filter-section-title mb-2 fw-bold">Danh mục</h5>
-            <ul className="list-unstyled category-list">
-              {categories.map((cat, idx) => (
-                <li
-                  key={idx}
-                  className={`category-item ${
-                    activeCategory === idx ? "active" : ""
-                  }`}
-                  onMouseEnter={() => setActiveCategory(idx)}
-                  onMouseLeave={() => setActiveCategory(null)}
-                >
-                  <div className="d-flex justify-content-between align-items-center">
-                    <span>{cat.name}</span>
-                    <i className="bi bi-chevron-right category-item-icon"></i>
-                  </div>
+          {!categorySlug && !subcategorySlug && (
+            <div className="filter-section">
+              <h5 className="filter-section-title mb-2 fw-bold">Danh mục</h5>
+              <ul className="list-unstyled category-list">
+                {categories.map((cat, idx) => (
+                  <li
+                    key={cat.id}
+                    className={`category-item ${
+                      activeCategory === idx ? "active" : ""
+                    }`}
+                    onMouseEnter={() => setActiveCategory(idx)}
+                    onMouseLeave={() => setActiveCategory(null)}
+                  >
+                    <div className="d-flex justify-content-between align-items-center">
+                      <NavLink
+                        to={`/san-pham/danh-muc/${slugify(cat.name, {
+                          lower: true,
+                          locale: "vi",
+                        })}`}
+                        state={{ id: cat.id, name: cat.name }}
+                        className="dropdown-item flex-grow-1"
+                      >
+                        {cat.name}
+                      </NavLink>
+                      <i className="bi bi-chevron-right category-item-icon"></i>
+                    </div>
 
-                  {activeCategory === idx && (
-                    <ul className="submenu">
-                      {cat.children.map((child, i) => (
-                        <li key={i}>{child}</li>
-                      ))}
-                    </ul>
+                    {activeCategory === idx && (
+                      <ul className="submenu">
+                        {cat.subcategories.map((sub) => (
+                          <li key={sub.id}>
+                            <NavLink
+                              to={`/san-pham/danh-muc-con/${slugify(sub.name, {
+                                lower: true,
+                                locale: "vi",
+                              })}`}
+                              state={{ idSub: sub.id, nameSub: sub.name }}
+                              className="dropdown-item"
+                            >
+                              {sub.name}
+                            </NavLink>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {categorySlug && !subcategorySlug && (
+            <div className="filter-section">
+              <h5 className="filter-section-title mb-2 fw-bold">Thể loại</h5>
+              <ul className="list-unstyled category-list">
+                {categories
+                  .filter(
+                    (cat) =>
+                      slugify(cat.name, { lower: true, locale: "vi" }) ===
+                      categorySlug
+                  )
+                  .flatMap((cat) =>
+                    cat.subcategories.map((sub) => (
+                      <li key={sub.id} className="category-item mb-2">
+                        <NavLink
+                          to={`/san-pham/danh-muc-con/${slugify(sub.name, {
+                            lower: true,
+                            locale: "vi",
+                          })}`}
+                          state={{ idSub: sub.id, nameSub: sub.name }}
+                          className="dropdown-item"
+                        >
+                          {sub.name}
+                        </NavLink>
+                      </li>
+                    ))
                   )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
+              </ul>
+            </div>
+          )}
           <div className="filter-section">
             <h5 className="mb-2 fw-bold filter-section-title">Giá sản phẩm</h5>
             <Form className="filter-section-form">

@@ -6,6 +6,8 @@ import blogSlice from "../redux/Slices/blogSlice";
 import authSlice from "../redux/Slices/authSlice";
 import contactSlice from "../redux/Slices/contactSlice";
 import cartSlice from "../redux/Slices/cartSlice";
+import orderSlice from "../redux/Slices/orderSlice";
+import categorySlice from "../redux/Slices/categorySlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +18,7 @@ export const store = configureStore({
     contact: contactSlice,
     auth: authSlice,
     cart: cartSlice,
+    order: orderSlice,
+    category: categorySlice,
   },
 });

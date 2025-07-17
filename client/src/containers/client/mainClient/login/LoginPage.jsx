@@ -12,9 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   loginUser,
   resetLoginUserState,
-  setUserInfoLoginStorage,
+  getUserWithAddress,
+  googleLogin,
 } from "../../../../redux/slices/userSlice";
 import Spinner from "react-bootstrap/Spinner";
+import { GoogleLogin } from "@react-oauth/google";
 
 const breadcrumbItems = [
   { label: "Trang chủ", link: "/" },
@@ -29,6 +31,13 @@ const LoginPage = () => {
     (state) => state.user.auth
   );
 
+  const {
+    user,
+    accessToken,
+    loading,
+    error: errorLoginGoogle,
+  } = useSelector((state) => state.user.userLoginGoogle);
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,9 +51,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(resetLoginUserState());
-      const user = JSON.parse(localStorage.getItem("user"));
-      dispatch(setUserInfoLoginStorage(user));
+      dispatch(getUserWithAddress());
       navigate("/");
     }
   }, [isLoggedIn, navigate]);
@@ -230,7 +237,7 @@ const LoginPage = () => {
             </div>
 
             <div className="d-flex justify-content-between gap-3">
-              <Button
+              {/* <Button
                 className=" d-flex align-items-center"
                 style={{
                   border: "1px solid black",
@@ -244,7 +251,16 @@ const LoginPage = () => {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <span>Đăng nhập Google</span>
                 </div>
-              </Button>
+              </Button> */}
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  const token = credentialResponse.credential;
+                  dispatch(googleLogin(token));
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
 
               <Button
                 className=" d-flex align-items-center"
