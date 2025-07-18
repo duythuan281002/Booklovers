@@ -11,6 +11,7 @@ import cartController from "../controllers/cartController";
 import promotionController from "../controllers/promotionController";
 import orderController from "../controllers/orderController";
 import categoryController from "../controllers/categoryController";
+import vnpayController from "../controllers/vnpayController";
 
 const router = express.Router();
 
@@ -127,6 +128,9 @@ const initWebRoutes = (app) => {
     authMiddleware,
     orderController.cancelOrder
   );
+
+  router.post("/api/vnpay/create_payment_url", vnpayController.createPayment);
+  router.get("/api/vnpay/vnpay_return", vnpayController.vnpayReturn);
 
   app.use("/", router);
 };

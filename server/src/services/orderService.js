@@ -2,11 +2,10 @@ import pool from "../config/connectDB.js";
 import cartService from "./cartService.js";
 
 // Hàm tạo mã đơn hàng ngẫu nhiên 8 ký tự
-const generateOrderCode = () => {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const generateOrderCode = (length = 8) => {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let code = "";
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < length; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return code;
@@ -29,19 +28,21 @@ const createOrder = async (userId, orderData) => {
 
   const [orderResult] = await pool.query(
     `INSERT INTO orders (
-        user_id,
-        total_price,
-        status,
-        payment_method,
-        note,
-        location,
-        order_date,
-        order_code,
-        phone,
-        fullname,
-        promotion_id,
-        shipping_fee
-      ) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?)`,
+      user_id,
+      total_price,
+      status,
+      payment_method,
+      note,
+      location,
+      order_date,
+      order_code,
+      phone,
+      fullname,
+      promotion_id,
+      shipping_fee,
+      payment_status,
+      paid_at
+    ) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?)`,
     [
       userId,
       totalPrice,
@@ -54,6 +55,8 @@ const createOrder = async (userId, orderData) => {
       fullname,
       promotionId || null,
       shippingFee || 0,
+      "unpaid",
+      null,
     ]
   );
 
@@ -73,7 +76,7 @@ const createOrder = async (userId, orderData) => {
   const bookIds = cartItems.map((item) => item.book_id);
   await cartService.clearCartByUser(userId, bookIds);
 
-  return orderId;
+  return { orderId, orderCode };
 };
 
 const getOrdersByUser = async (userId) => {
@@ -170,8 +173,34 @@ const cancelOrder = async (orderId, userId) => {
   return true;
 };
 
+const updatePaymentSuccess = async (orderCode) => {
+  const [result] = await pool.query(
+    `UPDATE orders
+     SET payment_status = 'paid',
+         paid_at = NOW()
+     WHERE order_code = ?`,
+    [orderCode]
+  );
+
+  return result;
+};
+
+const updatePaymentFailed = async (orderCode) => {
+  const [result] = await pool.query(
+    `UPDATE orders
+     SET payment_status = 'failed',
+         paid_at = NULL
+     WHERE order_code = ?`,
+    [orderCode]
+  );
+
+  return result;
+};
+
 export default {
   createOrder,
   getOrdersByUser,
   cancelOrder,
+  updatePaymentSuccess,
+  updatePaymentFailed,
 };

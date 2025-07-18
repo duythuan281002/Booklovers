@@ -75,6 +75,7 @@ const orderSlice = createSlice({
       error: null,
       successMessage: null,
       orderId: null,
+      orderCode: null,
     },
     list: {
       loading: false,
@@ -92,6 +93,8 @@ const orderSlice = createSlice({
       state.create.error = null;
       state.create.successMessage = null;
       state.create.loading = false;
+      state.create.orderId = null;
+      state.create.orderCode = null;
     },
     resetOrderListStatus: (state) => {
       state.list.error = null;
@@ -113,6 +116,8 @@ const orderSlice = createSlice({
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.create.loading = false;
+        state.create.orderId = action.payload.orderId;
+        state.create.orderCode = action.payload.orderCode;
         state.create.successMessage = action.payload.message;
       })
       .addCase(createOrder.rejected, (state, action) => {

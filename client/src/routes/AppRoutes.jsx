@@ -26,6 +26,9 @@ import AccountPage from "../containers/client/mainClient/account/AccountPage";
 import ProfilePage from "../containers/client/mainClient/account/profile/ProfilePage";
 import OrderPage from "../containers/client/mainClient/account/order/OrderPage";
 import LocationPage from "../containers/client/mainClient/account/location/LocationPage";
+import SuccessPay from "../containers/client/mainClient/resultPay/SuccessPay";
+import FailurePay from "../containers/client/mainClient/resultPay/FailurePay";
+import OrderSuccess from "../containers/client/mainClient/resultPay/OrderSuccess";
 
 const AppRoutes = () => {
   return (
@@ -58,7 +61,6 @@ const AppRoutes = () => {
           path="/san-pham/danh-muc-con/:subcategorySlug"
           element={<ProductPage />}
         />
-        {/* <Route path="san-pham/category/:name" element={<ProductPage />} /> */}
         <Route path="bai-viet" element={<BlogPage />} />
         <Route path="bai-viet/chi-tiet-bai-viet/:id" element={<DetailBlog />} />
         <Route path="gioi-thieu" element={<AboutPage />} />
@@ -73,6 +75,10 @@ const AppRoutes = () => {
           path="quen-mat-khau/dat-lai-mat-khau"
           element={<ResetPassword />}
         />
+        <Route path="dat-hang-thanh-cong" element={<OrderSuccess />} />
+        <Route path="thanh-toan-thanh-cong" element={<SuccessPay />} />
+        <Route path="thanh-toan-that-bai" element={<FailurePay />} />
+
         <Route path="tai-khoan" element={<AccountPage />}>
           <Route path="ho-so" element={<ProfilePage />} />
           <Route path="dia-chi" element={<LocationPage />} />

@@ -5,11 +5,16 @@ const createOrder = async (req, res) => {
     const userId = req.user.id;
     const orderData = req.body;
 
-    const newOrderId = await orderService.createOrder(userId, orderData);
+    const { orderId, orderCode } = await orderService.createOrder(
+      userId,
+      orderData
+    );
 
-    res
-      .status(201)
-      .json({ message: "Đặt hàng thành công", orderId: newOrderId });
+    res.status(201).json({
+      message: "Đặt hàng thành công",
+      orderId,
+      orderCode,
+    });
   } catch (error) {
     console.error("Lỗi tạo đơn hàng:", error);
     res.status(500).json({ message: "Tạo đơn hàng thất bại" });

@@ -17,6 +17,13 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
     cod: { text: "Thanh toán khi nhận hàng", variant: "secondary" },
     bank: { text: "Chuyển khoản ngân hàng", variant: "info" },
     momo: { text: "Ví MoMo", variant: "warning" },
+    vnpay: { text: "Thanh toán VNPAY", variant: "success" },
+  };
+
+  const paymentStatusMap = {
+    unpaid: { text: "Chưa thanh toán", variant: "secondary" },
+    paid: { text: "Đã thanh toán", variant: "success" },
+    failed: { text: "Thanh toán thất bại", variant: "danger" },
   };
 
   return (
@@ -47,9 +54,23 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
             </p>
             <p className="d-flex align-items-center">
               <strong className="me-2">Thanh toán:</strong>
-              <Badge bg={paymentMap[order.payment_method]?.variant || "light"}>
+              <Badge
+                className="me-2"
+                bg={paymentMap[order.payment_method]?.variant || "light"}
+              >
                 {paymentMap[order.payment_method]?.text || order.payment_method}
               </Badge>
+
+              {order.payment_method !== "cod" && (
+                <Badge
+                  bg={
+                    paymentStatusMap[order.payment_status]?.variant || "light"
+                  }
+                >
+                  {paymentStatusMap[order.payment_status]?.text ||
+                    order.payment_status}
+                </Badge>
+              )}
             </p>
 
             <p className="d-flex align-items-center">
@@ -124,10 +145,12 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
       </Modal.Body>
 
       <Modal.Footer className="d-flex justify-content-between align-items-start flex-wrap">
-        <div style={{ maxWidth: "75%", wordBreak: "break-word" }}>
-          Ghi chú: {order.note || "Không có ghi chú"} Giao hàng nhanh nha Shop
-          Booklovers Giao hàng nhanh nha Shop Booklovers
-        </div>
+        {order.note && (
+          <div style={{ maxWidth: "75%", wordBreak: "break-word" }}>
+            Ghi chú: {order.note}
+          </div>
+        )}
+        <div></div>
         <Button variant="secondary" onClick={handleClose}>
           Đóng
         </Button>

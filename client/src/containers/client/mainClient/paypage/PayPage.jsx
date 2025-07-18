@@ -26,6 +26,11 @@ import AddressUser from "../../../../components/addressuser/AddressUser";
 import { getUserWithAddress } from "../../../../redux/slices/userSlice";
 import { createOrder } from "../../../../redux/Slices/orderSlice";
 import { useMemo } from "react";
+import cod from "../../../../assets/image/bank/cod.png";
+import bank from "../../../../assets/image/bank/bank.png";
+import vnpay from "../../../../assets/image/bank/vnpay.png";
+import momo from "../../../../assets/image/bank/momo.png";
+import { createVnpayPayment } from "../../../../redux/Slices/vnpaySlice";
 
 const breadcrumbItems = [
   { label: "Trang chủ", link: "/" },
@@ -60,6 +65,8 @@ const PayPage = () => {
     error,
   } = useSelector((state) => state.order.create);
 
+  const { cartItems } = useSelector((state) => state.cart.cart);
+
   const [fakeLoading, setFakeLoading] = useState(false);
 
   const subtotal = itemSelect.reduce(
@@ -75,7 +82,21 @@ const PayPage = () => {
 
   useEffect(() => {
     dispatch(getUserWithAddress());
+    dispatch(fetchCartFromServer());
   }, []);
+
+  // useEffect(() => {
+  //   if (cartItems.length > 0 && itemSelect.length > 0) {
+  //     const isValidSelection = itemSelect.every((selectedItem) =>
+  //       cartItems.some((cartItem) => cartItem.book_id === selectedItem.book_id)
+  //     );
+
+  //     if (!isValidSelection) {
+  //       toast.error("Sản phẩm bạn chọn không còn trong giỏ hàng.");
+  //       navigate("/gio-hang");
+  //     }
+  //   }
+  // }, [cartItems, itemSelect]);
 
   const [itemAddress, setItemAddress] = useState({});
   const [itemUpAddress, setItemUpAddress] = useState({});
@@ -119,6 +140,33 @@ const PayPage = () => {
     }
   }, [promotion]);
 
+  const {
+    paymentUrl,
+    loading: loadingVnpay,
+    error: errorVnpay,
+  } = useSelector((state) => state.vnpay);
+
+  const { orderId, orderCode } = useSelector((state) => state.order.create);
+
+  useEffect(() => {
+    if (selectedMethod === "vnpay" && orderId) {
+      dispatch(
+        createVnpayPayment({
+          amount: total,
+          orderId: orderCode,
+        })
+      );
+    }
+  }, [orderId, orderCode]);
+
+  console.log(paymentUrl);
+
+  useEffect(() => {
+    if (paymentUrl) {
+      window.location.href = paymentUrl;
+    }
+  }, [paymentUrl]);
+
   const handleApplyDiscount = () => {
     dispatch(applyPromotionCode(discountCode));
   };
@@ -146,32 +194,44 @@ const PayPage = () => {
     setItemUpAddress(item);
   };
   const isAddressEmpty = !itemAddress || Object.keys(itemAddress).length === 0;
+
   const handleOrder = async () => {
     if (!isAddressEmpty) {
       setFakeLoading(true);
-      setTimeout(async () => {
-        const orderData = {
-          cartItems: itemSelect,
-          totalPrice: total,
-          paymentMethod: selectedMethod,
-          note: ortherInfo,
-          location: itemAddress.address,
-          phone: itemAddress.phone,
-          fullname: itemAddress.fullname,
-          promotionId: discountValue?.id || null,
-          shippingFee: shippingFee,
-        };
 
-        const result = await dispatch(createOrder(orderData));
-        setFakeLoading(false);
+      if (itemSelect)
+        setTimeout(async () => {
+          const orderData = {
+            cartItems: itemSelect,
+            totalPrice: total,
+            paymentMethod: selectedMethod,
+            note: ortherInfo,
+            location: itemAddress.address,
+            phone: itemAddress.phone,
+            fullname: itemAddress.fullname,
+            promotionId: discountValue?.id || null,
+            shippingFee: shippingFee,
+          };
 
-        if (createOrder.fulfilled.match(result)) {
-          // navigate("/don-hang");
-          dispatch(fetchCartFromServer());
-          toast.success("Đặt hàng thành công!");
-        } else {
-        }
-      }, 2000);
+          const result = await dispatch(createOrder(orderData));
+          setFakeLoading(false);
+
+          if (createOrder.fulfilled.match(result)) {
+            dispatch(fetchCartFromServer());
+            if (selectedMethod === "cod") {
+              navigate("/dat-hang-thanh-cong");
+            }
+            // else if (selectedMethod === "vnpay") {
+            //   dispatch(
+            //     createVnpayPayment({
+            //       amount: total,
+            //       orderId: result.payload.id,
+            //     })
+            //   );
+            // }
+          } else {
+          }
+        }, 2000);
     } else {
       toast.error("Vui lòng thiết lập địa chỉ giao hàng trước khi đặt hàng.");
     }
@@ -291,56 +351,66 @@ const PayPage = () => {
               <Card.Body>
                 <Card.Title>Phương thức thanh toán</Card.Title>
                 <Form>
-                  <div
-                    className={`form-method d-flex align-items-center mb-2 p-2 rounded border ${
-                      selectedMethod === "cod" ? "border-primary" : ""
-                    }`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => setSelectedMethod("cod")}
-                  >
-                    <Form.Check
-                      type="radio"
-                      label="Thanh toán khi giao hàng (COD)"
-                      name="paymentMethod"
-                      value="cod"
-                      checked={selectedMethod === "cod"}
-                      onChange={() => {}}
-                    />
-                  </div>
-
-                  <div
-                    className={`form-method d-flex align-items-center mb-2 p-2 rounded border ${
-                      selectedMethod === "bank" ? "border-primary" : ""
-                    }`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => setSelectedMethod("bank")}
-                  >
-                    <Form.Check
-                      type="radio"
-                      label="Chuyển khoản qua ngân hàng"
-                      name="paymentMethod"
-                      value="bank"
-                      checked={selectedMethod === "bank"}
-                      onChange={() => {}}
-                    />
-                  </div>
-
-                  <div
-                    className={`form-method d-flex align-items-center mb-2 p-2 rounded border ${
-                      selectedMethod === "momo" ? "border-primary" : ""
-                    }`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => setSelectedMethod("momo")}
-                  >
-                    <Form.Check
-                      type="radio"
-                      label="Ví MoMo"
-                      name="paymentMethod"
-                      value="momo"
-                      checked={selectedMethod === "momo"}
-                      onChange={() => {}}
-                    />
-                  </div>
+                  {[
+                    {
+                      value: "cod",
+                      label: "Thanh toán khi giao hàng (COD)",
+                      icon: cod,
+                    },
+                    {
+                      value: "vnpay",
+                      label: "Thanh toán qua VNPAY",
+                      icon: vnpay,
+                    },
+                    {
+                      value: "bank",
+                      label: "Chuyển khoản qua ngân hàng",
+                      icon: bank,
+                      disabled: true,
+                    },
+                    {
+                      value: "momo",
+                      label: "Ví MoMo",
+                      icon: momo,
+                      disabled: true,
+                    },
+                  ].map((method) => (
+                    <div
+                      key={method.value}
+                      className={`form-method d-flex align-items-center mb-2 p-2 rounded border ${
+                        selectedMethod === method.value ? "border-primary" : ""
+                      } ${method.disabled ? "bg-light text-muted" : ""}`}
+                      style={{
+                        cursor: method.disabled ? "not-allowed" : "pointer",
+                      }}
+                      onClick={() => {
+                        if (!method.disabled) setSelectedMethod(method.value);
+                      }}
+                    >
+                      <Form.Check
+                        type="radio"
+                        id={method.value}
+                        name="paymentMethod"
+                        value={method.value}
+                        disabled={method.disabled}
+                        checked={selectedMethod === method.value}
+                        onChange={() => {}}
+                        label={
+                          <div className="d-flex align-items-center gap-2">
+                            <img
+                              src={method.icon}
+                              alt={method.label}
+                              width={24}
+                              height={24}
+                              style={{ objectFit: "contain" }}
+                              onError={(e) => (e.target.style.display = "none")}
+                            />
+                            <span>{method.label}</span>
+                          </div>
+                        }
+                      />
+                    </div>
+                  ))}
                 </Form>
               </Card.Body>
             </Card>

@@ -154,7 +154,7 @@ const OrderPage = () => {
 
         <InputGroup className="mb-3">
           <FormControl
-            placeholder="Tìm đơn hàng theo mã, tên sản phẩm..."
+            placeholder="Tìm đơn hàng theo mã, tên sản phẩm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -185,7 +185,11 @@ const OrderPage = () => {
               <Card key={index} className="mb-3">
                 <Card.Header className="d-flex justify-content-between align-items-center">
                   <div>
-                    <strong>Mã đơn:</strong> {order.order_code} &nbsp;|&nbsp;
+                    <strong>Mã đơn:</strong>{" "}
+                    <span style={{ userSelect: "text" }}>
+                      {order.order_code}
+                    </span>{" "}
+                    &nbsp;|&nbsp;
                     <strong>Ngày:</strong>{" "}
                     {new Date(order.order_date).toLocaleDateString("vi-VN")}
                   </div>

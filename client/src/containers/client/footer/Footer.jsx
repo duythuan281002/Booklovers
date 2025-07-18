@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Image, Form, InputGroup } from "react-bootstrap";
 import ButtonCustom from "../../../components/button/ButtonCustom";
 import "./Footer.scss";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleEmailSubmit = () => {
+    if (!isValidEmail(email)) {
+      toast.error("Vui lòng nhập email hợp lệ!");
+      return;
+    }
+    toast.success("Đăng ký nhận bản tin thành công!");
+    setEmail("");
+  };
   return (
     <div className="bg-white">
       <Container className="py-4">
@@ -48,15 +63,21 @@ const Footer = () => {
             <i className="bi bi-envelope-fill fs-3 me-3"></i>
             <strong>ĐĂNG KÝ NHẬN BẢN TIN</strong>
           </Col>
-
           <Col md={8}>
             <InputGroup>
               <Form.Control
                 type="email"
                 placeholder="Nhập email của bạn"
                 aria-label="Đăng ký bản tin"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <ButtonCustom bgrColor="#E14654" text="Đăng ký" />
+              <ButtonCustom
+                bgrColor="#E14654"
+                text="Đăng ký"
+                onClick={handleEmailSubmit}
+                disabled={!isValidEmail(email)}
+              />
             </InputGroup>
           </Col>
         </Row>

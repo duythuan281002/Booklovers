@@ -304,7 +304,7 @@ const StorePage = () => {
       </Container>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>🎉 Gửi liên hệ thành công!</Modal.Title>
+          <Modal.Title>Gửi liên hệ thành công!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>

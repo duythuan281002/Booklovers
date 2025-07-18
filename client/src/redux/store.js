@@ -8,6 +8,7 @@ import contactSlice from "../redux/Slices/contactSlice";
 import cartSlice from "../redux/Slices/cartSlice";
 import orderSlice from "../redux/Slices/orderSlice";
 import categorySlice from "../redux/Slices/categorySlice";
+import vnpaySlice from "../redux/Slices/vnpaySlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     cart: cartSlice,
     order: orderSlice,
     category: categorySlice,
+    vnpay: vnpaySlice,
   },
 });
