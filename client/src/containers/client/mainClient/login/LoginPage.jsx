@@ -272,6 +272,7 @@ const LoginPage = () => {
                 onError={() => {
                   console.log("Login Failed");
                 }}
+                useOneTap={false}
               />
               {/* <Button
                 className=" d-flex align-items-center"
