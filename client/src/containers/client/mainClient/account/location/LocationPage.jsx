@@ -96,66 +96,77 @@ const LocationPage = () => {
           </Col>
         </Row>
 
-        {addresses.map((item, index) => (
-          <Card
-            key={item.id}
-            className={index === addresses.length - 1 ? "" : "mb-3"}
+        {addresses.length === 0 ? (
+          <div
+            className="text-center text-muted"
+            style={{ userSelect: "none" }}
           >
-            <Card.Body className="p-2 border-bottom">
-              <Row>
-                <Col md={10}>
-                  <h6 className="mb-2">
-                    {item.fullname}{" "}
-                    {item.is_default ? (
-                      <span className="text-success ms-2">
-                        <i className="bi bi-check-circle"></i> Địa chỉ mặc định
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </h6>
-                  <div className="mb-1">
-                    <span className="text-muted">Địa chỉ: </span>
-                    <span className="fw-semibold">{item.address}</span>
-                  </div>
-                  <div>
-                    <span className="text-muted">Điện thoại: </span>
-                    <span className="fw-semibold">{item.phone}</span>
-                  </div>
-                </Col>
-                <Col md={2} className="text-end">
-                  <div className="d-flex flex-column align-items-end gap-1">
-                    {!item.is_default && (
+            <i className="bi bi-geo-alt-fill me-2"></i>
+            Chưa có địa chỉ nào
+          </div>
+        ) : (
+          addresses.map((item, index) => (
+            <Card
+              key={item.id}
+              className={index === addresses.length - 1 ? "" : "mb-3"}
+            >
+              <Card.Body className="p-2 border-bottom">
+                <Row>
+                  <Col md={10}>
+                    <h6 className="mb-2">
+                      {item.fullname}{" "}
+                      {item.is_default ? (
+                        <span className="text-success ms-2">
+                          <i className="bi bi-check-circle"></i> Địa chỉ mặc
+                          định
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </h6>
+                    <div className="mb-1">
+                      <span className="text-muted">Địa chỉ: </span>
+                      <span className="fw-semibold">{item.address}</span>
+                    </div>
+                    <div>
+                      <span className="text-muted">Điện thoại: </span>
+                      <span className="fw-semibold">{item.phone}</span>
+                    </div>
+                  </Col>
+                  <Col md={2} className="text-end">
+                    <div className="d-flex flex-column align-items-end gap-1">
+                      {!item.is_default && (
+                        <Button
+                          variant="link"
+                          className="p-0 text-decoration-none btn-no-underline text-success"
+                          onClick={() => handleSetDefault(item.id)}
+                        >
+                          Thiết lập mặc định
+                        </Button>
+                      )}
                       <Button
                         variant="link"
-                        className="p-0 text-decoration-none btn-no-underline text-success"
-                        onClick={() => handleSetDefault(item.id)}
+                        className="p-0 text-decoration-none btn-no-underline"
+                        onClick={() => handleEdit(item)}
                       >
-                        Thiết lập mặc định
+                        Chỉnh sửa
                       </Button>
-                    )}
-                    <Button
-                      variant="link"
-                      className="p-0 text-decoration-none btn-no-underline"
-                      onClick={() => handleEdit(item)}
-                    >
-                      Chỉnh sửa
-                    </Button>
-                    {!item.is_default && (
-                      <Button
-                        variant="link"
-                        className="p-0 text-decoration-none btn-no-underline text-danger"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        Xoá
-                      </Button>
-                    )}
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
-        ))}
+                      {!item.is_default && (
+                        <Button
+                          variant="link"
+                          className="p-0 text-decoration-none btn-no-underline text-danger"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          Xoá
+                        </Button>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          ))
+        )}
       </Card>
     </>
   );
