@@ -14,7 +14,13 @@ let app = express();
 // // Dùng middleware của multer để xử lý form-data
 // app.use(upload.none());
 
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:8081", "https://booklovers-demo.vercel.app/"],
+    credentials: true,
+  })
+);
 
 //config app
 app.use(bodyParser.json());
