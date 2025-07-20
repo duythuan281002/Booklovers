@@ -94,7 +94,7 @@ const Header = () => {
           <Navbar.Brand as={Link} to="/">
             {/* <Image src="https://booklovers-v1.onrender.com/logo/logo-1.webp" alt="Logo" /> */}
             <Image
-              src="https://booklovers-v1.onrender.com.com/logo/logo-1.webp"
+              src="https://booklovers-v1.onrender.com/logo/logo-1.webp"
               alt="Logo"
             />
           </Navbar.Brand>
