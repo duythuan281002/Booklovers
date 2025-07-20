@@ -59,7 +59,7 @@ const TableProducts = () => {
                   </td>
                   <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                     <img
-                      src={`https://booklovers-v1.onrender.com/uploads/${book.main_image}`}
+                      src={`http://localhost:8080/uploads/${book.main_image}`}
                       alt={book.name}
                       style={{
                         width: "50px",

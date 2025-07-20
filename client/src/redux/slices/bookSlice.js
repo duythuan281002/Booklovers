@@ -36,7 +36,7 @@ export const fetchAllBook = createAsyncThunk(
       }
 
       const response = await axios.get(
-        `https://booklovers-v1.onrender.com/api/books?${params.toString()}`
+        `http://localhost:8080/api/books?${params.toString()}`
       );
 
       return {
@@ -56,7 +56,7 @@ export const fetchBookById = createAsyncThunk(
   async (bookId, thunkAPI) => {
     try {
       const response = await axios.get(
-        `https://booklovers-v1.onrender.com/api/book/${bookId}`
+        `http://localhost:8080/api/book/${bookId}`
       );
       return response.data.data;
     } catch (error) {

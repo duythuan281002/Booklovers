@@ -285,7 +285,7 @@ const CartPage = () => {
                         />
                         <div style={{ minWidth: "70px" }}>
                           <Image
-                            src={`https://booklovers-v1.onrender.com/uploads/${item.image}`}
+                            src={`http://localhost:8080/uploads/${item.image}`}
                             width={70}
                             height={90}
                           />
@@ -450,7 +450,7 @@ const CartPage = () => {
                       >
                         <div className="d-flex gap-3" style={{ flex: 1 }}>
                           <Image
-                            src={`https://booklovers-v1.onrender.com/uploads/${item.image}`}
+                            src={`http://localhost:8080/uploads/${item.image}`}
                             width={70}
                             height={90}
                             className="rounded border"

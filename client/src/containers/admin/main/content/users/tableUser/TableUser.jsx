@@ -64,7 +64,7 @@ const TableUser = () => {
                   </td>
                   <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                     <Image
-                      src={`https://booklovers-v1.onrender.com/avatar/${user.avatar}`}
+                      src={`http://localhost:8080/avatar/${user.avatar}`}
                       style={{ width: "50px", height: "50px" }}
                       roundedCircle
                     />
