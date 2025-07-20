@@ -92,7 +92,11 @@ const Header = () => {
       <Navbar expand="lg" className="bg-white">
         <Container>
           <Navbar.Brand as={Link} to="/">
-            <Image src="http://localhost:8080/logo/logo-1.webp" alt="Logo" />
+            {/* <Image src="http://localhost:8080/logo/logo-1.webp" alt="Logo" /> */}
+            <Image
+              src="https://booklovers-v1.onrender.com/logo/logo-1.webp"
+              alt="Logo"
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
