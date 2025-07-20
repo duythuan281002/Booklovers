@@ -273,6 +273,8 @@ const LoginPage = () => {
                   console.log("Login Failed");
                 }}
                 useOneTap={false}
+                auto_select={false}
+                text="signin_with"
               />
               {/* <Button
                 className=" d-flex align-items-center"
