@@ -15,12 +15,12 @@ let app = express();
 // app.use(upload.none());
 
 // app.use(cors());
-app.use(
-  cors({
-    origin: ["http://localhost:8081", "https://booklovers-demo.vercel.app/"],
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: ["http://localhost:8081", "https://booklovers-demo.vercel.app"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 //config app
 app.use(bodyParser.json());
