@@ -213,7 +213,7 @@ const CartPage = () => {
             </div>
           </div>
         ) : (
-          <>
+          <div style={{ minHeight: "500px" }}>
             <h5 className="p-2" style={{ color: "#333" }}>
               GIỎ HÀNG
             </h5>
@@ -559,7 +559,7 @@ const CartPage = () => {
                 </div>
               </Col>
             </Row>
-          </>
+          </div>
         )}
       </Container>
     </>
