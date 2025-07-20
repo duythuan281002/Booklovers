@@ -357,7 +357,7 @@ const ProductPage = () => {
                         <Image
                           src={
                             book.main_image
-                              ? `http://localhost:8080/uploads/${book.main_image}`
+                              ? `https://booklovers-v1.onrender/uploads/${book.main_image}`
                               : imgbook // fallback
                           }
                           style={{

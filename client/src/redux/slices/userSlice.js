@@ -7,7 +7,7 @@ export const fetchAllUser = createAsyncThunk(
   async ({ page = 1, limit = 5 }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/users?page=${page}&limit=${limit}`
+        `https://booklovers-v1.onrender/api/users?page=${page}&limit=${limit}`
       );
       return {
         users: response.data.data,
@@ -26,7 +26,7 @@ export const loginAdmin = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/user/loginadmin",
+        "https://booklovers-v1.onrender/api/user/loginadmin",
         credentials
       );
       return response.data;
@@ -43,7 +43,7 @@ export const loginUser = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/user/loginuser",
+        "https://booklovers-v1.onrender/api/user/loginuser",
         credentials
       );
       return response.data;
@@ -60,7 +60,7 @@ export const createNewUser = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/user",
+        "https://booklovers-v1.onrender/api/user",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -83,7 +83,7 @@ export const getUserWithAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.get(
-        "http://localhost:8080/api/user/profile",
+        "https://booklovers-v1.onrender/api/user/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -108,7 +108,7 @@ export const createUserAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.post(
-        "http://localhost:8080/api/user/address",
+        "https://booklovers-v1.onrender/api/user/address",
         addressData,
         {
           headers: {
@@ -131,7 +131,7 @@ export const updateUserAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.put(
-        "http://localhost:8080/api/user/address/up",
+        "https://booklovers-v1.onrender/api/user/address/up",
         addressData,
         {
           headers: {
@@ -155,7 +155,7 @@ export const setDefaultAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.put(
-        "http://localhost:8080/api/user/address/set-default",
+        "https://booklovers-v1.onrender/api/user/address/set-default",
         { id },
         {
           headers: {
@@ -179,7 +179,7 @@ export const deleteUserAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.delete(
-        `http://localhost:8080/api/user/address/${id}`,
+        `https://booklovers-v1.onrender/api/user/address/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -202,7 +202,7 @@ export const updateUser = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.put(
-        "http://localhost:8080/api/user",
+        "https://booklovers-v1.onrender/api/user",
         dataUp,
         {
           headers: {
@@ -224,7 +224,7 @@ export const updatePassword = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://localhost:8080/api/user/update-password",
+        "https://booklovers-v1.onrender/api/user/update-password",
         { newPassword },
         {
           headers: {
@@ -245,7 +245,7 @@ export const googleLogin = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/user/google-login",
+        "https://booklovers-v1.onrender/api/user/google-login",
         {
           token,
         }
@@ -263,7 +263,7 @@ export const facebookLogin = createAsyncThunk(
   async (facebookAccessToken, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/user/facebook-login",
+        "https://booklovers-v1.onrender/api/user/facebook-login",
         {
           access_token: facebookAccessToken,
         }

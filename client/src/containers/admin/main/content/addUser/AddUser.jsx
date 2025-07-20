@@ -43,7 +43,7 @@ const AddUser = () => {
   const [deliveryList, setDeliveryList] = useState([]);
 
   const [avatarPreview, setAvatarPreview] = useState(
-    "http://localhost:8080/avatar/default.jpg"
+    "https://booklovers-v1.onrender/avatar/default.jpg"
   );
 
   const handleAdd = () => {
@@ -84,7 +84,7 @@ const AddUser = () => {
       setPassword("");
       setRole("");
       setAvatar(null);
-      setAvatarPreview("http://localhost:8080/avatar/default.jpg");
+      setAvatarPreview("https://booklovers-v1.onrender/avatar/default.jpg");
       fileInputRef.current.value = null;
 
       setErrors({

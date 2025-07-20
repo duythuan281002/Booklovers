@@ -9,7 +9,7 @@ export const sendOtp = createAsyncThunk(
   async (email, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/forgot-password",
+        "https://booklovers-v1.onrender/forgot-password",
         { email }
       );
       return response.data.message;
@@ -25,10 +25,13 @@ export const verifyOtp = createAsyncThunk(
   async ({ email, otp }, thunkAPI) => {
     try {
       // Chỉ xác thực OTP, không đổi mật khẩu
-      const response = await axios.post("http://localhost:8080/verify-otp", {
-        email,
-        otp,
-      });
+      const response = await axios.post(
+        "https://booklovers-v1.onrender/verify-otp",
+        {
+          email,
+          otp,
+        }
+      );
       return response.data.message;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -42,7 +45,7 @@ export const resetPassword = createAsyncThunk(
   async ({ email, newPassword }, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/reset-password",
+        "https://booklovers-v1.onrender/reset-password",
         {
           email,
           newPassword,
@@ -62,7 +65,7 @@ export const sendCurrentEmailOtp = createAsyncThunk(
     try {
       const token = localStorage.getItem("token"); // hoặc lấy từ state
       const response = await axios.post(
-        "http://localhost:8080/email-change/send-otp",
+        "https://booklovers-v1.onrender/email-change/send-otp",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -80,7 +83,7 @@ export const verifyCurrentEmailOtp = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8080/email-change/verify-otp",
+        "https://booklovers-v1.onrender/email-change/verify-otp",
         { otp },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -98,7 +101,7 @@ export const confirmNewEmail = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8080/email-change/update",
+        "https://booklovers-v1.onrender/email-change/update",
         { newEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -114,7 +117,7 @@ export const sendPhoneOtp = createAsyncThunk(
   async (phone, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/send-otp-phone",
+        "https://booklovers-v1.onrender/send-otp-phone",
         {
           phone,
         }
@@ -133,7 +136,7 @@ export const verifyPhoneOtp = createAsyncThunk(
   async ({ phoneNumber, otp }, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/verify-phone-otp",
+        "https://booklovers-v1.onrender/verify-phone-otp",
         {
           phoneNumber,
           otp,
@@ -207,7 +210,7 @@ export const updatePassword = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://localhost:8080/api/users/update-password",
+        "https://booklovers-v1.onrender/api/users/update-password",
         { newPassword },
         {
           headers: {
