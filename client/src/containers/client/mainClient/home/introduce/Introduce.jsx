@@ -17,7 +17,7 @@ const Introduce = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentBanner((prev) => (prev + 1) % banners.length);
-    }, 10000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
