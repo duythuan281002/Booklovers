@@ -16,7 +16,7 @@ const FeaturedPostCard = ({ blog }) => {
     >
       <div className="d-flex p-2">
         <img
-          src={`https://booklovers-v1.onrender/blogs/${blog.image}`}
+          src={`https://booklovers-v1.onrender.com/blogs/${blog.image}`}
           alt={blog.title}
           style={{
             width: 150,

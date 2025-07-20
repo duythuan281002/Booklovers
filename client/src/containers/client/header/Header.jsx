@@ -92,9 +92,9 @@ const Header = () => {
       <Navbar expand="lg" className="bg-white">
         <Container>
           <Navbar.Brand as={Link} to="/">
-            {/* <Image src="https://booklovers-v1.onrender/logo/logo-1.webp" alt="Logo" /> */}
+            {/* <Image src="https://booklovers-v1.onrender.com/logo/logo-1.webp" alt="Logo" /> */}
             <Image
-              src="https://booklovers-v1.onrender.com/logo/logo-1.webp"
+              src="https://booklovers-v1.onrender.com.com/logo/logo-1.webp"
               alt="Logo"
             />
           </Navbar.Brand>
@@ -287,7 +287,7 @@ const Header = () => {
                           src={
                             user?.avatar?.startsWith("https://")
                               ? user.avatar
-                              : `https://booklovers-v1.onrender/avatar/${user?.avatar}`
+                              : `https://booklovers-v1.onrender.com/avatar/${user?.avatar}`
                           }
                           roundedCircle
                           style={{

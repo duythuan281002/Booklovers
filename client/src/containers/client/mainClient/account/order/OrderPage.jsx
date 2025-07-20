@@ -216,7 +216,7 @@ const OrderPage = () => {
                     <Row key={idx} className="align-items-center mb-2">
                       <Col xs="auto" className="d-flex justify-content-center">
                         <Image
-                          src={`https://booklovers-v1.onrender/uploads/${item.book_image}`}
+                          src={`https://booklovers-v1.onrender.com/uploads/${item.book_image}`}
                           style={{ width: "50px", height: "70px" }}
                           rounded
                         />

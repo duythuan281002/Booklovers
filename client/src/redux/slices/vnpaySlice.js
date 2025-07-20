@@ -6,7 +6,7 @@ export const createVnpayPayment = createAsyncThunk(
   async ({ amount, orderId }, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://booklovers-v1.onrender/api/vnpay/create_payment_url",
+        "https://booklovers-v1.onrender.com/api/vnpay/create_payment_url",
         { amount, orderId }
       );
       return res.data.paymentUrl;

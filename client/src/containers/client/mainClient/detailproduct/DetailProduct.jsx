@@ -141,7 +141,7 @@ const DetailProduct = () => {
             <Row>
               <Col md={5}>
                 <Image
-                  src={`https://booklovers-v1.onrender/uploads/${mainImage}`}
+                  src={`https://booklovers-v1.onrender.com/uploads/${mainImage}`}
                   alt={book.name}
                   fluid
                   thumbnail
@@ -161,7 +161,7 @@ const DetailProduct = () => {
                       return (
                         <Image
                           key={index}
-                          src={`https://booklovers-v1.onrender/uploads/${img.image_url}`}
+                          src={`https://booklovers-v1.onrender.com/uploads/${img.image_url}`}
                           thumbnail
                           onClick={() => setMainImage(img.image_url)}
                           style={{

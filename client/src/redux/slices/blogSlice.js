@@ -6,7 +6,7 @@ export const fetchAllBlog = createAsyncThunk(
   async ({ page = 1, limit = 6 }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `https://booklovers-v1.onrender/api/blogs?page=${page}&limit=${limit}`
+        `https://booklovers-v1.onrender.com/api/blogs?page=${page}&limit=${limit}`
       );
       return {
         blogs: response.data.data,
@@ -25,7 +25,7 @@ export const fetchBlogById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios.get(
-        `https://booklovers-v1.onrender/api/blog/${id}`
+        `https://booklovers-v1.onrender.com/api/blog/${id}`
       );
       return {
         blog: response.data.data,
@@ -43,7 +43,7 @@ export const fetchAllBlogFeatured = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(
-        `https://booklovers-v1.onrender/api/blogs/featured`
+        `https://booklovers-v1.onrender.com/api/blogs/featured`
       );
       return {
         blogs: response.data.data,

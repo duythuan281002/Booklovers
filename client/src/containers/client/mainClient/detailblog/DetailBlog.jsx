@@ -67,7 +67,7 @@ const DetailBlog = () => {
                 </Card.Text>
                 <Card.Img
                   variant="top"
-                  src={`https://booklovers-v1.onrender/blogs/${blogDetail.image}`}
+                  src={`https://booklovers-v1.onrender.com/blogs/${blogDetail.image}`}
                   style={{
                     maxHeight: 300,
                     objectFit: "cover",

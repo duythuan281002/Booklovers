@@ -6,7 +6,7 @@ export const createContact = createAsyncThunk(
   async (contactData, thunkAPI) => {
     try {
       const response = await axios.post(
-        "https://booklovers-v1.onrender/api/contact",
+        "https://booklovers-v1.onrender.com/api/contact",
         contactData
       );
       return response.data;

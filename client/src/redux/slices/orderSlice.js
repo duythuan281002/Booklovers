@@ -6,7 +6,7 @@ export const createOrder = createAsyncThunk(
   async (orderData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://booklovers-v1.onrender/api/orders",
+        "https://booklovers-v1.onrender.com/api/orders",
         orderData,
         {
           headers: {
@@ -31,7 +31,7 @@ export const getUserOrders = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const res = await axios.get(
-        "https://booklovers-v1.onrender/api/orders/my-orders",
+        "https://booklovers-v1.onrender.com/api/orders/my-orders",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export const cancelOrder = createAsyncThunk(
     if (!token) throw new Error("Token không tồn tại");
     try {
       const res = await axios.put(
-        `https://booklovers-v1.onrender/api/orders/${orderId}/cancel`,
+        `https://booklovers-v1.onrender.com/api/orders/${orderId}/cancel`,
         {},
         {
           headers: {

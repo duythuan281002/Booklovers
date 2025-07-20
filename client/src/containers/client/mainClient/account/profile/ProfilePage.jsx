@@ -390,7 +390,7 @@ const ProfilePage = () => {
                           ? formData.avatar
                           : user?.avatar?.startsWith("https://")
                           ? user.avatar
-                          : `https://booklovers-v1.onrender/avatar/${user?.avatar}`
+                          : `https://booklovers-v1.onrender.com/avatar/${user?.avatar}`
                       }
                       roundedCircle
                       style={{
