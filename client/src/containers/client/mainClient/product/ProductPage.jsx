@@ -36,7 +36,8 @@ const ProductPage = () => {
   const { categories } = useSelector((state) => state.category);
 
   const { id, name } = location.state || {};
-  const { idSub, nameSub } = location.state || {};
+  const { idSub, nameSub, tempCateSlug } = location.state || {};
+  // const tempCateSlug = categorySlug || "";
 
   let parentCategory = null;
 
@@ -154,6 +155,8 @@ const ProductPage = () => {
     });
   };
 
+  console.log(tempCateSlug, subcategorySlug);
+
   return (
     <Container>
       <Breadcrumb items={breadcrumbItems} />
@@ -187,7 +190,10 @@ const ProductPage = () => {
                           lower: true,
                           locale: "vi",
                         })}`}
-                        state={{ id: cat.id, name: cat.name }}
+                        state={{
+                          id: cat.id,
+                          name: cat.name,
+                        }}
                         className="dropdown-item flex-grow-1"
                       >
                         {cat.name}
@@ -218,8 +224,41 @@ const ProductPage = () => {
               </ul>
             </div>
           )}
+          {!categorySlug && subcategorySlug && (
+            <div className="filter-section">
+              <h5 className="filter-section-title mb-2 fw-bold">Thể loại</h5>
+              <ul className="list-unstyled category-list">
+                {categories
+                  .filter(
+                    (cat) =>
+                      slugify(cat.name, { lower: true, locale: "vi" }) ===
+                      tempCateSlug
+                  )
+                  .flatMap((cat) =>
+                    cat.subcategories.map((sub) => (
+                      <li key={sub.id} className="category-item mb-2">
+                        <NavLink
+                          to={`/san-pham/danh-muc-con/${slugify(sub.name, {
+                            lower: true,
+                            locale: "vi",
+                          })}`}
+                          state={{
+                            idSub: sub.id,
+                            nameSub: sub.name,
+                            tempCateSlug: tempCateSlug,
+                          }}
+                          className="dropdown-item"
+                        >
+                          {sub.name}
+                        </NavLink>
+                      </li>
+                    ))
+                  )}
+              </ul>
+            </div>
+          )}
 
-          {categorySlug && !subcategorySlug && (
+          {categorySlug && (
             <div className="filter-section">
               <h5 className="filter-section-title mb-2 fw-bold">Thể loại</h5>
               <ul className="list-unstyled category-list">
@@ -237,7 +276,11 @@ const ProductPage = () => {
                             lower: true,
                             locale: "vi",
                           })}`}
-                          state={{ idSub: sub.id, nameSub: sub.name }}
+                          state={{
+                            idSub: sub.id,
+                            nameSub: sub.name,
+                            tempCateSlug: categorySlug,
+                          }}
                           className="dropdown-item"
                         >
                           {sub.name}
