@@ -24,7 +24,7 @@ const Sidebar = () => {
               src={
                 user?.avatar?.startsWith("https://")
                   ? user.avatar
-                  : `http://localhost:8080/avatar/${user?.avatar}`
+                  : `https://thuansever-production.up.railway.app/avatar/${user?.avatar}`
               }
               roundedCircle
               style={{ width: "50px", height: "50px" }}

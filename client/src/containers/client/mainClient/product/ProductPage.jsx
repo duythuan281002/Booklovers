@@ -400,7 +400,7 @@ const ProductPage = () => {
                         <Image
                           src={
                             book.main_image
-                              ? `http://localhost:8080/uploads/${book.main_image}`
+                              ? `https://thuansever-production.up.railway.app/uploads/${book.main_image}`
                               : imgbook // fallback
                           }
                           style={{

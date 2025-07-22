@@ -64,7 +64,7 @@ const TableUser = () => {
                   </td>
                   <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                     <Image
-                      src={`http://localhost:8080/avatar/${user.avatar}`}
+                      src={`https://thuansever-production.up.railway.app/avatar/${user.avatar}`}
                       style={{ width: "50px", height: "50px" }}
                       roundedCircle
                     />

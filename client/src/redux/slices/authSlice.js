@@ -9,7 +9,7 @@ export const sendOtp = createAsyncThunk(
   async (email, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/forgot-password",
+        "https://thuansever-production.up.railway.app/forgot-password",
         { email }
       );
       return response.data.message;
@@ -25,10 +25,13 @@ export const verifyOtp = createAsyncThunk(
   async ({ email, otp }, thunkAPI) => {
     try {
       // Chỉ xác thực OTP, không đổi mật khẩu
-      const response = await axios.post("http://localhost:8080/verify-otp", {
-        email,
-        otp,
-      });
+      const response = await axios.post(
+        "https://thuansever-production.up.railway.app/verify-otp",
+        {
+          email,
+          otp,
+        }
+      );
       return response.data.message;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
@@ -42,7 +45,7 @@ export const resetPassword = createAsyncThunk(
   async ({ email, newPassword }, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/reset-password",
+        "https://thuansever-production.up.railway.app/reset-password",
         {
           email,
           newPassword,
@@ -62,7 +65,7 @@ export const sendCurrentEmailOtp = createAsyncThunk(
     try {
       const token = localStorage.getItem("token"); // hoặc lấy từ state
       const response = await axios.post(
-        "http://localhost:8080/email-change/send-otp",
+        "https://thuansever-production.up.railway.app/email-change/send-otp",
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -80,7 +83,7 @@ export const verifyCurrentEmailOtp = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8080/email-change/verify-otp",
+        "https://thuansever-production.up.railway.app/email-change/verify-otp",
         { otp },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -98,7 +101,7 @@ export const confirmNewEmail = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:8080/email-change/update",
+        "https://thuansever-production.up.railway.app/email-change/update",
         { newEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -114,7 +117,7 @@ export const sendPhoneOtp = createAsyncThunk(
   async (phone, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/send-otp-phone",
+        "https://thuansever-production.up.railway.app/send-otp-phone",
         {
           phone,
         }
@@ -133,7 +136,7 @@ export const verifyPhoneOtp = createAsyncThunk(
   async ({ phoneNumber, otp }, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/verify-phone-otp",
+        "https://thuansever-production.up.railway.app/verify-phone-otp",
         {
           phoneNumber,
           otp,
@@ -207,7 +210,7 @@ export const updatePassword = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://localhost:8080/api/users/update-password",
+        "https://thuansever-production.up.railway.app/api/users/update-password",
         { newPassword },
         {
           headers: {
