@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Container from "react-bootstrap/Container";
 import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
-import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import ButtonCustom from "../../../../components/button/ButtonCustom";
 import { InputGroup, Button } from "react-bootstrap";
 import logoGG from "../../../../assets/image/google.png";
 import logoFB from "../../../../assets/image/facebook.png";
 import bookstoreImg from "../../../../assets/image/bookstore.jpg";
+import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loginUser,
@@ -16,7 +15,6 @@ import {
   googleLogin,
   facebookLogin,
 } from "../../../../redux/slices/userSlice";
-import Spinner from "react-bootstrap/Spinner";
 import { GoogleLogin } from "@react-oauth/google";
 // import FacebookLogin from "react-facebook-login";
 
@@ -121,211 +119,152 @@ const LoginPage = () => {
   return (
     <Container>
       <Breadcrumb items={breadcrumbItems} />
-      <div
-        className="d-flex  justify-content-center mb-4 align-items-center bg-white"
-        style={{ padding: "60px 0" }}
-      >
-        <div
-          className="d-flex flex-column  flex-lg-row justify-content-center align-items-center"
-          style={{
-            width: "80%",
-            // height: "480px",
-            boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-            backgroundColor: "#F8F9FA",
-          }}
-        >
-          <div
-            style={{
-              flex: 1,
-              // maxWidth: "50%",
-              // padding: "0 40px",
-              // margin: "0 auto",
-            }}
+      <div className="pb-5 pt-3">
+        <Row className="justify-content-center">
+          <Col
+            xs={12}
+            lg={10}
+            className=" rounded overflow-hidden  bg-white"
+            style={{ backgroundColor: "#F8F9FA" }}
           >
-            <h3 className="text-center mt-3">Đăng nhập</h3>
-            <Form noValidat className="ps-5 pe-5" e>
-              <Form.Group className="mb-1" controlId="formEmail">
-                <Form.Label>Email</Form.Label>
-                <InputGroup>
-                  <InputGroup.Text style={{ backgroundColor: "#E9ECEF" }}>
-                    <i className="bi bi-envelope-fill"></i>
-                  </InputGroup.Text>
-                  <Form.Control
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    onChange={handleinputEmail}
-                    isInvalid={!!errors.email}
-                  />
-                  <Form.Control.Feedback
-                    type="invalid"
-                    style={{ minHeight: "20px", display: "block" }}
-                  >
-                    {errors.email}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
+            <Row>
+              <Col xs={12} lg={6} className="p-3 p-md-5">
+                <h3 className="text-center mb-4">Đăng nhập</h3>
 
-              <Form.Group className="mb-1" controlId="formPassword">
-                <Form.Label>Mật khẩu</Form.Label>
-                <InputGroup>
-                  <InputGroup.Text style={{ backgroundColor: "#E9ECEF" }}>
-                    <i className="bi bi-lock-fill"></i>
-                  </InputGroup.Text>
-                  <Form.Control
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Mật khẩu"
-                    value={password}
-                    onChange={handleinputPassword}
-                    isInvalid={!!errors.password}
-                  />
-                  <Button
-                    onMouseDown={() => setShowPassword(true)}
-                    onMouseUp={() => setShowPassword(false)}
-                    onMouseLeave={() => setShowPassword(false)}
-                    tabIndex={-1}
-                    style={{ backgroundColor: "#E9ECEF", border: "none" }}
-                  >
-                    <i
-                      className={`bi text-black ${
-                        showPassword ? "bi-eye-slash-fill" : "bi-eye-fill"
-                      }`}
-                    ></i>
-                  </Button>
-                  <Form.Control.Feedback
-                    type="invalid"
-                    style={{ display: "block", minHeight: "25px" }}
-                  >
-                    {error === null ? errors.password : error}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
+                <Form noValidate>
+                  <Form.Group className="mb-3" controlId="formEmail">
+                    <Form.Label>Email</Form.Label>
+                    <InputGroup>
+                      <InputGroup.Text>
+                        <i className="bi bi-envelope-fill" />
+                      </InputGroup.Text>
+                      <Form.Control
+                        type="text"
+                        placeholder="Email"
+                        value={email}
+                        onChange={handleinputEmail}
+                        isInvalid={!!errors.email}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.email}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </Form.Group>
 
-              <Form.Group className="mb-3" id="formGridCheckbox">
-                <div className="d-flex justify-content-end align-items-center">
-                  <Link to="/quen-mat-khau" style={{ fontSize: "0.9rem" }}>
-                    Quên mật khẩu?
+                  <Form.Group className="mb-3" controlId="formPassword">
+                    <Form.Label>Mật khẩu</Form.Label>
+                    <InputGroup>
+                      <InputGroup.Text>
+                        <i className="bi bi-lock-fill" />
+                      </InputGroup.Text>
+                      <Form.Control
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Mật khẩu"
+                        value={password}
+                        onChange={handleinputPassword}
+                        isInvalid={!!errors.password || !!error}
+                      />
+                      <Button
+                        onMouseDown={() => setShowPassword(true)}
+                        onMouseUp={() => setShowPassword(false)}
+                        onMouseLeave={() => setShowPassword(false)}
+                        style={{ backgroundColor: "#E9ECEF", border: "none" }}
+                      >
+                        <i
+                          className={`bi text-black ${
+                            showPassword ? "bi-eye-slash-fill" : "bi-eye-fill"
+                          }`}
+                        />
+                      </Button>
+                      <Form.Control.Feedback type="invalid">
+                        {error || errors.password}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </Form.Group>
+
+                  <div className="d-flex justify-content-end mb-3">
+                    <Link to="/quen-mat-khau" className="small">
+                      Quên mật khẩu?
+                    </Link>
+                  </div>
+
+                  <div className="d-flex justify-content-center">
+                    <ButtonCustom
+                      bgrColor="#E14654"
+                      text={
+                        isLoading ? (
+                          <>
+                            <Spinner
+                              animation="border"
+                              size="sm"
+                              className="me-2"
+                            />
+                            Đăng nhập
+                          </>
+                        ) : (
+                          "Đăng nhập"
+                        )
+                      }
+                      icon={!isLoading && "bi bi-box-arrow-in-right fs-5 me-2"}
+                      onClick={handleLogin}
+                      disabled={isLoading}
+                    />
+                  </div>
+                </Form>
+
+                <div className="d-flex align-items-center my-3">
+                  <div className="flex-grow-1">
+                    <hr />
+                  </div>
+                  <div className="px-3 text-muted">hoặc đăng nhập bằng</div>
+                  <div className="flex-grow-1">
+                    <hr />
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-center gap-3">
+                  <GoogleLogin
+                    onSuccess={(res) => dispatch(googleLogin(res.credential))}
+                    onError={() => console.log("Google login thất bại")}
+                    useOneTap={false}
+                  />
+                </div>
+              </Col>
+
+              <Col xs={12} lg={6} className="position-relative p-0">
+                <div className="w-100 h-100">
+                  <img
+                    src={bookstoreImg}
+                    alt="bookstore"
+                    className="w-100 h-100 img-fluid"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+                <div
+                  className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white text-center px-3"
+                  style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
+                >
+                  <h2 className="fw-bold mb-3">
+                    Chào mừng bạn đến với Booklovers!
+                  </h2>
+                  <p className="fs-5 mb-4">
+                    Khám phá thế giới tri thức, kết nối với hàng ngàn đầu sách
+                    hấp dẫn ngay hôm nay.
+                  </p>
+                  <Link to="/dang-ky">
+                    <Button
+                      variant="light"
+                      className="fw-bold px-4 py-2"
+                      style={{ color: "#E14654", border: "2px solid white" }}
+                    >
+                      Tạo tài khoản mới
+                    </Button>
                   </Link>
                 </div>
-              </Form.Group>
-            </Form>
-
-            <div className="d-flex justify-content-center align-items-center">
-              <ButtonCustom
-                bgrColor="#E14654"
-                text={
-                  isLoading ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                        className="me-2"
-                      />
-                      <span>Đăng nhập</span>
-                    </>
-                  ) : (
-                    "Đăng nhập"
-                  )
-                }
-                icon={!isLoading && "bi bi-box-arrow-in-right fs-5 me-2"}
-                onClick={handleLogin}
-                disabled={isLoading}
-              />
-            </div>
-
-            <div className="d-flex align-items-center my-3">
-              <div className="flex-grow-1">
-                <hr />
-              </div>
-              <div className="px-3 text-muted" style={{ whiteSpace: "nowrap" }}>
-                hoặc đăng nhập bằng
-              </div>
-              <div className="flex-grow-1">
-                <hr />
-              </div>
-            </div>
-
-            <div className="d-flex justify-content-center gap-3 pb-3">
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  const token = credentialResponse.credential;
-                  dispatch(googleLogin(token));
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-                useOneTap={false}
-                auto_select={false}
-              />
-              {/* <FacebookLogin
-                appId="1794199801481411"
-                autoLoad={false}
-                fields="name,email,picture"
-                callback={responseFacebook}
-                icon="fa-facebook"
-                textButton="&nbsp;Đăng nhập Facebook"
-                cssClass="btn btn-primary"
-              /> */}
-            </div>
-          </div>
-
-          <div
-            style={{
-              flex: 1,
-              height: "200px",
-              maxHeight: "480px",
-              overflow: "hidden",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              position: "relative",
-              backgroundColor: "red",
-            }}
-          >
-            {/* <img src={bookstoreImg} className="h-100" alt="bookstore" /> */}
-            <div
-              style={{
-                position: "absolute",
-                // backgroundColor: "rgba(0,0,0,0.7)",
-                backgroundColor: "red",
-                top: "0",
-                right: "0",
-                left: "0",
-                bottom: "0",
-                color: "white",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            >
-              <h2 style={{ fontWeight: "bold", marginBottom: "20px" }}>
-                Chào mừng bạn đến với Booklovers!
-              </h2>
-              <p style={{ fontSize: "1.1rem", marginBottom: "30px" }}>
-                Khám phá thế giới tri thức, kết nối với hàng ngàn đầu sách hấp
-                dẫn ngay hôm nay.
-              </p>
-              <Link to="/dang-ky">
-                <Button
-                  variant="light"
-                  style={{
-                    fontWeight: "bold",
-                    color: "#E14654",
-                    border: "2px solid white",
-                    padding: "10px 20px",
-                  }}
-                >
-                  Tạo tài khoản mới
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </div>
     </Container>
   );

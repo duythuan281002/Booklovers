@@ -108,10 +108,10 @@ const ResetPassword = () => {
   };
 
   return (
-    <Container className="pb-5">
+    <Container>
       <Breadcrumb items={breadcrumbItems} />
-      <Row className="justify-content-center align-items-center">
-        <Col md={8}>
+      <Row className="justify-content-center align-items-center pb-5 pt-3">
+        <Col md={12} lg={10}>
           <Card className="border-0 overflow-hidden">
             <Row>
               <Col
@@ -141,7 +141,7 @@ const ResetPassword = () => {
               <Col md={6} className="bg-white ps-5 pe-5 pt-3 pb-3">
                 <h4 className="mb-4 text-center fw-bold">Đặt lại mật khẩu</h4>
                 <Form>
-                  <Form.Group className="mb-1" controlId="formPassword">
+                  <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label>Mật khẩu mới</Form.Label>
                     <InputGroup>
                       <InputGroup.Text style={{ backgroundColor: "#E9ECEF" }}>
@@ -169,14 +169,14 @@ const ResetPassword = () => {
                       </Button>
                       <Form.Control.Feedback
                         type="invalid"
-                        style={{ minHeight: "20px", display: "block" }}
+                        style={{ display: "block" }}
                       >
                         {errors.password}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </Form.Group>
 
-                  <Form.Group className="mb-2" controlId="formConfirmPassword">
+                  <Form.Group controlId="formConfirmPassword">
                     <Form.Label>Xác nhận mật khẩu mới</Form.Label>
                     <InputGroup>
                       <InputGroup.Text style={{ backgroundColor: "#E9ECEF" }}>
@@ -204,14 +204,14 @@ const ResetPassword = () => {
                       </Button>
                       <Form.Control.Feedback
                         type="invalid"
-                        style={{ minHeight: "20px", display: "block" }}
+                        style={{ display: "block" }}
                       >
                         {errors.confirmPassword}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </Form.Group>
 
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center mt-3">
                     <ButtonCustom
                       text={
                         loading ? (

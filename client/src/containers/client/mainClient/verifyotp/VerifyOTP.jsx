@@ -74,10 +74,10 @@ const VerifyOTP = () => {
   };
 
   return (
-    <Container className="pb-5">
+    <Container>
       <Breadcrumb items={breadcrumbItems} />
-      <Row className="justify-content-center align-items-center">
-        <Col md={8}>
+      <Row className="justify-content-center align-items-center pb-5 pt-3">
+        <Col md={12} lg={10}>
           <Card className=" border-0  overflow-hidden">
             <Row>
               <Col
@@ -123,13 +123,13 @@ const VerifyOTP = () => {
                     />
                     <Form.Control.Feedback
                       type="invalid"
-                      style={{ minHeight: "20px", display: "block" }}
+                      style={{ display: "block" }}
                     >
                       {error}
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <div className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex mt-3 justify-content-between align-items-center">
                     <ButtonCustom
                       bgrColor="#D14552"
                       text={
