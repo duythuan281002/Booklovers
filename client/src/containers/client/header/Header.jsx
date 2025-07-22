@@ -101,8 +101,9 @@ const Header = () => {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-lg-0"
-              // style={{ maxHeight: "100px", flex: "1" }}
+              // className="d-flex justify-content-center my-2 my-lg-0"
+              className="d-flex justify-content-center"
+              style={{ flex: "1" }}
             >
               <NavLink
                 to="/"

@@ -155,8 +155,6 @@ const ProductPage = () => {
     });
   };
 
-  console.log(tempCateSlug, subcategorySlug);
-
   return (
     <Container>
       <Breadcrumb items={breadcrumbItems} />

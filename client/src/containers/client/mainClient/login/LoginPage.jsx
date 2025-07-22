@@ -122,14 +122,14 @@ const LoginPage = () => {
     <Container>
       <Breadcrumb items={breadcrumbItems} />
       <div
-        className="d-flex justify-content-center mb-4 align-items-center bg-white"
+        className="d-flex  justify-content-center mb-4 align-items-center bg-white"
         style={{ padding: "60px 0" }}
       >
         <div
-          className="d-flex justify-content-center align-items-center"
+          className="d-flex flex-column  flex-lg-row justify-content-center align-items-center"
           style={{
             width: "80%",
-            height: "480px",
+            // height: "480px",
             boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
             backgroundColor: "#F8F9FA",
           }}
@@ -137,13 +137,13 @@ const LoginPage = () => {
           <div
             style={{
               flex: 1,
-              maxWidth: "50%",
-              padding: "0 40px",
-              margin: "0 auto",
+              // maxWidth: "50%",
+              // padding: "0 40px",
+              // margin: "0 auto",
             }}
           >
-            <h3 className="text-center">Đăng nhập</h3>
-            <Form noValidate>
+            <h3 className="text-center mt-3">Đăng nhập</h3>
+            <Form noValidat className="ps-5 pe-5" e>
               <Form.Group className="mb-1" controlId="formEmail">
                 <Form.Label>Email</Form.Label>
                 <InputGroup>
@@ -248,22 +248,7 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <div className="d-flex justify-content-center gap-3">
-              {/* <Button
-                className=" d-flex align-items-center"
-                style={{
-                  border: "1px solid black",
-                  backgroundColor: "white",
-                  color: "black",
-                }}
-              >
-                <div className="d-flex align-items-center justify-content-center me-2">
-                  <img src={logoGG} width="24" height="24" alt="gg" />
-                </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <span>Đăng nhập Google</span>
-                </div>
-              </Button> */}
+            <div className="d-flex justify-content-center gap-3 pb-3">
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
                   const token = credentialResponse.credential;
@@ -275,21 +260,6 @@ const LoginPage = () => {
                 useOneTap={false}
                 auto_select={false}
               />
-              {/* <Button
-                className=" d-flex align-items-center"
-                style={{
-                  border: "none",
-                  backgroundColor: "#3b5998",
-                  color: "white",
-                }}
-              >
-                <div className="d-flex align-items-center justify-content-center me-2">
-                  <img src={logoFB} width="24" height="24" alt="fb" />
-                </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <span>Đăng nhập Facebook</span>
-                </div>
-              </Button> */}
               {/* <FacebookLogin
                 appId="1794199801481411"
                 autoLoad={false}
@@ -305,20 +275,22 @@ const LoginPage = () => {
           <div
             style={{
               flex: 1,
-              maxWidth: "50%",
-              height: "100%",
+              height: "200px",
+              maxHeight: "480px",
               overflow: "hidden",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
+              backgroundColor: "red",
             }}
           >
-            <img src={bookstoreImg} className="h-100" alt="bookstore" />
+            {/* <img src={bookstoreImg} className="h-100" alt="bookstore" /> */}
             <div
               style={{
                 position: "absolute",
-                backgroundColor: "rgba(0,0,0,0.7)",
+                // backgroundColor: "rgba(0,0,0,0.7)",
+                backgroundColor: "red",
                 top: "0",
                 right: "0",
                 left: "0",

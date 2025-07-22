@@ -144,6 +144,11 @@ const CartPage = () => {
       const item = cartItems.find((i) => i.cart_item_id === cartItemId);
       if (!item) return;
 
+      if (item.quantity <= 1) {
+        setIsLoading(false);
+        return;
+      }
+
       const newQty = item.quantity - 1;
 
       dispatch(updateItemQuantity({ itemId: cartItemId, quantity: newQty }));
