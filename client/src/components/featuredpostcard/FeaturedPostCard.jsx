@@ -50,7 +50,11 @@ const FeaturedPostCard = ({ blog }) => {
             }}
             className="text-muted"
           >
-            {blog.date}
+            {new Date(blog.date).toLocaleDateString("vi-VN", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
           </Card.Text>
         </div>
       </div>

@@ -77,7 +77,7 @@ const BlogPage = () => {
             </div>
             {totalPages < 1 && (
               <div className="d-flex justify-content-end">
-                <Pagination>...</Pagination>
+                <Pagination></Pagination>
               </div>
             )}
             {totalPages > 1 && (
