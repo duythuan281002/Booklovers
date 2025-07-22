@@ -320,7 +320,7 @@ const ProductPage = () => {
               ))}
             </Form>
           </div>
-          <div className="p-2">
+          <div className="p-2 d-none d-md-block">
             <Image src={imgnav} fluid />
           </div>
         </Col>
@@ -328,7 +328,10 @@ const ProductPage = () => {
         <Col md={checkedswitch === true ? 9 : 12}>
           <Container>
             <Row className="align-items-center mb-2">
-              <Col md={checkedswitch === true ? 2 : 4}>
+              <Col
+                className="d-none d-md-block"
+                md={checkedswitch === true ? 2 : 4}
+              >
                 <Form>
                   <Form.Check
                     type="switch"
@@ -339,7 +342,7 @@ const ProductPage = () => {
                   />
                 </Form>
               </Col>
-              <Col md={checkedswitch === true ? 6 : 5}>
+              <Col md={checkedswitch === true ? 6 : 5} className="mt-3 mt-md-0">
                 <InputGroup className="d-flex- justify-content-end">
                   <FormControl
                     placeholder="Tìm kiếm sản phẩm..."
@@ -354,7 +357,7 @@ const ProductPage = () => {
                   </InputGroup.Text> */}
                 </InputGroup>
               </Col>
-              <Col md={checkedswitch === true ? 4 : 3}>
+              <Col md={checkedswitch === true ? 4 : 3} className="mt-2 mt-md-0">
                 <Form.Select
                   value={sort}
                   onChange={(e) => {
@@ -373,7 +376,10 @@ const ProductPage = () => {
 
             <Row className="mb-2">
               <div className="filter-result ">
-                <span className="result-count" style={{ color: "#888" }}>
+                <span
+                  className="result-count mt-2 mb-2 mt-md-0 mb-md-0"
+                  style={{ color: "#888" }}
+                >
                   {total && total} kết quả
                 </span>
                 {selectedPrices.map((value, index) => {
@@ -400,7 +406,9 @@ const ProductPage = () => {
               {listBook && listBook.length > 0 ? (
                 listBook.map((book, idx) => (
                   <Col
-                    md={checkedswitch === true ? 3 : 2}
+                    xs={6}
+                    md={checkedswitch === true ? 4 : 3}
+                    lg={checkedswitch === true ? 3 : 2}
                     key={idx}
                     className="mb-4"
                   >

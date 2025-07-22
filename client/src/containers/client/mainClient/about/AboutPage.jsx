@@ -145,8 +145,8 @@ const AboutPage = () => {
     <div>
       <Container>
         <Breadcrumb items={breadcrumbItems} />
-        <Row className="align-items-center" style={{ padding: "60px 0" }}>
-          <Col md={5} className="mb-4 mb-md-0">
+        <Row className="align-items-center py-lg-5">
+          <Col md={12} lg={5} className="mb-4 mb-md-0">
             <h2 className="fw-bold mb-3">
               Khám phá <span style={{ color: "#E35765" }}>Thế Giới Sách</span>{" "}
               đầy cảm hứng
@@ -173,8 +173,9 @@ const AboutPage = () => {
           </Col>
 
           <Col
-            md={6}
-            className="position-relative d-flex justify-content-center"
+            lg={6}
+            md={12}
+            className="position-relative d-flex justify-content-center mt-lg-0 mt-5"
           >
             <div
               className="position-relative"
@@ -383,7 +384,7 @@ const AboutPage = () => {
               </Button>
             </div>
           </Col>
-          <Col md={6} className="text-center">
+          <Col md={6} className="text-center mt-3 mt-md-0">
             <Image
               src={aboutlast}
               alt="Thiết bị hiển thị"

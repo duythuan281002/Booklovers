@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 const AboutBanner = () => {
   const navigate = useNavigate();
   return (
-    <Container className="py-5">
+    <Container className="py-4">
       <Row className="align-items-center">
-        <Col md={6} className="text-center mb-4 mb-md-0">
+        <Col xs={12} lg={6} className="text-center mb-4 mb-md-0">
           <Image
             src={aboutbanner}
             alt="Founder"
@@ -19,7 +19,11 @@ const AboutBanner = () => {
           />
         </Col>
 
-        <Col md={6} style={{ paddingRight: "100px" }}>
+        <Col
+          xs={12}
+          lg={6}
+          className="text-center text-lg-start mt-4 mt-lg-0 d-flex flex-column justify-content-center align-items-center align-items-lg-start"
+        >
           <h5 className="text-uppercase text-muted fw-bold mb-2">
             Về Chúng Tôi
           </h5>

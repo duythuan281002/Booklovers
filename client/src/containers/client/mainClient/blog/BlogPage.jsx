@@ -54,13 +54,13 @@ const BlogPage = () => {
       <Breadcrumb items={breadcrumbBlog} />
 
       <Row>
-        <Col md={8}>
+        <Col md={12} lg={8}>
           <h3 className="mb-4">Tất cả Bài Viết</h3>
 
           <Row className="g-4">
             {listBlog &&
               listBlog.map((post, idx) => (
-                <Col key={idx} md={6} lg={4}>
+                <Col key={idx} xs={12} md={6} lg={4}>
                   <BlogPostCard post={post} />
                 </Col>
               ))}
@@ -114,12 +114,12 @@ const BlogPage = () => {
           </div>
         </Col>
 
-        <Col md={4}>
+        <Col md={12} lg={4}>
           <h3 className="mb-4">Bài Viết Nổi Bật</h3>
           <Row className="g-3">
             {listFeatured &&
               listFeatured.map((blog, idx) => (
-                <Col key={idx} md={12}>
+                <Col key={idx} md={6} lg={12}>
                   <FeaturedPostCard blog={blog} />
                 </Col>
               ))}

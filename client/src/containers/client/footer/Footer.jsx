@@ -24,46 +24,51 @@ const Footer = () => {
     <div className="bg-white">
       <Container className="py-4">
         <Row className="text-center fw-bold">
-          <Col md={3}>
+          <Col xs={6} lg={3}>
             <i className="bi bi-truck colorPri fs-1"></i>
             <div className="colorPri">MIỄN PHÍ VẬN CHUYỂN</div>
             <small className="fw-normal" style={{ color: "#666666" }}>
               cho đơn hàng trên 300,000 VNĐ
             </small>
           </Col>
-          <Col md={3}>
+          <Col xs={6} lg={3}>
             <i className="bi bi-cash-coin colorPri fs-1"></i>
             <div className="colorPri">SHIP COD TOÀN QUỐC</div>
             <small className="fw-normal" style={{ color: "#666666" }}>
               Thanh toán khi nhận sách
             </small>
           </Col>
-          <Col md={3}>
+          <Col xs={6} lg={3}>
             <i className="bi bi-emoji-smile colorPri fs-1"></i>
             <div className="colorPri">MIỄN PHÍ ĐỔI TRẢ HÀNG</div>
             <small className="fw-normal" style={{ color: "#666666" }}>
               trong vòng 10 ngày
             </small>
           </Col>
-          <Col md={3}>
+          <Col xs={6} lg={3}>
             <i className="bi bi-telephone-fill colorPri fs-1"></i>
             <div className="colorPri">HOTLINE:</div>
             <small className="fw-normal" style={{ color: "#666666" }}>
-              0764513977 - 0935928351
+              0764513977
             </small>
           </Col>
         </Row>
       </Container>
-      <Container style={{ backgroundColor: "#3C3C3C", padding: "20px 200px" }}>
-        <Row className="align-items-center">
+      <Container
+        className="py-lg-4 px-lg-5 py-md-3 px-md-4 p-3"
+        style={{ backgroundColor: "#3C3C3C" }}
+      >
+        <Row className="align-items-center justify-content-center">
           <Col
-            md={4}
-            className="d-flex align-items-center text-white mb-2 mb-md-0"
+            lg={3}
+            md={5}
+            sm={12}
+            className="d-flex align-items-center justify-content-center text-white mb-2 mb-md-0"
           >
             <i className="bi bi-envelope-fill fs-3 me-3"></i>
             <strong>ĐĂNG KÝ NHẬN BẢN TIN</strong>
           </Col>
-          <Col md={8}>
+          <Col lg={7} md={6} sm={12}>
             <InputGroup>
               <Form.Control
                 type="email"
@@ -89,7 +94,7 @@ const Footer = () => {
       >
         <Container>
           <Row>
-            <Col md={3}>
+            <Col lg={3} className="d-none d-lg-block">
               <Link to="/">
                 <Image
                   src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
@@ -132,55 +137,120 @@ const Footer = () => {
               </div>
             </Col>
 
-            <Col md={3}>
-              <h5 className="fw-bold" style={{ color: "#212529" }}>
-                Dịch vụ
-              </h5>
-              <ul className="list-unstyled ul-foot">
-                <li>Điều khoản sử dụng</li>
-                <li>Chính sách bảo mật</li>
-                <li>Giới thiệu Pibook</li>
-              </ul>
-              <h5 className="fw-bold mt-3">Liên hệ</h5>
-              <p className="d-flex align-items-center">
-                <i
-                  className="bi bi-envelope-fill  fs-6 me-1"
-                  style={{ color: "#444" }}
-                ></i>
-                <span>Hotline: 0764513977</span>
-              </p>
-            </Col>
+            <Col lg={9}>
+              <Row>
+                <Col lg={4} md={4} xs={12}>
+                  <h5 className="fw-bold" style={{ color: "#212529" }}>
+                    Dịch vụ
+                  </h5>
+                  <ul className="list-unstyled ul-foot">
+                    <li>Điều khoản sử dụng</li>
+                    <li>Chính sách bảo mật</li>
+                    <li>Giới thiệu Pibook</li>
+                  </ul>
+                  <h5 className="fw-bold mt-3">Liên hệ</h5>
+                  <p className="mb-1 mb-md-3 d-flex align-items-center justify-content-start text-center text-lg-start">
+                    <i
+                      className="bi bi-telephone-fill fs-6 me-1"
+                      style={{ color: "#444" }}
+                    ></i>
+                    <span>
+                      <span className="d-none d-lg-inline">Hotline: </span>
+                      0764513977
+                    </span>
+                  </p>
+                  <p className="d-flex d-md-none align-items-center justify-content-start text-center text-lg-start">
+                    <i
+                      className="bi bi-envelope-fill  fs-6 me-1"
+                      style={{ color: "#444" }}
+                    ></i>
+                    <span className="mt-md-2 mt-lg-0">
+                      <span className="d-none d-lg-inline">Email: </span>
+                      ndt28dev@gmail.com
+                    </span>
+                  </p>
+                </Col>
 
-            <Col md={3}>
-              <h5 className="fw-bold" style={{ color: "#212529" }}>
-                Hỗ trợ
-              </h5>
-              <ul className="list-unstyled ul-foot">
-                <li>Chính sách đổi - trả - hoàn tiền</li>
-                <li>Phương thức vận chuyển</li>
-                <li>Phương thức thanh toán</li>
-              </ul>
-              <h5 className="fw-bold mt-3" style={{ visibility: "hidden" }}>
-                Liên hệ
-              </h5>
-              <p className="d-flex align-items-centerr">
-                <i
-                  className="bi bi-telephone-fill  fs-6 me-1"
-                  style={{ color: "#444" }}
-                ></i>
-                <span>Email: duythuan2810@gmail.com</span>
-              </p>
-            </Col>
+                <Col lg={4} md={4} xs={12}>
+                  <h5 className="fw-bold" style={{ color: "#212529" }}>
+                    Hỗ trợ
+                  </h5>
+                  <ul className="list-unstyled ul-foot">
+                    <li>Chính sách đổi - trả - hoàn tiền</li>
+                    <li>Phương thức vận chuyển</li>
+                    <li>Phương thức thanh toán</li>
+                  </ul>
+                  <h5
+                    className="fw-bold d-none d-lg-block"
+                    style={{ visibility: "hidden" }}
+                  >
+                    Liên hệ
+                  </h5>
+                  <p className="d-none mt-md-4 mt-lg-0 d-md-flex align-items-center justify-content-start text-center text-lg-start">
+                    <i
+                      className="bi bi-envelope-fill  fs-6 me-1"
+                      style={{ color: "#444" }}
+                    ></i>
+                    <span className="">
+                      <span className="d-none d-lg-inline">Email: </span>
+                      ndt28dev@gmail.com
+                    </span>
+                  </p>
+                </Col>
 
-            <Col md={3}>
-              <h5 className="fw-bold" style={{ color: "#212529" }}>
-                Tài khoản của tôi
-              </h5>
-              <ul className="list-unstyled ul-foot">
-                <li>Đăng nhập/Tạo tài khoản mới</li>
-                <li>Thay đổi địa chỉ khách hàng</li>
-                <li>Lịch sử mua hàng</li>
-              </ul>
+                <Col lg={4} md={4} xs={12}>
+                  <h5 className="fw-bold" style={{ color: "#212529" }}>
+                    Tài khoản của tôi
+                  </h5>
+                  <ul className="list-unstyled ul-foot">
+                    <li>Đăng nhập/Tạo tài khoản mới</li>
+                    <li>Thay đổi địa chỉ khách hàng</li>
+                    <li>Lịch sử mua hàng</li>
+                  </ul>
+                </Col>
+              </Row>
+            </Col>
+            <Col className="d-block d-lg-none">
+              <Link to="/">
+                <Image
+                  src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
+                  style={{ width: "50%" }}
+                  alt="Logo"
+                />
+              </Link>
+              <p className="mt-3">
+                Đ/C: 15 Trương Hán Siêu,Phường Cư Bao,Tỉnh ĐakLak
+              </p>
+              <div className="mt-3 d-flex gap-3">
+                <a
+                  href="https://www.facebook.com/duythuan28102002"
+                  target="_blank"
+                  className="footer-icon"
+                >
+                  <i className="bi bi-facebook fs-5"></i>
+                </a>
+                <a
+                  href="https://www.instagram.com/ndt.gk.28/"
+                  target="_blank"
+                  className="footer-icon"
+                >
+                  <i className="bi bi-instagram fs-5"></i>
+                </a>
+                <a
+                  href="https://www.tiktok.com/@ndt281002"
+                  target="_blank"
+                  className="footer-icon"
+                >
+                  <i className="bi bi-tiktok"></i>
+                </a>
+                <a
+                  href="https://www.youtube.com/@iamchaus2083"
+                  target="_blank"
+                  className="footer-icon"
+                >
+                  <i className="bi bi-youtube fs-5"></i>
+                </a>
+              </div>
             </Col>
           </Row>
         </Container>

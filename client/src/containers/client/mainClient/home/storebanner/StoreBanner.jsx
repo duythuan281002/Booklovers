@@ -8,7 +8,7 @@ const StoreIntro = () => {
   const navigate = useNavigate();
 
   return (
-    <Container className="py-5">
+    <Container className="py-4">
       <Row className="align-items-center">
         <Col md={6}>
           <h5 className="text-uppercase text-muted mb-2">
@@ -37,7 +37,7 @@ const StoreIntro = () => {
             }}
           />
         </Col>
-        <Col md={6}>
+        <Col md={6} className="mt-3 mt-md-0">
           <Image src={storebanner} fluid rounded />
         </Col>
       </Row>

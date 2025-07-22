@@ -155,8 +155,8 @@ const StorePage = () => {
     <div>
       <Container className="">
         <Breadcrumb items={breadcrumbItems} />
-        <Row className="mb-5 py-5 d-flex align-items-center">
-          <Col md={6} style={{ paddingLeft: "100px" }}>
+        <Row className="mb-3 py-2 d-flex align-items-center">
+          <Col md={12} lg={6}>
             <h2 className="mb-3">
               Hệ thống <span style={{ color: "#D14552" }}>BOOKLOVERS</span>
             </h2>
@@ -174,12 +174,12 @@ const StorePage = () => {
             </p>
           </Col>
 
-          <Col md={6} style={{ paddingRight: "100px" }}>
+          <Col md={12} lg={6}>
             <Image src={storeimg} fluid rounded />
           </Col>
         </Row>
         <Row className="mb-5 text-center">
-          <Col md={4} style={{ padding: "0 80px" }}>
+          <Col lg={4} md={12} style={{ padding: "0 80px" }}>
             <i
               className="bi bi-telephone"
               style={{ fontSize: "50px", color: "#D14552" }}
@@ -192,7 +192,7 @@ const StorePage = () => {
             </p>
             <p className="text-primary ">(+84) 76 45 13 977</p>
           </Col>
-          <Col md={4} style={{ padding: "0 80px" }}>
+          <Col lg={4} md={12} style={{ padding: "0 80px" }}>
             <i
               className="bi bi-envelope"
               style={{ fontSize: "50px", color: "#D14552" }}
@@ -205,7 +205,7 @@ const StorePage = () => {
             </p>
             <p className="text-primary ">duythuan2810@gmail.com</p>
           </Col>
-          <Col md={4} style={{ padding: "0 80px" }}>
+          <Col lg={4} md={12} style={{ padding: "0 80px" }}>
             <i
               className="bi bi-pin-map"
               style={{ fontSize: "50px", color: "#D14552" }}

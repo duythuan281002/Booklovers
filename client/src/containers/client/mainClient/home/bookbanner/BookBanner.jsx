@@ -73,7 +73,7 @@ const BookBanner = () => {
       <Container className="mb-4">
         <Row className="g-4 justify-content-center">
           {categories.map((cat, idx) => (
-            <Col md={2} className="mb-4" key={idx}>
+            <Col xs={6} md={4} lg={2} className="mb-4" key={idx}>
               <Link
                 to={cat.to}
                 state={{ id: cat.id, name: cat.name }}
@@ -110,21 +110,21 @@ const BookBanner = () => {
 
       <Container className="book-banner-bottom text-white d-flex align-items-center ">
         <Row className="w-100 g-0 ">
-          <Col md={8}>
+          <Col lg={7} md={12}>
             <Image src={bookbgrbanner} fluid />
           </Col>
           <Col
-            md={4}
-            className="d-flex flex-column justify-content-center align-items-start p-5"
+            lg={5}
+            md={12}
+            className="d-flex flex-column justify-content-center align-items-start p-2 p-md-4 p-lg-5"
             style={{ backgroundColor: "#E35765" }}
           >
-            <p className="small text-uppercase text-white">KHÁM PHÁ KHO SÁCH</p>
-            <h1 className="display-5 fw-bold text-white">TẤT CẢ SẢN PHẨM</h1>
-            {/* <p className="mb-4 text-white">
-              Từ sách kỹ năng, văn học, thiếu nhi đến học thuật – đa dạng thể
-              loại, phù hợp với mọi lứa tuổi và sở thích. Chất lượng đảm bảo,
-              giá cả hợp lý.
-            </p> */}
+            <p className="small text-uppercase text-white mb-2 mb-md-3">
+              KHÁM PHÁ KHO SÁCH
+            </p>
+            <h1 className="display-5 fs-3 fw-bold text-white">
+              TẤT CẢ SẢN PHẨM
+            </h1>
 
             <ButtonCustom
               color="#E35765"

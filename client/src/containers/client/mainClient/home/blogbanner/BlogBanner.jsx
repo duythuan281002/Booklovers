@@ -10,7 +10,7 @@ const BlogBanner = () => {
 
   return (
     <div className="bg-white">
-      <Container className="pt-2 pb-2">
+      <Container className="py-3">
         <Row className="align-items-center gx-5">
           <Col md={4}>
             <p className="text-muted">Sách Nổi Bật</p>
