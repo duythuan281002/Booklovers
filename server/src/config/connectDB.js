@@ -10,12 +10,27 @@ const pool = mysql.createPool({
 export default pool;
 
 // import mysql from "mysql2/promise";
+// import dotenv from "dotenv";
+
+// dotenv.config(); // load biến môi trường từ file .env
 
 // const pool = mysql.createPool({
-//   host: "sql.freedb.tech",
-//   user: "freedb_booklover",
-//   password: "4!NrjA6@EjkyYvH",
-//   database: "freedb_bookstore1",
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_NAME,
+//   port: process.env.DB_PORT || 3306,
+// });
+
+// export default pool;
+
+// import mysql from "mysql2/promise";
+
+// const pool = mysql.createPool({
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_NAME,
 // });
 
 // export default pool;

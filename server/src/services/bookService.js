@@ -54,6 +54,7 @@ const getAllBooks = async (
       sortClause = "ORDER BY b.created_at DESC";
       break;
     case "discount-desc":
+      whereClause += " AND b.discount > 0";
       sortClause = "ORDER BY b.discount DESC";
       break;
     case "price-asc":
