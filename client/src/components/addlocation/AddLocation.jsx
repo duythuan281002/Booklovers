@@ -137,8 +137,6 @@ const AddLocation = ({ show, handleClose, user, itemUpAddress }) => {
     handleClose();
   };
 
-  console.log(itemUpAddress);
-
   return (
     <Modal show={show} onHide={handleCancel} centered size="lg">
       <Modal.Header closeButton>
