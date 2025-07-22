@@ -36,7 +36,7 @@ export const fetchAllBook = createAsyncThunk(
       }
 
       const response = await axios.get(
-        `https://thuansever-production.up.railway.app/api/books?${params.toString()}`
+        `https://serverbooklovers-production.up.railway.app/api/books?${params.toString()}`
       );
 
       return {
@@ -56,7 +56,7 @@ export const fetchBookById = createAsyncThunk(
   async (bookId, thunkAPI) => {
     try {
       const response = await axios.get(
-        `https://thuansever-production.up.railway.app/api/book/${bookId}`
+        `https://serverbooklovers-production.up.railway.app/api/book/${bookId}`
       );
       return response.data.data;
     } catch (error) {

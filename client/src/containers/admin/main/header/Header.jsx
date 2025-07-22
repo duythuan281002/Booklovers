@@ -59,7 +59,7 @@ const Header = ({ isTheme, handleTheme }) => {
             <div className="d-flex align-items-center">
               <div style={{ width: "40px", height: "40px" }}>
                 <Image
-                  src={`https://thuansever-production.up.railway.app/avatar/${userLogin.avatar}`}
+                  src={`https://serverbooklovers-production.up.railway.app/avatar/${userLogin.avatar}`}
                   roundedCircle
                   style={{
                     width: "100%",

@@ -141,7 +141,7 @@ const DetailProduct = () => {
             <Row>
               <Col md={5}>
                 <Image
-                  src={`https://thuansever-production.up.railway.app/uploads/${mainImage}`}
+                  src={`https://serverbooklovers-production.up.railway.app/uploads/${mainImage}`}
                   alt={book.name}
                   fluid
                   thumbnail
@@ -161,7 +161,7 @@ const DetailProduct = () => {
                       return (
                         <Image
                           key={index}
-                          src={`https://thuansever-production.up.railway.app/uploads/${img.image_url}`}
+                          src={`https://serverbooklovers-production.up.railway.app/uploads/${img.image_url}`}
                           thumbnail
                           onClick={() => setMainImage(img.image_url)}
                           style={{

@@ -6,7 +6,7 @@ export const fetchCartFromServer = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        "https://thuansever-production.up.railway.app/api/cart",
+        "https://serverbooklovers-production.up.railway.app/api/cart",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -25,7 +25,7 @@ export const addItemToCartAsync = createAsyncThunk(
   async ({ bookId, quantity }, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://thuansever-production.up.railway.app/api/cart/add",
+        "https://serverbooklovers-production.up.railway.app/api/cart/add",
         { bookId, quantity },
         {
           headers: {
@@ -45,7 +45,7 @@ export const updateItemQuantity = createAsyncThunk(
   async ({ itemId, quantity }, { rejectWithValue }) => {
     try {
       const res = await axios.put(
-        `https://thuansever-production.up.railway.app/api/cart/item/${itemId}`,
+        `https://serverbooklovers-production.up.railway.app/api/cart/item/${itemId}`,
         { quantity },
         {
           headers: {
@@ -68,7 +68,7 @@ export const removeItemFromCart = createAsyncThunk(
   async (itemId, { rejectWithValue }) => {
     try {
       const res = await axios.delete(
-        `https://thuansever-production.up.railway.app/api/cart/item/${itemId}`,
+        `https://serverbooklovers-production.up.railway.app/api/cart/item/${itemId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -87,7 +87,7 @@ export const applyPromotionCode = createAsyncThunk(
   async (code, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://thuansever-production.up.railway.app/api/promotion/apply",
+        "https://serverbooklovers-production.up.railway.app/api/promotion/apply",
         {
           code,
         }

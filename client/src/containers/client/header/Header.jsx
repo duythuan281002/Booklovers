@@ -92,9 +92,9 @@ const Header = () => {
       <Navbar expand="lg" className="bg-white">
         <Container>
           <Navbar.Brand as={Link} to="/">
-            {/* <Image src="https://thuansever-production.up.railway.app/logo/logo-1.webp" alt="Logo" /> */}
+            {/* <Image src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp" alt="Logo" /> */}
             <Image
-              src="https://thuansever-production.up.railway.app/logo/logo-1.webp"
+              src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
               alt="Logo"
             />
           </Navbar.Brand>
@@ -287,7 +287,7 @@ const Header = () => {
                           src={
                             user?.avatar?.startsWith("https://")
                               ? user.avatar
-                              : `https://thuansever-production.up.railway.app/avatar/${user?.avatar}`
+                              : `https://serverbooklovers-production.up.railway.app/avatar/${user?.avatar}`
                           }
                           roundedCircle
                           style={{

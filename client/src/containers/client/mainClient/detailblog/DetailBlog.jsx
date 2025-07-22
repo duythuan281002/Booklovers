@@ -67,7 +67,7 @@ const DetailBlog = () => {
                 </Card.Text>
                 <Card.Img
                   variant="top"
-                  src={`https://thuansever-production.up.railway.app/blogs/${blogDetail.image}`}
+                  src={`https://serverbooklovers-production.up.railway.app/blogs/${blogDetail.image}`}
                   style={{
                     maxHeight: 300,
                     objectFit: "cover",

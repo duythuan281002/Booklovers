@@ -438,7 +438,7 @@ const PayPage = () => {
                 {itemSelect.map((item, index) => (
                   <div className="d-flex mb-3 border-bottom pb-2" key={index}>
                     <Image
-                      src={`https://thuansever-production.up.railway.app/uploads/${item.image}`}
+                      src={`https://serverbooklovers-production.up.railway.app/uploads/${item.image}`}
                       width={50}
                       height={60}
                       rounded

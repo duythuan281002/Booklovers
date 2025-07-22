@@ -6,7 +6,7 @@ export const fetchCategoriesWithSub = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        "https://thuansever-production.up.railway.app/api/menu"
+        "https://serverbooklovers-production.up.railway.app/api/menu"
       );
       return res.data.data;
     } catch (err) {

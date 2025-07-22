@@ -43,7 +43,7 @@ const AddUser = () => {
   const [deliveryList, setDeliveryList] = useState([]);
 
   const [avatarPreview, setAvatarPreview] = useState(
-    "https://thuansever-production.up.railway.app/avatar/default.jpg"
+    "https://serverbooklovers-production.up.railway.app/avatar/default.jpg"
   );
 
   const handleAdd = () => {
@@ -85,7 +85,7 @@ const AddUser = () => {
       setRole("");
       setAvatar(null);
       setAvatarPreview(
-        "https://thuansever-production.up.railway.app/avatar/default.jpg"
+        "https://serverbooklovers-production.up.railway.app/avatar/default.jpg"
       );
       fileInputRef.current.value = null;
 

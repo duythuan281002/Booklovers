@@ -92,7 +92,7 @@ const Footer = () => {
             <Col md={3}>
               <Link to="/">
                 <Image
-                  src="https://thuansever-production.up.railway.app/logo/logo-1.webp"
+                  src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
                   style={{ width: "90%" }}
                   alt="Logo"
                 />
