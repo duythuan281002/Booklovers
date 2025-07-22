@@ -101,8 +101,8 @@ const Header = () => {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="my-2 my-lg-0 d-flex justify-content-center"
-              style={{ maxHeight: "100px", flex: "1" }}
+              className="me-auto my-2 my-lg-0"
+              // style={{ maxHeight: "100px", flex: "1" }}
             >
               <NavLink
                 to="/"
@@ -114,7 +114,7 @@ const Header = () => {
                 Trang chủ
               </NavLink>
 
-              <div className="megamenu">
+              <div className="megamenu ">
                 <div
                   className={`nav-link1 ${isProductActive ? "nav-active" : ""}`}
                   onClick={() => {
@@ -123,7 +123,7 @@ const Header = () => {
                 >
                   Sản phẩm
                 </div>
-                <div className="dropdown-menu megamenu-content">
+                <div className="dropdown-menu megamenu-content ">
                   <ul className="menu-level-1">
                     {categories.map((cat) => (
                       <li className="menu-item" key={cat.id}>
@@ -196,17 +196,11 @@ const Header = () => {
               </NavLink>
             </Nav>
             <Nav
-              className="d-flex align-item-center"
+              className="d-flex align-items-center justify-content-between "
               style={{ userSelect: "none" }}
             >
-              {/* <div
-                className="d-flex align-items-center justify-content-center  fs-5 rounded-circle me-2"
-                style={{ width: "40px", height: "40px", cursor: "pointer" }}
-              >
-                <i className="bi bi-search fs-4"></i>
-              </div> */}
               <div
-                className="cart d-flex align-items-center justify-content-center me-2"
+                className="cart d-flex align-items-center justify-content-center mb-2 mb-lg-0 me-2"
                 style={{
                   width: "40px",
                   height: "40px",

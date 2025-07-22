@@ -528,7 +528,12 @@ const PayPage = () => {
                 <hr />
                 <div className="d-flex justify-content-between fw-bold">
                   <span>Tổng cộng</span>
-                  <span>{total.toLocaleString("vi-VN")}₫</span>
+                  <span>
+                    {total.toLocaleString("vi-VN") > 0
+                      ? total.toLocaleString("vi-VN")
+                      : "0"}
+                    ₫
+                  </span>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-3">
