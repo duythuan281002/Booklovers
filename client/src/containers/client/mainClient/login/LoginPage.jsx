@@ -231,7 +231,7 @@ const LoginPage = () => {
                 </div>
               </Col>
 
-              <Col md={6} className="position-relative p-0 d-none d-md-block">
+              <Col md={6} className="position-relative p-0 ">
                 <div className="w-100 h-100">
                   <img
                     src={bookstoreImg}

@@ -255,6 +255,35 @@ const Register = () => {
                   />
                 </div>
               </Col>
+              <Col md={6} className="position-relative p-0 d-block d-md-none">
+                <img
+                  src={bookstoreImg}
+                  alt="bookstore"
+                  className="w-100 h-100"
+                  style={{ objectFit: "cover", minHeight: "400px" }}
+                />
+                <div
+                  className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white text-center px-3"
+                  style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+                >
+                  <h2 className="fw-bold mb-4">
+                    Gia nhập cộng đồng Booklovers!
+                  </h2>
+                  <p className="fs-5 mb-4">
+                    Cùng hàng ngàn người yêu sách khám phá kho tàng tri thức
+                    phong phú và đa dạng.
+                  </p>
+                  <span className="fs-6">
+                    Bạn đã có tài khoản?
+                    <Link
+                      to="/dang-nhap"
+                      className="text-warning text-decoration-underline ms-1"
+                    >
+                      Đăng nhập ngay
+                    </Link>
+                  </span>
+                </div>
+              </Col>
             </Row>
           </Col>
         </Row>
