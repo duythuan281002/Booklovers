@@ -170,7 +170,7 @@ const ProductPage = () => {
           }}
         >
           {!categorySlug && !subcategorySlug && (
-            <div className="filter-section">
+            <div className="filter-section d-none d-md-block">
               <h5 className="filter-section-title mb-2 fw-bold">Danh mục</h5>
               <ul className="list-unstyled category-list">
                 {categories.map((cat, idx) => (
@@ -217,6 +217,40 @@ const ProductPage = () => {
                         ))}
                       </ul>
                     )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {!categorySlug && !subcategorySlug && (
+            <div className="filter-section d-block d-md-none">
+              <h5 className="filter-section-title mb-2 fw-bold">Danh mục</h5>
+              <ul className="list-unstyled category-list">
+                {categories.map((cat, idx) => (
+                  <li
+                    key={cat.id}
+                    className={`category-item ${
+                      activeCategory === idx ? "active" : ""
+                    }`}
+                    onMouseEnter={() => setActiveCategory(idx)}
+                    onMouseLeave={() => setActiveCategory(null)}
+                  >
+                    <div className="d-flex justify-content-between align-items-center">
+                      <NavLink
+                        to={`/san-pham/danh-muc/${slugify(cat.name, {
+                          lower: true,
+                          locale: "vi",
+                        })}`}
+                        state={{
+                          id: cat.id,
+                          name: cat.name,
+                        }}
+                        className="dropdown-item flex-grow-1"
+                      >
+                        {cat.name}
+                      </NavLink>
+                      <i className="bi bi-chevron-right category-item-icon"></i>
+                    </div>
                   </li>
                 ))}
               </ul>
