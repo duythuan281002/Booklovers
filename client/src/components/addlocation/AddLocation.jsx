@@ -31,18 +31,26 @@ const AddLocation = ({ show, handleClose, user, itemUpAddress }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (itemUpAddress) {
-      setFormData({
-        fullname: itemUpAddress.fullname || user.fullname,
-        phone: itemUpAddress.phone || user.phone,
-        // province: itemUpAddress.address || "",
-        // district: itemUpAddress.address || "",
-        // ward: itemUpAddress.address || "",
-        address: itemUpAddress.address || "",
-        isDefault: itemUpAddress.is_default === 1 || false,
-      });
+    if (show) {
+      if (itemUpAddress) {
+        setFormData({
+          fullname: itemUpAddress.fullname || user.fullname || "",
+          phone: itemUpAddress.phone ?? user.phone ?? "",
+          address: itemUpAddress.address || "",
+          isDefault: itemUpAddress.is_default === 1,
+        });
+      } else {
+        setFormData({
+          fullname: user.fullname || "",
+          phone: user.phone || "",
+          address: "",
+          isDefault: false,
+        });
+      }
+      setErrors({});
     }
-  }, [itemUpAddress]);
+  }, [show, itemUpAddress]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -65,19 +73,16 @@ const AddLocation = ({ show, handleClose, user, itemUpAddress }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.fullname.trim())
+    if (!formData.fullname || !formData.fullname.trim())
       newErrors.fullname = "Họ tên không được bỏ trống";
-    if (!formData.phone.trim()) {
+
+    if (!formData.phone || !formData.phone.trim()) {
       newErrors.phone = "Số điện thoại không được bỏ trống";
-    }
-    if (!/^0\d{9}$/.test(formData.phone)) {
+    } else if (!/^0\d{9}$/.test(formData.phone.trim())) {
       newErrors.phone = "Số điện thoại không hợp lệ";
     }
 
-    // if (!formData.province) newErrors.province = "Chọn tỉnh thành";
-    // if (!formData.district) newErrors.district = "Chọn quận huyện";
-    // if (!formData.ward) newErrors.ward = "Chọn phường xã";
-    if (!formData.address.trim())
+    if (!formData.address || !formData.address.trim())
       newErrors.address = "Địa chỉ không được bỏ trống";
 
     setErrors(newErrors);
@@ -127,8 +132,15 @@ const AddLocation = ({ show, handleClose, user, itemUpAddress }) => {
     }
   }, [success, successUp, show, handleClose]);
 
+  const handleCancel = () => {
+    // setErrors({});
+    handleClose();
+  };
+
+  console.log(itemUpAddress);
+
   return (
-    <Modal show={show} onHide={handleClose} centered size="lg">
+    <Modal show={show} onHide={handleCancel} centered size="lg">
       <Modal.Header closeButton>
         <Modal.Title>
           {itemUpAddress && Object.keys(itemUpAddress).length > 0
@@ -242,7 +254,7 @@ const AddLocation = ({ show, handleClose, user, itemUpAddress }) => {
           </Form.Group>
 
           <div className="text-end">
-            <Button variant="secondary" className="me-2" onClick={handleClose}>
+            <Button variant="secondary" className="me-2" onClick={handleCancel}>
               Hủy
             </Button>
             <Button variant="success" onClick={handleSubmit} disabled={loading}>
