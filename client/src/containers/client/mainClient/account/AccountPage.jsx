@@ -25,9 +25,16 @@ const AccountPage = () => {
     <>
       <Container className="">
         <Breadcrumb items={breadcrumbItems} />
-        <Row className="mb-4">
-          <Sidebar />
-          <Col md={9} style={{ minHeight: "500px" }}>
+        <Row className="pb-5 pt-3">
+          <Col md={12} lg={3}>
+            <Sidebar />
+          </Col>
+          <Col
+            md={12}
+            lg={9}
+            className="mt-lg-0 mt-3"
+            style={{ minHeight: "500px" }}
+          >
             <Outlet />
           </Col>
         </Row>

@@ -122,13 +122,13 @@ const LoginPage = () => {
       <div className="pb-5 pt-3">
         <Row className="justify-content-center">
           <Col
-            xs={12}
+            md={12}
             lg={10}
             className=" rounded overflow-hidden  bg-white"
             style={{ backgroundColor: "#F8F9FA" }}
           >
             <Row>
-              <Col xs={12} lg={6} className="p-3 p-md-5">
+              <Col md={6} className="p-3 p-lg-5">
                 <h3 className="text-center mb-4">Đăng nhập</h3>
 
                 <Form noValidate>
@@ -231,7 +231,7 @@ const LoginPage = () => {
                 </div>
               </Col>
 
-              <Col xs={12} lg={6} className="position-relative p-0">
+              <Col md={6} className="position-relative p-0 d-none d-md-block">
                 <div className="w-100 h-100">
                   <img
                     src={bookstoreImg}

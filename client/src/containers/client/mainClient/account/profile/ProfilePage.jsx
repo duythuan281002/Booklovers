@@ -29,6 +29,7 @@ import {
   sendPhoneOtpFirebase,
   verifyPhoneOtpFirebase,
 } from "../../../../../redux/slices/authSlice";
+import "./ProfilePage.scss";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -370,13 +371,13 @@ const ProfilePage = () => {
     <div>
       <Card style={{ borderRadius: "5px" }} className="border-0 p-3">
         <Row className="g-0">
-          <Col md={7} style={{ borderRight: "1px solid #dee2e6" }}>
+          <Col md={12} lg={7} style={{ borderColor: "#dee2e6" }}>
             <Card style={{ border: "none" }} className="pe-3">
               <Card.Header
+                className="px-0 py-1"
                 style={{
                   backgroundColor: "#fff",
                   borderBottom: "none",
-                  padding: " 8px 0",
                 }}
               >
                 <h5 className="mb-0">Thông tin cá nhân</h5>
@@ -557,9 +558,9 @@ const ProfilePage = () => {
             </Card>
           </Col>
 
-          <Col md={5}>
+          <Col md={12} lg={5} className="mt-2 mt-lg-0 border-lg-start">
             <Card style={{ border: "none" }}>
-              <Card.Body>
+              <Card.Body className="px-0 ps-lg-3 py-1">
                 <h5 className="mb-4">Số điện thoại và Email</h5>
 
                 <Row className="align-items-center mb-3">
