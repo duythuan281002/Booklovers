@@ -245,9 +245,23 @@ const ProductPage = () => {
                           state={{
                             idSub: sub.id,
                             nameSub: sub.name,
-                            tempCateSlug: tempCateSlug,
+                            tempCateSlug: categorySlug || tempCateSlug,
                           }}
-                          className="dropdown-item"
+                          className={`dropdown-item ${
+                            slugify(sub.name, { lower: true, locale: "vi" }) ===
+                            subcategorySlug
+                              ? "fw-bold"
+                              : ""
+                          }`}
+                          style={{
+                            color:
+                              slugify(sub.name, {
+                                lower: true,
+                                locale: "vi",
+                              }) === subcategorySlug
+                                ? "#E35765"
+                                : "inherit",
+                          }}
                         >
                           {sub.name}
                         </NavLink>
