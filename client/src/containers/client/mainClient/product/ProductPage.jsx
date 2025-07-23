@@ -500,7 +500,7 @@ const ProductPage = () => {
             </Row>
           </Container>
 
-          <div className="d-flex justify-content-center mt-1">
+          <div className="d-lg-flex justify-content-center mt-1 d-none ">
             {totalPages < 1 && (
               <div className="d-flex justify-content-end">
                 <Pagination></Pagination>
@@ -531,6 +531,61 @@ const ProductPage = () => {
                   onClick={() =>
                     handlePageChange(Math.min(currentPage + 1, totalPages))
                   }
+                  disabled={currentPage === totalPages}
+                />
+                <Pagination.Last
+                  onClick={() => handlePageChange(totalPages)}
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            )}
+          </div>
+          <div className="d-flex d-lg-none justify-content-center mt-1">
+            {totalPages > 1 && (
+              <Pagination className="pagination-book">
+                <Pagination.First
+                  onClick={() => handlePageChange(1)}
+                  disabled={currentPage === 1}
+                />
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+
+                {(() => {
+                  const pages = [];
+                  let start = Math.max(1, currentPage - 2);
+                  let end = Math.min(totalPages, currentPage + 2);
+
+                  // Nếu gần đầu
+                  if (currentPage <= 3) {
+                    start = 1;
+                    end = Math.min(totalPages, 5);
+                  }
+
+                  // Nếu gần cuối
+                  if (currentPage >= totalPages - 2) {
+                    start = Math.max(1, totalPages - 4);
+                    end = totalPages;
+                  }
+
+                  for (let i = start; i <= end; i++) {
+                    pages.push(
+                      <Pagination.Item
+                        key={i}
+                        active={i === currentPage}
+                        onClick={() => handlePageChange(i)}
+                      >
+                        {i}
+                      </Pagination.Item>
+                    );
+                  }
+
+                  return pages;
+                })()}
+
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                 />
                 <Pagination.Last

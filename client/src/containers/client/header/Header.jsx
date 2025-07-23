@@ -211,7 +211,7 @@ const Header = () => {
               </NavLink>
             </Nav>
             <Nav
-              className="d-flex align-items-start align-items-lg-center justify-content-between "
+              className="d-md-flex  align-items-start align-items-lg-center justify-content-between "
               style={{ userSelect: "none" }}
             >
               <div
