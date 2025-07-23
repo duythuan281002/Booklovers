@@ -108,23 +108,25 @@ const Header = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  `p-3 nav-link ${isActive ? "nav-active" : ""}`
+                  ` p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
                 style={{ fontSize: "18px" }}
               >
                 Trang chủ
               </NavLink>
 
-              <div className="megamenu ">
+              <div className="megamenu d-none d-lg-block">
                 <div
-                  className={`nav-link1 ${isProductActive ? "nav-active" : ""}`}
+                  className={`nav-link1 p-3 ${
+                    isProductActive ? "nav-active" : ""
+                  }`}
                   onClick={() => {
                     navigate("/san-pham");
                   }}
                 >
                   Sản phẩm
                 </div>
-                <div className="dropdown-menu megamenu-content ">
+                <div className="dropdown-menu megamenu-content">
                   <ul className="menu-level-1">
                     {categories.map((cat) => (
                       <li className="menu-item" key={cat.id}>
@@ -167,11 +169,23 @@ const Header = () => {
                   </ul>
                 </div>
               </div>
+              <div className="megamenu d-block d-lg-none">
+                <div
+                  className={`nav-link1 p-1 ${
+                    isProductActive ? "nav-active" : ""
+                  }`}
+                  onClick={() => {
+                    navigate("/san-pham");
+                  }}
+                >
+                  Sản phẩm
+                </div>
+              </div>
 
               <NavLink
                 to="/bai-viet"
                 className={({ isActive }) =>
-                  `p-3 nav-link ${isActive ? "nav-active" : ""}`
+                  `p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
                 style={{ fontSize: "18px" }}
               >
@@ -180,7 +194,7 @@ const Header = () => {
               <NavLink
                 to="/gioi-thieu"
                 className={({ isActive }) =>
-                  `p-3 nav-link ${isActive ? "nav-active" : ""}`
+                  `p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
                 style={{ fontSize: "18px" }}
               >
@@ -189,7 +203,7 @@ const Header = () => {
               <NavLink
                 to="/cua-hang"
                 className={({ isActive }) =>
-                  `p-3 nav-link ${isActive ? "nav-active" : ""}`
+                  `p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
                 style={{ fontSize: "18px" }}
               >
@@ -197,11 +211,11 @@ const Header = () => {
               </NavLink>
             </Nav>
             <Nav
-              className="d-flex align-items-center justify-content-between "
+              className="d-flex align-items-start align-items-lg-center justify-content-between "
               style={{ userSelect: "none" }}
             >
               <div
-                className="cart d-flex align-items-center justify-content-center mb-2 mb-lg-0 me-2"
+                className="cart d-flex align-items-center justify-content-center mb-2 mb-lg-0 me-2 mt-2 mt-lg-0"
                 style={{
                   width: "40px",
                   height: "40px",
@@ -213,7 +227,7 @@ const Header = () => {
                 <i className="bi bi-cart3 fs-4"></i>
                 <span className="cart-num-header">{cartItems.length}</span>
               </div>
-              <Dropdown className="me-2 dropdown-lang">
+              <Dropdown className="me-2 dropdown-lang mb-2 mb-lg-0">
                 <Dropdown.Toggle
                   id="dropdown-basic"
                   className="no-caret d-flex align-items-center justify-content-center "

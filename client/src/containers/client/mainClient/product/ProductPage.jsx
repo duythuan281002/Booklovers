@@ -441,7 +441,7 @@ const ProductPage = () => {
                 listBook.map((book, idx) => (
                   <Col
                     xs={6}
-                    md={checkedswitch === true ? 4 : 3}
+                    md={checkedswitch === true ? 6 : 3}
                     lg={checkedswitch === true ? 3 : 2}
                     key={idx}
                     className="mb-4"
