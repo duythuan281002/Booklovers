@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
@@ -32,6 +32,8 @@ import slugify from "slugify";
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const collapseRef = useRef(null);
+
   const location = useLocation();
   const isProductActive = location.pathname.startsWith("/san-pham");
 
@@ -43,6 +45,8 @@ const Header = () => {
 
   const { user } = useSelector((state) => state.user.profile);
   const { isLoggedIn } = useSelector((state) => state.user.auth);
+
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -76,6 +80,7 @@ const Header = () => {
     dispatch(resetCartLogout());
     if (message) toast.error(message);
     navigate("/dang-nhap");
+    closeNavbar();
   };
 
   const handleLanguageChange = (lang) => {
@@ -84,22 +89,30 @@ const Header = () => {
     } else {
       setLogoViUs(lang);
     }
+    closeNavbar();
+  };
+
+  const closeNavbar = () => {
+    setExpanded(false);
   };
 
   return (
     <div className="header-container">
-      {/* <ToastContainer position="top-right" autoClose={3000} /> */}
-      <Navbar expand="lg" className="bg-white">
+      <Navbar
+        expand="lg"
+        className="bg-white"
+        expanded={expanded}
+        onToggle={() => setExpanded((prev) => !prev)}
+      >
         <Container>
-          <Navbar.Brand as={Link} to="/">
-            {/* <Image src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp" alt="Logo" /> */}
+          <Navbar.Brand as={Link} to="/" onClick={closeNavbar}>
             <Image
               src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
               alt="Logo"
             />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
+          <Navbar.Collapse id="navbarScroll" ref={collapseRef}>
             <Nav
               // className="d-flex justify-content-center my-2 my-lg-0"
               className="d-flex justify-content-center"
@@ -107,6 +120,7 @@ const Header = () => {
             >
               <NavLink
                 to="/"
+                onClick={closeNavbar}
                 className={({ isActive }) =>
                   ` p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
@@ -176,6 +190,7 @@ const Header = () => {
                   }`}
                   onClick={() => {
                     navigate("/san-pham");
+                    closeNavbar();
                   }}
                 >
                   Sản phẩm
@@ -184,6 +199,7 @@ const Header = () => {
 
               <NavLink
                 to="/bai-viet"
+                onClick={closeNavbar}
                 className={({ isActive }) =>
                   `p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
@@ -193,6 +209,7 @@ const Header = () => {
               </NavLink>
               <NavLink
                 to="/gioi-thieu"
+                onClick={closeNavbar}
                 className={({ isActive }) =>
                   `p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
@@ -202,6 +219,7 @@ const Header = () => {
               </NavLink>
               <NavLink
                 to="/cua-hang"
+                onClick={closeNavbar}
                 className={({ isActive }) =>
                   `p-1 p-lg-3 nav-link ${isActive ? "nav-active" : ""}`
                 }
@@ -222,7 +240,10 @@ const Header = () => {
                   cursor: "pointer",
                   position: "relative",
                 }}
-                onClick={() => navigate("/gio-hang")}
+                onClick={() => {
+                  navigate("/gio-hang");
+                  closeNavbar();
+                }}
               >
                 <i className="bi bi-cart3 fs-4"></i>
                 <span className="cart-num-header">{cartItems.length}</span>
@@ -277,6 +298,7 @@ const Header = () => {
                   bgrColor="#EEEEEE"
                   onClick={() => {
                     navigate("/dang-nhap");
+                    closeNavbar();
                   }}
                   icon="bi bi-person-circle fs-5 me-2"
                   text="Tài khoản"
@@ -322,11 +344,19 @@ const Header = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu style={{ marginTop: "8px" }}>
-                    <Dropdown.Item onClick={() => navigate("/tai-khoan/ho-so")}>
+                    <Dropdown.Item
+                      onClick={() => {
+                        navigate("/tai-khoan/ho-so");
+                        closeNavbar();
+                      }}
+                    >
                       <i className="bi bi-person-fill me-2"></i>Tài khoản
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => navigate("/tai-khoan/don-hang")}
+                      onClick={() => {
+                        navigate("/tai-khoan/don-hang");
+                        closeNavbar();
+                      }}
                     >
                       <i className="bi bi-card-checklist me-2"></i>Đơn hàng
                     </Dropdown.Item>
