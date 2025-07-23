@@ -158,15 +158,6 @@ const OrderPage = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {/* <Button
-            style={{
-              backgroundColor: "#E35765",
-              border: "none",
-            }}
-            onClick={() => setVisibleOrders(3)}
-          >
-            Tìm đơn hàng
-          </Button> */}
         </InputGroup>
 
         {filteredOrders.length === 0 ? (
@@ -183,7 +174,7 @@ const OrderPage = () => {
 
             return (
               <Card key={index} className="mb-3">
-                <Card.Header className="d-flex justify-content-between align-items-center">
+                <Card.Header className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
                   <div>
                     <strong>Mã đơn:</strong>{" "}
                     <span style={{ userSelect: "text" }}>

@@ -27,7 +27,13 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg" centered>
+    <Modal
+      show={show}
+      onHide={handleClose}
+      size="lg"
+      centered
+      fullscreen="sm-down"
+    >
       <Modal.Header closeButton>
         <Modal.Title>
           Đơn hàng <strong>{order.order_code}</strong>
@@ -36,7 +42,7 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
 
       <Modal.Body className="p-3">
         <Row>
-          <Col md={6}>
+          <Col xs={12} md={6} className="">
             <p>
               <strong>Khách hàng:</strong> {order.fullname}
             </p>
@@ -47,7 +53,7 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
               <strong>Địa chỉ:</strong> {order.location}
             </p>
           </Col>
-          <Col md={6}>
+          <Col xs={12} md={6}>
             <p>
               <strong>Ngày đặt:</strong>{" "}
               {new Date(order.order_date).toLocaleString()}

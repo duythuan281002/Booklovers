@@ -165,9 +165,10 @@ const LoginPage = () => {
                         isInvalid={!!errors.password || !!error}
                       />
                       <Button
-                        onMouseDown={() => setShowPassword(true)}
-                        onMouseUp={() => setShowPassword(false)}
-                        onMouseLeave={() => setShowPassword(false)}
+                        // onMouseDown={() => setShowPassword(true)}
+                        // onMouseUp={() => setShowPassword(false)}
+                        // onMouseLeave={() => setShowPassword(false)}
+                        onClick={() => setShowPassword(!showPassword)}
                         style={{ backgroundColor: "#E9ECEF", border: "none" }}
                       >
                         <i

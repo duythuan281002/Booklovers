@@ -155,9 +155,10 @@ const ResetPassword = () => {
                         isInvalid={!!errors.password}
                       />
                       <Button
-                        onMouseDown={() => setShowPassword(true)}
-                        onMouseUp={() => setShowPassword(false)}
-                        onMouseLeave={() => setShowPassword(false)}
+                        // onMouseDown={() => setShowPassword(true)}
+                        // onMouseUp={() => setShowPassword(false)}
+                        // onMouseLeave={() => setShowPassword(false)}
+                        onClick={() => setShowPassword(!showPassword)}
                         tabIndex={-1}
                         style={{ backgroundColor: "#E9ECEF", border: "none" }}
                       >
@@ -190,9 +191,10 @@ const ResetPassword = () => {
                         isInvalid={!!errors.confirmPassword}
                       />
                       <Button
-                        onMouseDown={() => setShowPasswordXn(true)}
-                        onMouseUp={() => setShowPasswordXn(false)}
-                        onMouseLeave={() => setShowPasswordXn(false)}
+                        // onMouseDown={() => setShowPasswordXn(true)}
+                        // onMouseUp={() => setShowPasswordXn(false)}
+                        // onMouseLeave={() => setShowPasswordXn(false)}
+                        onClick={() => setShowPasswordXn(!showPasswordXn)}
                         tabIndex={-1}
                         style={{ backgroundColor: "#E9ECEF", border: "none" }}
                       >
