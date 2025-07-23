@@ -139,7 +139,7 @@ const DetailProduct = () => {
             <Breadcrumb items={breadcrumbItems} />
 
             <Row>
-              <Col md={5}>
+              <Col xs={12} md={5}>
                 <Image
                   src={`https://serverbooklovers-production.up.railway.app/uploads/${mainImage}`}
                   alt={book.name}
@@ -179,7 +179,7 @@ const DetailProduct = () => {
                 </div>
               </Col>
 
-              <Col md={7}>
+              <Col xs={12} md={7} className="mt-3 mt-md-0">
                 <div className="bg-white p-3 border rounded ">
                   <div className="d-flex align-items-center gap-2 mb-1">
                     <span

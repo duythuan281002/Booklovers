@@ -223,7 +223,7 @@ const CartPage = () => {
               GIỎ HÀNG
             </h5>
             <Row className="mb-4">
-              <Col md={8}>
+              <Col md={12} lg={8}>
                 <div
                   className="d-flex align-items-center bg-white p-2 text-muted fw-bold mb-3 rounded"
                   style={{ fontSize: "14px" }}
@@ -405,7 +405,7 @@ const CartPage = () => {
                 </div>
               </Col>
 
-              <Col md={4}>
+              <Col md={12} lg={4} className="mt-3 mt-lg-0">
                 <div className="checkout-box bg-white p-3 rounded shadow-sm">
                   {totalPrice === 0 ? (
                     <div className="d-flex mb-3 align-items-start gap-2 border-bottom pb-2">
