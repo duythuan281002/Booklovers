@@ -251,23 +251,32 @@ const CartPage = () => {
                       phẩm)
                     </span>
                   </div>
-                  <div style={{ flexBasis: "15%" }} className="text-center">
+                  <div
+                    style={{ width: "100px" }}
+                    className="text-center d-none d-md-block"
+                  >
                     Giá bán
                   </div>
-                  <div style={{ flexBasis: "15%" }} className="text-center">
+                  <div
+                    style={{ width: "100px" }}
+                    className="text-center d-none d-md-block ms-lg-3"
+                  >
                     Số lượng
                   </div>
-                  <div style={{ flexBasis: "14%" }} className="text-center">
+                  <div
+                    style={{ width: "100px" }}
+                    className="text-center d-none d-md-block"
+                  >
                     Thành tiền
                   </div>
-                  <div style={{ width: "30px" }}></div>
+                  <div style={{ width: "25px" }}></div>
                 </div>
 
                 <div className="bg-white p-2 rounded">
                   {cartItems.map((item, index) => (
                     <div
                       key={index}
-                      className={`d-flex align-items-center pt-2 pb-2 ${
+                      className={`d-md-flex d-block align-items-center pt-2 pb-2 ${
                         index !== cartItems.length - 1 ? "border-bottom" : ""
                       }`}
                     >
@@ -295,10 +304,18 @@ const CartPage = () => {
                             height={90}
                           />
                         </div>
-                        <div className="d-flex flex-column justify-content-between">
+                        <div
+                          className="d-flex flex-column justify-content-between"
+                          style={{ maxWidth: "200px" }}
+                        >
                           <div
                             className="fw-semibold"
-                            style={{ color: "#333", wordBreak: "break-word" }}
+                            style={{
+                              color: "#333",
+                              wordBreak: "break-word",
+                              whiteSpace: "normal",
+                              overflowWrap: "break-word",
+                            }}
                           >
                             {item.name}
                           </div>
@@ -333,72 +350,85 @@ const CartPage = () => {
                         </div>
                       </div>
 
-                      <div
-                        style={{ flexBasis: "16%" }}
-                        className="text-center text-danger fw-bold"
-                      >
-                        {(
-                          item.price -
-                          (item.price * item.discount) / 100
-                        ).toLocaleString("vi-VN")}
-                        đ
-                      </div>
-
-                      <div style={{ flexBasis: "14%" }} className="text-center">
-                        <InputGroup className="ipQuantity1 justify-content-center">
-                          <Button
-                            className="btnDecrease"
-                            onClick={() => handleDecrease(item.cart_item_id)}
+                      <div>
+                        <div className="d-flex  justify-content-end align-items-center mt-2 mt-md-0">
+                          <div
+                            style={{ width: "100px" }}
+                            className="text-center text-danger fw-bold"
                           >
-                            <i className="bi bi-dash btnDecrease-icon"></i>
-                          </Button>
-                          <FormControl
-                            type="text"
-                            min={1}
-                            value={
-                              localQuantities[item.cart_item_id] ??
+                            {(
+                              item.price -
+                              (item.price * item.discount) / 100
+                            ).toLocaleString("vi-VN")}
+                            đ
+                          </div>
+
+                          <div style={{}} className="text-center ms-lg-3">
+                            <InputGroup className="ipQuantity1 justify-content-center">
+                              <Button
+                                className="btnDecrease"
+                                onClick={() =>
+                                  handleDecrease(item.cart_item_id)
+                                }
+                              >
+                                <i className="bi bi-dash btnDecrease-icon"></i>
+                              </Button>
+                              <FormControl
+                                type="text"
+                                min={1}
+                                value={
+                                  localQuantities[item.cart_item_id] ??
+                                  item.quantity
+                                }
+                                onChange={(e) =>
+                                  handleQuantityInput(e, item.cart_item_id)
+                                }
+                                onBlur={() =>
+                                  handleQuantityBlur(
+                                    item.cart_item_id,
+                                    item.quantity
+                                  )
+                                }
+                                className="ipQuantity-input text-center"
+                              />
+                              <Button
+                                className="btnIncrease"
+                                onClick={() =>
+                                  handleIncrease(item.cart_item_id)
+                                }
+                              >
+                                <i className="bi bi-plus btnIncrease-icon"></i>
+                              </Button>
+                            </InputGroup>
+                          </div>
+
+                          <div
+                            style={{ width: "100px" }}
+                            className="text-center text-danger fw-bold "
+                          >
+                            {(
+                              (item.price -
+                                (item.price * (item.discount || 0)) / 100) *
                               item.quantity
-                            }
-                            onChange={(e) =>
-                              handleQuantityInput(e, item.cart_item_id)
-                            }
-                            onBlur={() =>
-                              handleQuantityBlur(
-                                item.cart_item_id,
-                                item.quantity
-                              )
-                            }
-                            className="ipQuantity-input text-center"
-                          />
-                          <Button
-                            className="btnIncrease"
-                            onClick={() => handleIncrease(item.cart_item_id)}
+                            ).toLocaleString("vi-VN")}
+                            đ
+                          </div>
+
+                          <div
+                            style={{ width: "25px" }}
+                            className="text-center "
                           >
-                            <i className="bi bi-plus btnIncrease-icon"></i>
-                          </Button>
-                        </InputGroup>
-                      </div>
-
-                      <div
-                        style={{ flexBasis: "14%" }}
-                        className="text-center text-danger fw-bold"
-                      >
-                        {(
-                          (item.price -
-                            (item.price * (item.discount || 0)) / 100) *
-                          item.quantity
-                        ).toLocaleString("vi-VN")}
-                        đ
-                      </div>
-
-                      <div style={{ width: "30px" }} className="text-center">
-                        <Button
-                          variant="link"
-                          className="text-muted p-0 btn-delItem"
-                          onClick={() => handleRemoveItem(item.cart_item_id)}
-                        >
-                          <i className="bi bi-trash"></i>
-                        </Button>
+                            <Button
+                              variant="link"
+                              className="text-muted p-0 btn-delItem"
+                              onClick={() =>
+                                handleRemoveItem(item.cart_item_id)
+                              }
+                            >
+                              <i className="bi bi-trash"></i>
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   ))}
