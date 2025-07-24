@@ -2,18 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 // import { BsFillSendFill, BsFillChatDotsFill } from "react-icons/bs";
 import "./ChatBox.scss";
+import chat from "../../assets/image/logoicon/chat.webp";
 
 const ChatBox = ({ onClose }) => {
   const bottomRef = useRef(null);
+  const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState([
     {
       from: "bot",
-      text: "I can recommend you a model based on your son’s age.",
-    },
-    { from: "user", text: "He’s 5 years old" },
-    {
-      from: "bot",
-      text: "The 80 pcs model is ideal for kids aged 4 - 6. Is there anything else I can help you with?",
+      text: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay?",
     },
   ]);
   useEffect(() => {
@@ -25,25 +22,59 @@ const ChatBox = ({ onClose }) => {
   const [input, setInput] = useState("");
   const [visible, setVisible] = useState(false);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  //   const handleSend = async () => {
+  //     if (!input.trim()) return;
 
-    setMessages((prev) => [...prev, { from: "user", text: input }]);
-    setInput("");
+  //     const userMessage = input;
+  //     setMessages((prev) => [...prev, { from: "user", text: userMessage }]);
+  //     setInput("");
 
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          from: "bot",
-          text: "Thanks! Our team will get back to you shortly.",
-        },
-      ]);
-    }, 1000);
-  };
+  //     const botReply = await fetchGeminiResponse(userMessage);
+  //     setMessages((prev) => [...prev, { from: "bot", text: botReply }]);
+  //   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") handleSend();
+  };
+
+  const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+  const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const userMessage = input;
+    setMessages((prev) => [...prev, { from: "user", text: userMessage }]);
+    setInput("");
+
+    setIsTyping(true);
+
+    try {
+      const response = await fetch(GEMINI_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: userMessage }] }],
+        }),
+      });
+
+      const result = await response.json();
+      const reply =
+        result?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "Xin lỗi, tôi chưa hiểu yêu cầu của bạn.";
+
+      setMessages((prev) => [...prev, { from: "bot", text: reply }]);
+    } catch (err) {
+      console.error("Lỗi API:", err);
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: "Đã xảy ra lỗi. Vui lòng thử lại sau." },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
@@ -51,19 +82,17 @@ const ChatBox = ({ onClose }) => {
       <div className="chatbox-wrapper shadow">
         <div className="chatbox-header">
           <div className="chat-title">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png"
-              alt="bot"
-            />
+            <img src={chat} alt="bot" />
             <div>
-              <div>
-                Chat with <strong>Lyro</strong>
-              </div>
-              <small className="text-white">● AI Support Agent</small>
+              <div>Hỗ trợ người dùng</div>
             </div>
           </div>
-          <button className="close-btn" onClick={onClose}>
-            ×
+          <button
+            className="close-btn"
+            onClick={onClose}
+            aria-label="Close chat"
+          >
+            &times;
           </button>
         </div>
 
@@ -73,13 +102,18 @@ const ChatBox = ({ onClose }) => {
               <div className="bubble">{msg.text}</div>
             </div>
           ))}
+          {isTyping && (
+            <div className="msg bot">
+              <div className="bubble typing">Đang nhập ...</div>
+            </div>
+          )}
           <div ref={bottomRef} />
         </div>
 
         <div className="chatbox-footer">
           <div className="input-wrapper">
             <Form.Control
-              placeholder="Enter your message..."
+              placeholder="Nhập tin nhắn..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
