@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 // import { BsFillSendFill, BsFillChatDotsFill } from "react-icons/bs";
 import "./ChatBox.scss";
 
 const ChatBox = ({ onClose }) => {
+  const bottomRef = useRef(null);
   const [messages, setMessages] = useState([
     {
       from: "bot",
@@ -15,6 +16,12 @@ const ChatBox = ({ onClose }) => {
       text: "The 80 pcs model is ideal for kids aged 4 - 6. Is there anything else I can help you with?",
     },
   ]);
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const [input, setInput] = useState("");
   const [visible, setVisible] = useState(false);
 
@@ -66,6 +73,7 @@ const ChatBox = ({ onClose }) => {
               <div className="bubble">{msg.text}</div>
             </div>
           ))}
+          <div ref={bottomRef} />
         </div>
 
         <div className="chatbox-footer">
