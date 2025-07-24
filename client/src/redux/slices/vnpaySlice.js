@@ -6,7 +6,7 @@ export const createVnpayPayment = createAsyncThunk(
   async ({ amount, orderId }, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/vnpay/create_payment_url",
+        "http://localhost:8080/api/vnpay/create_payment_url",
         { amount, orderId }
       );
       return res.data.paymentUrl;

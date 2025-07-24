@@ -104,7 +104,7 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
               <tr key={item.order_item_id} className="align-middle text-center">
                 <td>
                   <Image
-                    src={`https://serverbooklovers-production.up.railway.app/uploads/${item.book_image}`}
+                    src={`http://localhost:8080/uploads/${item.book_image}`}
                     alt={item.book_name}
                     width={50}
                     height={70}
