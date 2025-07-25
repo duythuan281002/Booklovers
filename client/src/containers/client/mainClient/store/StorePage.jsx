@@ -203,7 +203,7 @@ const StorePage = () => {
             <p className="text-muted mb-1">
               Chúng tôi theo dõi hộp thư thường xuyên và sẽ phản hồi sớm nhất.
             </p>
-            <p className="text-primary ">duythuan2810@gmail.com</p>
+            <p className="text-primary ">ndt28dev@gmail.com</p>
           </Col>
           <Col lg={4} md={12} style={{ padding: "0 80px" }}>
             <i
