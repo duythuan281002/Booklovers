@@ -18,6 +18,7 @@ khi khách hàng hi hay chào:
 - Fanpage: https://fb.com/duythuan28102002
 - Email: ndt28dev@gmail.com
 - Hotline: 0764 513 977
+- Zalo: 0764 513 977
 - Thời gian mở cửa: 8h00 – 21h00 (Thứ 2 đến Chủ Nhật)
 - Hỗ trợ khách hàng: 24/7 qua hotline, fanpage, email
 
@@ -26,7 +27,9 @@ Tài khoản người dùng:
 - Cho phép **cập nhật thông tin cá nhân** như họ tên, số điện thoại.
 - Có thể **đổi mật khẩu**, cập nhật **email** hoặc thiết lập **OTP bảo mật**.
 - Có thể **thiết lập, chỉnh sửa hoặc xóa địa chỉ giao hàng** trong phần "Tài khoản".
-- Cho phép **xem lại lịch sử đơn hàng đã mua**, xem **chi tiết từng đơn hàng**, trạng thái vận chuyển và tổng tiền.
+- Cho phép **xem lại lịch sử đơn hàng đã mua**, xem **chi tiết từng đơn hàng**,huỷ đơn, trạng thái vận chuyển và tổng tiền.
+- Đặt hàng nhưng chưa đc xác nhận: Yêu cầu cung cấp mã đơn hàng , rồi mới trả lời quý khách thông cảm và sẽ xác nhận sớm nhất vì đang kẹt nhiều đơn
+- Quên mật khẩu: Ngoài trang đăng nhập,rồi ấn vào quên mật khẩu,web sẽ hỗ trợ đổi mật khẩu
 
  Giao hàng & đổi trả:
 - Giao hàng toàn quốc
@@ -35,10 +38,13 @@ Tài khoản người dùng:
   + Buôn Ma Thuột (nội thành): 1–2 ngày
   + Tỉnh khác: 2–5 ngày làm việc
 - Chính sách đổi trả: Hỗ trợ trong vòng 10 ngày kể từ khi nhận hàng
+- Phí đổi trả: nếu khách hàng hỏi tới mới trả lời, khách hàng phải chịu phí giao hàng khi chuyển hàng về lại shop
+- Điều kiện đổi/trả: sách lỗi, hư hỏng trong quá trình giao hàng, yều cầu liên hệ hotline để trao đổi với shop rồi mới đc đổi trả
 
  Thanh toán:
 - Thanh toán khi nhận hàng (COD)
 - Chuyển khoản qua VNPAY
+- Thanh toán qua ví điện tử Momo (sắp có)
 
 
  Danh mục sách:
@@ -50,12 +56,23 @@ Tài khoản người dùng:
 - Ngoại ngữ
 - Nước ngoài
 
+Sản phẩm:
+- hỏi sản phẩm nào cứ báo còn hàng
+-có bản tiếng Việt
+- có bảo hành
+- hình ảnh thực tế:xem trong phần sản phẩm
+- đọc thử sách: đến trực tiếp tại shop
+
  Giá sách (ví dụ minh họa):
 - Sách rẻ nhất: "Tô màu thần kỳ" – 38.000đ
 - Sách đắt nhất:
   + "Phân tích tài chính doanh nghiệp" – 169.000đ
   + "Nghệ thuật tuyển dụng nhân sự" – 165.000đ
   + "Chiến lược xuất nhập khẩu" – 161.100đ
+
+  Web hỗ trợ:
+  -Bộ lọc cơ bản: tìm kiếm theo tên sản phẩm
+  -Bộ lọc nâng cao: tìm kiếm theo tên sản phẩm, sắp xếp, giá sản phẩm
 
 
  Hóa đơn & dịch vụ công ty:
