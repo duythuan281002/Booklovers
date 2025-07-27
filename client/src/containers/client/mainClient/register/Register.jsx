@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
 import Form from "react-bootstrap/Form";
@@ -6,8 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import ButtonCustom from "../../../../components/button/ButtonCustom";
 import { InputGroup, Button, Spinner, Row, Col } from "react-bootstrap";
 import bookstoreImg from "../../../../assets/image/bookstore.jpg";
-import { createNewUser } from "../../../../redux/slices/userSlice";
+import {
+  createNewUser,
+  resetCreateUserStatus,
+} from "../../../../redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const breadcrumbItems = [
   { label: "Trang chủ", link: "/" },
@@ -20,7 +24,9 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordXn, setShowPasswordXn] = useState(false);
 
-  const { isLoading } = useSelector((state) => state.user.createUser);
+  const { isLoading, error, success } = useSelector(
+    (state) => state.user.createUser
+  );
 
   const [form, setForm] = useState({
     fullname: "",
@@ -29,6 +35,16 @@ const Register = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (success) {
+      navigate("/dang-nhap");
+      toast.success("Tạo tài khoản thành công!");
+      dispatch(resetCreateUserStatus());
+    } else if (error) {
+      toast.error(error);
+    }
+  }, [error, success]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,11 +86,7 @@ const Register = () => {
     formData.append("role", "user");
     formData.append("avatar", "default.jpg");
 
-    dispatch(createNewUser(formData)).then((res) => {
-      if (!res.error) {
-        navigate("/dang-nhap");
-      }
-    });
+    dispatch(createNewUser(formData));
   };
 
   return (
@@ -136,12 +148,14 @@ const Register = () => {
                         placeholder="Họ và tên"
                         isInvalid={!!errors.fullname}
                       />
+                      <Form.Control.Feedback
+                        style={{ minHeight: "21px" }}
+                        type="invalid"
+                      >
+                        {errors.fullname}
+                      </Form.Control.Feedback>
                     </InputGroup>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.fullname}
-                    </Form.Control.Feedback>
                   </Form.Group>
-
                   <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label>Email</Form.Label>
                     <InputGroup>
@@ -156,12 +170,11 @@ const Register = () => {
                         placeholder="Email"
                         isInvalid={!!errors.email}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.email}
+                      </Form.Control.Feedback>
                     </InputGroup>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.email}
-                    </Form.Control.Feedback>
                   </Form.Group>
-
                   <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label>Mật khẩu</Form.Label>
                     <InputGroup>
@@ -190,12 +203,11 @@ const Register = () => {
                           }`}
                         />
                       </Button>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.password}
+                      </Form.Control.Feedback>
                     </InputGroup>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.password}
-                    </Form.Control.Feedback>
                   </Form.Group>
-
                   <Form.Group className="mb-4" controlId="formConfirmPassword">
                     <Form.Label>Xác nhận mật khẩu</Form.Label>
                     <InputGroup>
@@ -224,10 +236,10 @@ const Register = () => {
                           }`}
                         />
                       </Button>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.confirmPassword}
+                      </Form.Control.Feedback>
                     </InputGroup>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.confirmPassword}
-                    </Form.Control.Feedback>
                   </Form.Group>
                 </Form>
 
