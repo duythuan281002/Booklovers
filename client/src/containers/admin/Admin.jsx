@@ -1,45 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import Main from "./main/Main";
 import { Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import Header from "./main/header/Header";
-import { toggleTheme } from "../../redux/slices/themeSlice";
+import { Col, Row } from "react-bootstrap";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Admin = () => {
-  const dispatch = useDispatch();
-  const isTheme = useSelector((state) => state.theme.isTheme);
-
-  const backgroundColor = isTheme ? "#112143" : "#ffffff";
-  const textColor = isTheme ? "#ffffff" : "#000000";
-
-  const handleTheme = () => {
-    dispatch(toggleTheme());
-  };
+  const [showSidebar, setShowSidebar] = useState(true);
   return (
-    <div
-      style={{
-        backgroundColor,
-        color: textColor,
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Header isTheme={isTheme} handleTheme={handleTheme} />
-      <div
-        className="row g-0 "
-        style={{ userSelect: "none", marginTop: "70px" }}
+    <div style={{ userSelect: "none" }}>
+      <Header
+        handleList={() => setShowSidebar(!showSidebar)}
+        showSidebar={showSidebar}
+      />
+      <Row
+        className="g-0"
+        style={{ marginTop: "40px", backgroundColor: "#F3F7FD" }}
       >
-        <div className="col-2">
-          <Sidebar />
-        </div>
-        <div>
+        <Sidebar show={showSidebar} />
+
+        <Col style={{ maxWidth: showSidebar ? "242px" : "64px" }}></Col>
+        <Col>
           <Main>
             <Outlet />
           </Main>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </div>
   );
 };

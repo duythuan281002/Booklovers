@@ -7,7 +7,7 @@ export const fetchAllUser = createAsyncThunk(
   async ({ page = 1, limit = 5 }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `https://serverbooklovers-production.up.railway.app/api/users?page=${page}&limit=${limit}`
+        `http://localhost:8080/api/users?page=${page}&limit=${limit}`
       );
       return {
         users: response.data.data,
@@ -26,7 +26,7 @@ export const loginAdmin = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/user/loginadmin",
+        "http://localhost:8080/api/user/loginadmin",
         credentials
       );
       return response.data;
@@ -43,7 +43,7 @@ export const loginUser = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/user/loginuser",
+        "http://localhost:8080/api/user/loginuser",
         credentials
       );
       return response.data;
@@ -60,7 +60,7 @@ export const createNewUser = createAsyncThunk(
   async (formData, thunkAPI) => {
     try {
       const response = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/user",
+        "http://localhost:8080/api/user",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -83,7 +83,7 @@ export const getUserWithAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.get(
-        "https://serverbooklovers-production.up.railway.app/api/user/profile",
+        "http://localhost:8080/api/user/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ export const getUserWithAddress = createAsyncThunk(
         }
       );
 
-      return response.data; // { user, addresses }
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || "Lỗi khi lấy thông tin người dùng"
@@ -108,7 +108,7 @@ export const createUserAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/user/address",
+        "http://localhost:8080/api/user/address",
         addressData,
         {
           headers: {
@@ -131,7 +131,7 @@ export const updateUserAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.put(
-        "https://serverbooklovers-production.up.railway.app/api/user/address/up",
+        "http://localhost:8080/api/user/address/up",
         addressData,
         {
           headers: {
@@ -155,7 +155,7 @@ export const setDefaultAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.put(
-        "https://serverbooklovers-production.up.railway.app/api/user/address/set-default",
+        "http://localhost:8080/api/user/address/set-default",
         { id },
         {
           headers: {
@@ -179,7 +179,7 @@ export const deleteUserAddress = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.delete(
-        `https://serverbooklovers-production.up.railway.app/api/user/address/${id}`,
+        `http://localhost:8080/api/user/address/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -202,7 +202,7 @@ export const updateUser = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const response = await axios.put(
-        "https://serverbooklovers-production.up.railway.app/api/user",
+        "http://localhost:8080/api/user",
         dataUp,
         {
           headers: {
@@ -224,7 +224,7 @@ export const updatePassword = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        "https://serverbooklovers-production.up.railway.app/api/user/update-password",
+        "http://localhost:8080/api/user/update-password",
         { newPassword },
         {
           headers: {
@@ -245,7 +245,7 @@ export const googleLogin = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/user/google-login",
+        "http://localhost:8080/api/user/google-login",
         {
           token,
         }
@@ -263,7 +263,7 @@ export const facebookLogin = createAsyncThunk(
   async (facebookAccessToken, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/user/facebook-login",
+        "http://localhost:8080/api/user/facebook-login",
         {
           access_token: facebookAccessToken,
         }
@@ -273,6 +273,31 @@ export const facebookLogin = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Đăng nhập Facebook thất bại"
+      );
+    }
+  }
+);
+
+export const getAdminUserProfile = createAsyncThunk(
+  "admin/getAdminUserProfile",
+  async (_, thunkAPI) => {
+    try {
+      const tokenAdmin = localStorage.getItem("tokenAdmin");
+      if (!tokenAdmin) throw new Error("Token Admin không tồn tại");
+
+      const response = await axios.get(
+        "http://localhost:8080/api/profileAdmin",
+        {
+          headers: {
+            Authorization: `Bearer ${tokenAdmin}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Lỗi khi lấy thông tin Admin"
       );
     }
   }
@@ -300,13 +325,15 @@ const initialState = {
     isLoading: false,
     isLoggedIn: false,
     error: null,
-    userInfo: null,
   },
   profile: {
     user: null,
     addresses: [],
     isLoading: false,
     error: null,
+  },
+  profileAdmin: {
+    user: null,
   },
   createAddress: {
     loading: false,
@@ -415,11 +442,19 @@ const userSlice = createSlice({
       };
     },
     resetUpdatePasswordState: (state) => {
-      updatePassword = {
+      state.updatePassword = {
         updatePassLoading: false,
         updatePassSuccess: false,
         updatePassError: null,
       };
+    },
+    logoutAdmin: (state) => {
+      state.adminAuth = {
+        isLoading: false,
+        isLoggedIn: false,
+        error: null,
+      };
+      localStorage.removeItem("tokenAdmin");
     },
   },
   extraReducers: (builder) => {
@@ -448,8 +483,7 @@ const userSlice = createSlice({
       .addCase(loginAdmin.fulfilled, (state, action) => {
         state.adminAuth.isLoading = false;
         state.adminAuth.isLoggedIn = true;
-        state.adminAuth.userInfo = action.payload.user;
-        localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
+        localStorage.setItem("tokenAdmin", action.payload.token);
       })
       .addCase(loginAdmin.rejected, (state, action) => {
         state.adminAuth.isLoading = false;
@@ -608,6 +642,11 @@ const userSlice = createSlice({
       .addCase(facebookLogin.rejected, (state, action) => {
         state.loginFB.loading = false;
         state.loginFB.error = action.payload || "Lỗi xác thực";
+      })
+
+      // get admin profile
+      .addCase(getAdminUserProfile.fulfilled, (state, action) => {
+        state.profileAdmin.user = action.payload;
       });
   },
 });
@@ -622,6 +661,7 @@ export const {
   resetDeleteressStatus,
   resetUpdateUserStatus,
   resetUpdatePasswordState,
+  logoutAdmin,
 } = userSlice.actions;
 
 export default userSlice.reducer;

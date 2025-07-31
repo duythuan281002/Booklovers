@@ -6,7 +6,7 @@ export const createOrder = createAsyncThunk(
   async (orderData, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "https://serverbooklovers-production.up.railway.app/api/orders",
+        "http://localhost:8080/api/orders",
         orderData,
         {
           headers: {
@@ -31,7 +31,7 @@ export const getUserOrders = createAsyncThunk(
       if (!token) throw new Error("Token không tồn tại");
 
       const res = await axios.get(
-        "https://serverbooklovers-production.up.railway.app/api/orders/my-orders",
+        "http://localhost:8080/api/orders/my-orders",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export const cancelOrder = createAsyncThunk(
     if (!token) throw new Error("Token không tồn tại");
     try {
       const res = await axios.put(
-        `https://serverbooklovers-production.up.railway.app/api/orders/${orderId}/cancel`,
+        `http://localhost:8080/api/orders/${orderId}/cancel`,
         {},
         {
           headers: {

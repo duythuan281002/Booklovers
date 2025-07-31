@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginAdmin from "../containers/loginAdmin/LoginAdmin";
-import AdminLayout from "../containers/admin/Admin"; // đổi tên cho rõ hơn
+import AdminLayout from "../containers/admin/Admin";
 import Dashboard from "../containers/admin/main/content/dashboard/Dashboard";
 import Orders from "../containers/admin/main/content/orders/Orders";
 import Products from "../containers/admin/main/content/products/Products";
@@ -29,23 +29,16 @@ import LocationPage from "../containers/client/mainClient/account/location/Locat
 import SuccessPay from "../containers/client/mainClient/resultPay/SuccessPay";
 import FailurePay from "../containers/client/mainClient/resultPay/FailurePay";
 import OrderSuccess from "../containers/client/mainClient/resultPay/OrderSuccess";
+import AdminProtectedRoute from "../containers/admin/adminprotectedroute/AdminProtectedRoute";
+import Blogs from "../containers/admin/main/content/blogs/Blogs";
+import Settings from "../containers/admin/main/content/settings/Settings";
+import Contacts from "../containers/admin/main/content/contacts/Contacts";
+import Promotions from "../containers/admin/main/content/promotions/Promotions";
+import NotFound from "../containers/notfound/NotFound";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/admin/login" element={<LoginAdmin />} />
-
-      {/* Route chính cho admin */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Navigate to="dashboard" />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="products" element={<Products />} />
-        <Route path="users" element={<Users />} />
-        <Route path="users/add" element={<AddUser />} />
-      </Route>
-
-      {/* Route cho client */}
       <Route path="/" element={<Client />}>
         <Route index element={<HomePage />} />
         <Route path="san-pham" element={<ProductPage />} />
@@ -86,6 +79,30 @@ const AppRoutes = () => {
           <Route index element={<ProfilePage />} />
         </Route>
       </Route>
+
+      <Route path="/admin/dang-nhap" element={<LoginAdmin />} />
+
+      <Route
+        path="/admin"
+        element={
+          <AdminProtectedRoute>
+            <AdminLayout />
+          </AdminProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="trang-chu" />} />
+        <Route path="trang-chu" element={<Dashboard />} />
+        <Route path="don-hang" element={<Orders />} />
+        <Route path="san-pham" element={<Products />} />
+        <Route path="nguoi-dung" element={<Users />} />
+        <Route path="nguoi-dung/them" element={<AddUser />} />
+        <Route path="bai-viet" element={<Blogs />} />
+        <Route path="khuyen-mai" element={<Promotions />} />
+        <Route path="phan-hoi" element={<Contacts />} />
+        <Route path="cai-dat" element={<Settings />} />
+      </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

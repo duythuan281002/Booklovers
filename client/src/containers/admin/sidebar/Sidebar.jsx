@@ -2,38 +2,54 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import "../sidebar/Sidebar.scss";
-import { useSelector } from "react-redux";
 
-const Sidebar = () => {
-  const isTheme = useSelector((state) => state.theme.isTheme);
-
+const Sidebar = ({ show }) => {
   return (
     <div
-      className={`position-fixed top-0 start-0 p-2`}
+      className="sidebar-container bg-white p-2"
       style={{
+        boxShadow: "4px 0px 8px rgba(99, 99, 99, 0.1)",
         height: "100vh",
-        width: "240px",
-        zIndex: 1,
         overflowY: "auto",
-        marginTop: "70px",
+        position: "fixed",
+        top: "40px",
+        left: 0,
+        width: show ? "240px" : "64px",
+        zIndex: 2,
       }}
     >
       <Nav className="flex-column p-1">
-        <NavLink to="/admin/dashboard" className="sidebar-link mb-2">
-          <i className="bi bi-speedometer2"></i>
-          <span className="ms-2">Dashboard</span>
-        </NavLink>
-        <NavLink to="/admin/users" className="sidebar-link mb-2">
-          <i className="bi bi-person-circle"></i>
-          <span className="ms-2">Users</span>
-        </NavLink>
-        <NavLink to="/admin/products" className="sidebar-link mb-2">
+        <NavLink to="/admin/trang-chu" className="sidebar-link mb-2">
           <i className="bi bi-grid"></i>
-          <span className="ms-2">Products</span>
+          {show && <span className="ms-2">Trang chủ</span>}
         </NavLink>
-        <NavLink to="/admin/orders" className="sidebar-link mb-2">
+        <NavLink to="/admin/san-pham" className="sidebar-link mb-2">
+          <i className="bi bi-book"></i>
+          {show && <span className="ms-2">Sản phẩm</span>}
+        </NavLink>
+        <NavLink to="/admin/don-hang" className="sidebar-link mb-2">
           <i className="bi bi-cash-coin"></i>
-          <span className="ms-2">Orders</span>
+          {show && <span className="ms-2">Đơn hàng</span>}
+        </NavLink>
+        <NavLink to="/admin/nguoi-dung" className="sidebar-link mb-2">
+          <i className="bi bi-people"></i>
+          {show && <span className="ms-2">Người dùng</span>}
+        </NavLink>
+        <NavLink to="/admin/bai-viet" className="sidebar-link mb-2">
+          <i className="bi bi-journal-text"></i>
+          {show && <span className="ms-2">Bài viết</span>}
+        </NavLink>
+        <NavLink to="/admin/khuyen-mai" className="sidebar-link mb-2">
+          <i className="bi bi-gift"></i>
+          {show && <span className="ms-2">Khuyến mãi</span>}
+        </NavLink>
+        <NavLink to="/admin/phan-hoi" className="sidebar-link mb-2">
+          <i className="bi bi-envelope"></i>
+          {show && <span className="ms-2">Phản hồi</span>}
+        </NavLink>
+        <NavLink to="/admin/cai-dat" className="sidebar-link mb-2">
+          <i className="bi bi-gear"></i>
+          {show && <span className="ms-2">Cài đặt</span>}
         </NavLink>
       </Nav>
     </div>

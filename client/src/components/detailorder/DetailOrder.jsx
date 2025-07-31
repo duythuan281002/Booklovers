@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Modal, Button, Table, Image, Row, Col, Badge } from "react-bootstrap";
+import "./DetailOrder.scss";
 
 const DetailOrderModal = ({ show, handleClose, order }) => {
   if (!order) return null;
+
+  const printRef = useRef();
 
   const statusMap = {
     pending: { text: "Đang chờ xử lý", variant: "warning" },
@@ -27,20 +30,14 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
   };
 
   return (
-    <Modal
-      show={show}
-      onHide={handleClose}
-      size="lg"
-      centered
-      fullscreen="sm-down"
-    >
+    <Modal show={show} onHide={handleClose} size="lg" fullscreen="sm-down">
       <Modal.Header closeButton>
         <Modal.Title>
           Đơn hàng <strong>{order.order_code}</strong>
         </Modal.Title>
       </Modal.Header>
 
-      <Modal.Body className="p-3">
+      <Modal.Body className="p-3" ref={printRef} id="print-section">
         <Row>
           <Col xs={12} md={6} className="">
             <p>
@@ -55,19 +52,20 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
           </Col>
           <Col xs={12} md={6}>
             <p>
-              <strong>Ngày đặt:</strong>{" "}
+              <strong className="me-1">Ngày đặt:</strong>
               {new Date(order.order_date).toLocaleString()}
             </p>
-            <p className="d-flex align-items-center">
-              <strong className="me-2">Thanh toán:</strong>
-              <Badge
-                className="me-2"
-                bg={paymentMap[order.payment_method]?.variant || "light"}
-              >
-                {paymentMap[order.payment_method]?.text || order.payment_method}
-              </Badge>
+            <div className="d-flex justify-content-start align-items-center flex-wrap mb-3">
+              <strong className="me-1">Thanh toán:</strong>
 
-              {order.payment_method !== "cod" && (
+              <div className="d-flex gap-2 mt-1 mt-md-0">
+                <Badge
+                  bg={paymentMap[order.payment_method]?.variant || "light"}
+                >
+                  {paymentMap[order.payment_method]?.text ||
+                    order.payment_method}
+                </Badge>
+
                 <Badge
                   bg={
                     paymentStatusMap[order.payment_status]?.variant || "light"
@@ -76,8 +74,8 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
                   {paymentStatusMap[order.payment_status]?.text ||
                     order.payment_status}
                 </Badge>
-              )}
-            </p>
+              </div>
+            </div>
 
             <p className="d-flex align-items-center">
               <strong className="me-2">Trạng thái:</strong>{" "}
@@ -104,7 +102,7 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
               <tr key={item.order_item_id} className="align-middle text-center">
                 <td>
                   <Image
-                    src={`https://serverbooklovers-production.up.railway.app/uploads/${item.book_image}`}
+                    src={`http://localhost:8080/uploads/${item.book_image}`}
                     alt={item.book_name}
                     width={50}
                     height={70}
@@ -149,17 +147,22 @@ const DetailOrderModal = ({ show, handleClose, order }) => {
           </Col>
         </Row>
       </Modal.Body>
-
-      <Modal.Footer className="d-flex justify-content-between align-items-start flex-wrap">
+      <Modal.Footer className="d-block">
         {order.note && (
-          <div style={{ maxWidth: "75%", wordBreak: "break-word" }}>
-            Ghi chú: {order.note}
+          <div className="mb-2" style={{ wordBreak: "break-word" }}>
+            <strong>Ghi chú:</strong> {order.note}
           </div>
         )}
-        <div></div>
-        <Button variant="secondary" onClick={handleClose}>
-          Đóng
-        </Button>
+
+        <div className="d-flex justify-content-end gap-2">
+          <Button variant="primary" onClick={() => window.print()}>
+            <i class="bi bi-printer me-1"></i>
+            In
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            Đóng
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );

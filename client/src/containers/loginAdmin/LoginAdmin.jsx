@@ -44,7 +44,7 @@ const LoginAdmin = () => {
       {isLoading && (
         <div className="overlay">
           <Spinner animation="border" variant="primary" />
-          <div className="mt-3">Are logged in...</div>
+          <div className="mt-3">Đang đăng nhập...</div>
         </div>
       )}
       <div

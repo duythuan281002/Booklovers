@@ -18,8 +18,6 @@ const TableProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = pagination?.totalPages || 0;
 
-  const isTheme = useSelector((state) => state.theme.isTheme);
-
   useEffect(() => {
     dispatch(fetchAllBook({ page: currentPage, limit: 8 }));
   }, [currentPage]);
@@ -31,14 +29,8 @@ const TableProducts = () => {
   };
   return (
     <>
-      {/* <div style={{ minHeight: "722px" }}> */}
       <div>
-        <Table
-          striped
-          bordered
-          hover
-          className={isTheme ? "table-dark-custom" : "table-light-custom"}
-        >
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th style={{ width: "5%", textAlign: "center" }}>Id</th>
@@ -59,7 +51,7 @@ const TableProducts = () => {
                   </td>
                   <td style={{ textAlign: "center", verticalAlign: "middle" }}>
                     <img
-                      src={`https://serverbooklovers-production.up.railway.app/uploads/${book.main_image}`}
+                      src={`http://localhost:8080/uploads/${book.main_image}`}
                       alt={book.name}
                       style={{
                         width: "50px",
@@ -116,11 +108,7 @@ const TableProducts = () => {
           </div>
         )}
         {totalPages > 1 && (
-          <Pagination
-            className={`justify-content-end ${
-              isTheme ? "pagination-dark" : "pagination-light"
-            }`}
-          >
+          <Pagination className="justify-content-end">
             <Pagination.First
               onClick={() => handlePageChange(1)}
               disabled={currentPage === 1}

@@ -18,8 +18,7 @@ import {
   cancelOrder,
 } from "../../../../../redux/slices/orderSlice";
 import { toast } from "react-toastify";
-import DetailOrderModal from "./detailorder/DetailOrder";
-
+import DetailOrderModal from "../../../../../components/detailorder/DetailOrder";
 const OrderPage = () => {
   const dispatch = useDispatch();
   const { loading: loadingGetOrder, orders } = useSelector(
@@ -207,7 +206,7 @@ const OrderPage = () => {
                     <Row key={idx} className="align-items-center mb-2">
                       <Col xs="auto" className="d-flex justify-content-center">
                         <Image
-                          src={`https://serverbooklovers-production.up.railway.app/uploads/${item.book_image}`}
+                          src={`http://localhost:8080/uploads/${item.book_image}`}
                           style={{ width: "50px", height: "70px" }}
                           rounded
                         />

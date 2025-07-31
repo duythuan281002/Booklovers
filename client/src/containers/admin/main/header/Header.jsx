@@ -1,65 +1,83 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Image from "react-bootstrap/Image";
 import Nav from "react-bootstrap/Nav";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Navbar, Container } from "react-bootstrap";
+import { Navbar, Container, Badge } from "react-bootstrap";
+import {
+  getAdminUserProfile,
+  logoutAdmin,
+} from "../../../../redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Notification from "../../../../components/notification/Notification";
 
-const Header = ({ isTheme, handleTheme }) => {
-  const userLogin = JSON.parse(localStorage.getItem("userInfo"));
+const Header = ({ handleList, showSidebar }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user.profileAdmin);
+
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    dispatch(getAdminUserProfile());
+  }, []);
+
   const handleLogout = () => {
-    localStorage.removeItem("userInfo");
-    window.location.href = "/admin/login";
+    dispatch(logoutAdmin());
+    window.location.href = "/admin/dang-nhap";
   };
   return (
     <div
-      className={`d-flex justify-content-between align-items-center px-3 py-1 fixed-top  shadow`}
-      style={{ zIndex: 2, userSelect: "none" }}
+      className="d-flex justify-content-between align-items-center px-3 fixed-top bg-white"
+      style={{ zIndex: 4 }}
+      // style={{ zIndex: 4, boxShadow: "0px 4px 8px rgba(99, 99, 99, 0.1)" }}
     >
-      <Navbar>
-        <Navbar.Brand
-          href="/admin"
-          className={`fs-4 ${isTheme ? "text-white" : "text-dark"}`}
-        >
-          <i className="bi bi-house"></i>
-          <span className="ms-2">Store Book</span>
-        </Navbar.Brand>
-      </Navbar>
+      <Nav className="d-flex justify-content-between align-items-center ">
+        <span className="fs-4 me-4 fw-bold" style={{ color: "#E35765" }}>
+          Booklover
+        </span>
+        <div style={{ cursor: "pointer" }} onClick={handleList}>
+          <i
+            className={`bi bi-chevron-double-${
+              showSidebar ? "left" : "right"
+            } fs-5`}
+          ></i>
+        </div>
+      </Nav>
 
-      <Nav>
-        <div className="me-3" style={{ userSelect: "none" }}>
-          {isTheme && isTheme === true ? (
-            <div
-              className="d-flex align-items-center justify-content-center bg-white text-dark fs-5 rounded-circle"
-              style={{ width: "40px", height: "40px", cursor: "pointer" }}
-              onClick={() => {
-                handleTheme(isTheme);
-              }}
-            >
-              <i className="bi bi-brightness-high-fill "></i>
-            </div>
-          ) : (
-            <div
-              className="d-flex align-items-center justify-content-center bg-dark text-white fs-5 rounded-circle"
-              style={{ width: "40px", height: "40px", cursor: "pointer" }}
-              onClick={() => {
-                handleTheme(isTheme);
-              }}
-            >
-              <i className="bi bi-moon-stars-fill"></i>
-            </div>
-          )}
+      <Nav className="d-flex justify-content-between align-items-center ">
+        <div
+          className="me-4"
+          style={{ position: "relative ", cursor: "pointer" }}
+          onClick={() => setShow(!show)}
+        >
+          <i className="bi bi-bell fs-5 "></i>
+
+          <Badge
+            className="rounded-pill bg-danger position-absolute "
+            style={{
+              right: "-5px",
+              top: "-1px",
+              fontSize: "0.6rem",
+            }}
+          >
+            1
+          </Badge>
+
+          {show && <Notification />}
         </div>
         <Dropdown>
           <Dropdown.Toggle
             as="div"
-            bsPrefix="custom-toggle"
             className="d-flex align-items-center"
-            style={{ cursor: "pointer", minWidth: "120px" }}
+            style={{ cursor: "pointer" }}
           >
             <div className="d-flex align-items-center">
               <div style={{ width: "40px", height: "40px" }}>
                 <Image
-                  src={`https://serverbooklovers-production.up.railway.app/avatar/${userLogin.avatar}`}
+                  src={
+                    user?.avatar && user.avatar?.startsWith("http")
+                      ? user.avatar
+                      : `http://localhost:8080/avatar/${user?.avatar}`
+                  }
                   roundedCircle
                   style={{
                     width: "100%",
@@ -68,7 +86,7 @@ const Header = ({ isTheme, handleTheme }) => {
                   }}
                 />
               </div>
-              <span className="ms-2">{userLogin.fullname}</span>
+              <span className="ms-2 fs-6">{user?.fullname}</span>
             </div>
           </Dropdown.Toggle>
 
@@ -76,9 +94,7 @@ const Header = ({ isTheme, handleTheme }) => {
             <Dropdown.Item onClick={() => console.log("Trang cá nhân")}>
               <i className="bi bi-person-fill me-2"></i>Profile
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => console.log("Cài đặt")}>
-              <i className="bi bi-gear-fill me-2"></i>Setting
-            </Dropdown.Item>
+
             <Dropdown.Divider />
             <Dropdown.Item
               onClick={() => handleLogout()}
