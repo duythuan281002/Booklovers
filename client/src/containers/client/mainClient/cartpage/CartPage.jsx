@@ -299,7 +299,7 @@ const CartPage = () => {
                         />
                         <div style={{ minWidth: "70px" }}>
                           <Image
-                            src={`https://serverbooklovers-production.up.railway.app/uploads/${item.image}`}
+                            src={`http://localhost:8080/uploads/${item.image}`}
                             width={70}
                             height={90}
                           />
@@ -485,7 +485,7 @@ const CartPage = () => {
                       >
                         <div className="d-flex gap-3" style={{ flex: 1 }}>
                           <Image
-                            src={`https://serverbooklovers-production.up.railway.app/uploads/${item.image}`}
+                            src={`http://localhost:8080/uploads/${item.image}`}
                             width={70}
                             height={90}
                             className="rounded border"
@@ -574,7 +574,7 @@ const CartPage = () => {
                   <div className="d-flex justify-content-between fw-bold mb-3">
                     <span className="text-dark">Tổng cộng:</span>
                     <span style={{ color: "#D14552" }}>
-                      {totalPrice.toLocaleString("vi-VN")} đ
+                      {totalPrice.toLocaleString("vi-VN")}đ
                     </span>
                   </div>
 

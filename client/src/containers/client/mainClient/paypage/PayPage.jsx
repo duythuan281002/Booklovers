@@ -199,9 +199,11 @@ const PayPage = () => {
 
       if (itemSelect)
         setTimeout(async () => {
+          const finalTotalPrice = Math.max(0, total);
+
           const orderData = {
             cartItems: itemSelect,
-            totalPrice: total,
+            totalPrice: finalTotalPrice,
             paymentMethod: selectedMethod,
             note: ortherInfo,
             location: itemAddress.address,
@@ -216,18 +218,19 @@ const PayPage = () => {
 
           if (createOrder.fulfilled.match(result)) {
             dispatch(fetchCartFromServer());
-            if (selectedMethod === "cod") {
+            if (selectedMethod === "cod" || finalTotalPrice === 0) {
               navigate("/dat-hang-thanh-cong");
             }
             // else if (selectedMethod === "vnpay") {
             //   dispatch(
             //     createVnpayPayment({
-            //       amount: total,
+            //       amount: finalTotalPrice,
             //       orderId: result.payload.id,
             //     })
             //   );
             // }
           } else {
+            toast.error("Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.");
           }
         }, 2000);
     } else {
@@ -438,7 +441,7 @@ const PayPage = () => {
                 {itemSelect.map((item, index) => (
                   <div className="d-flex mb-3 border-bottom pb-2" key={index}>
                     <Image
-                      src={`https://serverbooklovers-production.up.railway.app/uploads/${item.image}`}
+                      src={`http://localhost:8080/uploads/${item.image}`}
                       width={50}
                       height={60}
                       rounded
@@ -529,8 +532,8 @@ const PayPage = () => {
                 <div className="d-flex justify-content-between fw-bold">
                   <span>Tổng cộng</span>
                   <span>
-                    {total.toLocaleString("vi-VN") > 0
-                      ? total.toLocaleString("vi-VN")
+                    {Number(total) > 0
+                      ? Number(total).toLocaleString("vi-VN")
                       : "0"}
                     ₫
                   </span>

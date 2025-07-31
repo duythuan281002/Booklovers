@@ -76,7 +76,7 @@ const Header = ({ handleList, showSidebar }) => {
                   src={
                     user?.avatar && user.avatar?.startsWith("http")
                       ? user.avatar
-                      : `https://serverbooklovers-production.up.railway.app/avatar/${user?.avatar}`
+                      : `http://localhost:8080/avatar/${user?.avatar}`
                   }
                   roundedCircle
                   style={{
