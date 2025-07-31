@@ -93,6 +93,7 @@ const StatisticalTopOrder = () => {
     const startDate = start.toISOString().slice(0, 10);
     const endDate = end.toISOString().slice(0, 10);
 
+    setCurrentPage(1);
     setStartDate(start);
     setEndDate(end);
     setSelectedOption("Nổi bật");
@@ -215,6 +216,7 @@ const StatisticalTopOrder = () => {
                   onChange={(date) => {
                     setStartDate(date);
                     handleFilter(date, endDate);
+                    setCurrentPage(1);
                   }}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Từ ngày"
@@ -233,6 +235,7 @@ const StatisticalTopOrder = () => {
                     const endOfDay = setEndOfDay(date);
                     setEndDate(endOfDay);
                     handleFilter(startDate, endOfDay);
+                    setCurrentPage(1);
                   }}
                   dateFormat="dd/MM/yyyy"
                   placeholderText="Đến ngày"

@@ -339,13 +339,19 @@ const Orders = () => {
                 type="text"
                 placeholder="Tìm tên, mã đơn hàng, địa chỉ"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
               />
             </Col>
             <Col xs="auto">
               <Form.Select
                 value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
+                onChange={(e) => {
+                  setPaymentMethod(e.target.value);
+                  setPage(1);
+                }}
               >
                 <option value="">Phương thức thanh toán</option>
                 <option value="cod">Thanh toán bằng tiền mặt</option>
@@ -355,7 +361,10 @@ const Orders = () => {
             <Col md={2}>
               <Form.Select
                 value={status}
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                  setPage(1);
+                }}
               >
                 <option value="">Trạng thái đơn</option>
                 <option value="pending">Đang chờ xử lý</option>
@@ -369,7 +378,10 @@ const Orders = () => {
             <Col md={2}>
               <Form.Select
                 value={priceFilter}
-                onChange={(e) => setPriceFilter(e.target.value)}
+                onChange={(e) => {
+                  setPriceFilter(e.target.value);
+                  setPage(1);
+                }}
               >
                 <option value="">Giá tiền</option>
                 <option value="asc">Tăng dần</option>
@@ -420,14 +432,20 @@ const Orders = () => {
 
           <DatePicker
             selected={fromDate}
-            onChange={(date) => setFromDate(date)}
+            onChange={(date) => {
+              setFromDate(date);
+              setPage(1);
+            }}
             className="form-control custom-datepicker"
             dateFormat="dd-MM-yyyy"
             placeholderText="Từ ngày"
           />
           <DatePicker
             selected={toDate}
-            onChange={(date) => setToDate(date)}
+            onChange={(date) => {
+              setToDate(date);
+              setPage(1);
+            }}
             className="form-control custom-datepicker"
             dateFormat="dd-MM-yyyy"
             placeholderText="Đến ngày"
