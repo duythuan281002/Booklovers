@@ -86,7 +86,7 @@ const Orders = () => {
   useEffect(() => {
     if (success) {
       toast.success("Cập nhật trạng thái thành công!");
-      dispatch(fetchOrders({ page: 1 }));
+      dispatch(fetchOrders({ page }));
       dispatch(resetUpdateStatus());
     }
 
