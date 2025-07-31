@@ -6,7 +6,7 @@ export const createContact = createAsyncThunk(
   async (contactData, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/contact",
+        "https://serverbooklovers-production.up.railway.app/api/contact",
         contactData
       );
       return response.data;

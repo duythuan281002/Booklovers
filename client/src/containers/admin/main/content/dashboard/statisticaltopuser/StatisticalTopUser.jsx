@@ -203,7 +203,7 @@ const StatisticalTopUser = () => {
                             src={
                               user?.avatar?.startsWith("https://")
                                 ? user.avatar
-                                : `http://localhost:8080/avatar/${user?.avatar}`
+                                : `https://serverbooklovers-production.up.railway.app/avatar/${user?.avatar}`
                             }
                             roundedCircle
                             width={40}

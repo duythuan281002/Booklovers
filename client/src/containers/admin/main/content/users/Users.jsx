@@ -103,7 +103,7 @@ const Users = () => {
                       src={
                         user?.avatar && user.avatar?.startsWith("http")
                           ? user.avatar
-                          : `http://localhost:8080/avatar/${user?.avatar}`
+                          : `https://serverbooklovers-production.up.railway.app/avatar/${user?.avatar}`
                       }
                       style={{ width: "50px", height: "50px" }}
                       roundedCircle
