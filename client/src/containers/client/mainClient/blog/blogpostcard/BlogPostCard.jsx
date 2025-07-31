@@ -43,7 +43,7 @@ const BlogPostCard = ({ post }) => {
         </Card.Text>
         <Card.Img
           variant="top"
-          src={`http://localhost:8080/blogs/${post.image}`}
+          src={`https://serverbooklovers-production.up.railway.app/blogs/${post.image}`}
           style={{ height: "150px", objectFit: "cover", margin: "10px 0 20px" }}
         />
         <Card.Text style={{ color: "#757575" }} className="card-description">

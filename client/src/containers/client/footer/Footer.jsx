@@ -97,7 +97,7 @@ const Footer = () => {
             <Col lg={3} className="d-none d-lg-block">
               <Link to="/">
                 <Image
-                  src="http://localhost:8080/logo/logo-1.webp"
+                  src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
                   style={{ width: "90%" }}
                   alt="Logo"
                 />
@@ -213,7 +213,7 @@ const Footer = () => {
             <Col className="d-block d-lg-none">
               <Link to="/">
                 <Image
-                  src="http://localhost:8080/logo/logo-1.webp"
+                  src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
                   style={{ width: "50%" }}
                   alt="Logo"
                 />

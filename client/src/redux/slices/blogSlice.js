@@ -6,7 +6,7 @@ export const fetchAllBlog = createAsyncThunk(
   async ({ page = 1, limit = 6 }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/blogs?page=${page}&limit=${limit}`
+        `https://serverbooklovers-production.up.railway.app/api/blogs?page=${page}&limit=${limit}`
       );
       return {
         blogs: response.data.data,
@@ -24,7 +24,9 @@ export const fetchBlogById = createAsyncThunk(
   "blogs/fetchBlogById",
   async (id, thunkAPI) => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/blog/${id}`);
+      const response = await axios.get(
+        `https://serverbooklovers-production.up.railway.app/api/blog/${id}`
+      );
       return {
         blog: response.data.data,
       };
@@ -41,7 +43,7 @@ export const fetchAllBlogFeatured = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/blogs/featured`
+        `https://serverbooklovers-production.up.railway.app/api/blogs/featured`
       );
       return {
         blogs: response.data.data,

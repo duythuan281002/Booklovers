@@ -5,11 +5,14 @@ export const fetchCartFromServer = createAsyncThunk(
   "cart/fetchCartFromServer",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("http://localhost:8080/api/cart", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.get(
+        "https://serverbooklovers-production.up.railway.app/api/cart",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       return res.data;
     } catch (error) {
       return rejectWithValue("Lỗi khi lấy giỏ hàng");
@@ -22,7 +25,7 @@ export const addItemToCartAsync = createAsyncThunk(
   async ({ bookId, quantity }, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/cart/add",
+        "https://serverbooklovers-production.up.railway.app/api/cart/add",
         { bookId, quantity },
         {
           headers: {
@@ -42,7 +45,7 @@ export const updateItemQuantity = createAsyncThunk(
   async ({ itemId, quantity }, { rejectWithValue }) => {
     try {
       const res = await axios.put(
-        `http://localhost:8080/api/cart/item/${itemId}`,
+        `https://serverbooklovers-production.up.railway.app/api/cart/item/${itemId}`,
         { quantity },
         {
           headers: {
@@ -65,7 +68,7 @@ export const removeItemFromCart = createAsyncThunk(
   async (itemId, { rejectWithValue }) => {
     try {
       const res = await axios.delete(
-        `http://localhost:8080/api/cart/item/${itemId}`,
+        `https://serverbooklovers-production.up.railway.app/api/cart/item/${itemId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -84,7 +87,7 @@ export const applyPromotionCode = createAsyncThunk(
   async (code, { rejectWithValue }) => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/promotion/apply",
+        "https://serverbooklovers-production.up.railway.app/api/promotion/apply",
         {
           code,
         }

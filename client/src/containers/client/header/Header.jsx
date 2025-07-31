@@ -106,7 +106,10 @@ const Header = () => {
       >
         <Container>
           <Navbar.Brand as={Link} to="/" onClick={closeNavbar}>
-            <Image src="http://localhost:8080/logo/logo-1.webp" alt="Logo" />
+            <Image
+              src="https://serverbooklovers-production.up.railway.app/logo/logo-1.webp"
+              alt="Logo"
+            />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll" ref={collapseRef}>
@@ -315,7 +318,7 @@ const Header = () => {
                           src={
                             user?.avatar?.startsWith("https://")
                               ? user.avatar
-                              : `http://localhost:8080/avatar/${user?.avatar}`
+                              : `https://serverbooklovers-production.up.railway.app/avatar/${user?.avatar}`
                           }
                           roundedCircle
                           style={{
