@@ -181,16 +181,7 @@ const OrderPage = () => {
                     </span>{" "}
                     &nbsp;|&nbsp;
                     <strong>Ngày:</strong>{" "}
-                    {(() => {
-                      const date = new Date(order.order_date);
-                      const day = String(date.getDate()).padStart(2, "0");
-                      const month = String(date.getMonth() + 1).padStart(
-                        2,
-                        "0"
-                      );
-                      const year = date.getFullYear();
-                      return `${day}-${month}-${year}`;
-                    })()}
+                    {new Date(order.order_date).toLocaleDateString("vi-VN")}
                   </div>
                   <span
                     className={`fw-bold ${
@@ -215,7 +206,7 @@ const OrderPage = () => {
                     <Row key={idx} className="align-items-center mb-2">
                       <Col xs="auto" className="d-flex justify-content-center">
                         <Image
-                          src={`https://serverbooklovers-production.up.railway.app/uploads/${item.book_image}`}
+                          src={`http://localhost:8080/uploads/${item.book_image}`}
                           style={{ width: "50px", height: "70px" }}
                           rounded
                         />
