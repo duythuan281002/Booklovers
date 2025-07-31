@@ -181,7 +181,16 @@ const OrderPage = () => {
                     </span>{" "}
                     &nbsp;|&nbsp;
                     <strong>Ngày:</strong>{" "}
-                    {new Date(order.order_date).toLocaleDateString("vi-VN")}
+                    {(() => {
+                      const date = new Date(order.order_date);
+                      const day = String(date.getDate()).padStart(2, "0");
+                      const month = String(date.getMonth() + 1).padStart(
+                        2,
+                        "0"
+                      );
+                      const year = date.getFullYear();
+                      return `${day}-${month}-${year}`;
+                    })()}
                   </div>
                   <span
                     className={`fw-bold ${
@@ -284,7 +293,6 @@ const OrderPage = () => {
         )}
       </Card>
 
-      {/* Modal xác nhận huỷ đơn */}
       <Modal
         show={showConfirmModal}
         onHide={() => setShowConfirmModal(false)}
